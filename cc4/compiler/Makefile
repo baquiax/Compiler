@@ -1,4 +1,4 @@
-make: lib/Debug.class lib/ErrorHandler.class scanner/Scanner.class parser/CC4Parser.class ast/Ast.class semantic/Semantic.class irt/Irt.class opt/Algebraic.class opt/ConstantFolding.class codegen/Codegen.class Compiler.class
+make: lib/Debug.class lib/ErrorHandler.class scanner/Scanner.class parser/CC4Parser.class ast/Ast.class semantic/Semantic.class irt/Irt.class opt/Algebraic.class opt/ConstantFolding.class codegen/Codegen.class Compiler.class lib/Configuration.class
 
 Compiler.class: Compiler.java
 	javac Compiler.java
@@ -33,6 +33,9 @@ opt/ConstantFolding.class: opt/ConstantFolding.java
 codegen/Codegen.class: codegen/Codegen.java
 	javac codegen/Codegen.java
 
+lib/Configuration.class: lib/Configuration.java
+	javac lib/Configuration.java	
+
 clean:
 	rm -f Compiler.class
 	rm -f scanner/Scanner.class
@@ -44,3 +47,5 @@ clean:
 	rm -f opt/ConstantFolding.class
 	rm -f codegen/Codegen.class
 	rm -f lib/Debug.class
+	rm -f lib/ErrorHandler.class
+	rm -f lib/Configuration.class

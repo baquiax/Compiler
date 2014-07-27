@@ -30,7 +30,7 @@ public class Scanner
      * existe, por lo que si llega aca se puede cargar el archivo en memoria con confianza.     
      */
     
-    public void scan() {                
+    public void scan() {          
         if (Scanner.stopStage > Scanner.level) {
             CC4Parser parser = new CC4Parser(this);
             parser.parse();
@@ -38,5 +38,4 @@ public class Scanner
             System.out.println("El proceso se ha detenido.");
         }
     }
-    
 }

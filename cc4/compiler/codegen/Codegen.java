@@ -8,8 +8,6 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 
 public class Codegen {
-	
-
 	File create;	
 	
 	public Codegen(Irt parameter) {

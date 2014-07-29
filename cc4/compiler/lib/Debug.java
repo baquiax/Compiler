@@ -33,8 +33,8 @@ public class Debug {
 	}
 
 	public static boolean debugEnabled(String level) {
-		if (Scanner.flags.get("-debug") != null) {
-			for (String l : Scanner.flags.get("-debug").split(":")) {
+		if (Configuration.flags.get("-debug") != null) {
+			for (String l : Configuration.flags.get("-debug").split(":")) {
 				if (l.equals(level)) return true;
 			}
 		}

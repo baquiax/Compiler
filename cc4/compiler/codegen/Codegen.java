@@ -18,9 +18,9 @@ public class Codegen {
 	}
 			
 	public void generate() {
-		String output = Scanner.flags.get("-o");
+		String output = Configuration.flags.get("-o");
 		if (output == null) {
-			output = Scanner.flags.get("inputFile");			
+			output = Configuration.flags.get("inputFile");			
 			output += ".s";
 		}
 		File outputFile = new File(output);

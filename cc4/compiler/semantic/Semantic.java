@@ -23,7 +23,7 @@ public class Semantic {
 	}	
 	
 	public void checkSemantic() {
-		if (Scanner.stopStage > Semantic.level) {
+		if (Configuration.stopStage > Semantic.level) {
         	Irt irt = new Irt(this);
         	irt.translateAst();
         } else {

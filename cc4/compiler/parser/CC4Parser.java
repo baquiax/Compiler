@@ -24,7 +24,7 @@ public class CC4Parser
 	 * Inicia el proceso del parser.
 	 */
 	public void parse() {        
-        if (Scanner.stopStage > CC4Parser.level) {
+        if (Configuration.stopStage > CC4Parser.level) {
         	Ast ast = new Ast(this);
         	ast.makeTree();
         } else {

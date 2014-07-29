@@ -23,15 +23,15 @@ public class Irt {
 	
 	public void translateAst() {
 		//VERIFICAR EL FLAG -opt
-		if (Scanner.flags.get("-opt") != null) {
-			if (Scanner.flags.get("-opt").equals("algebraic")) {
+		if (Configuration.flags.get("-opt") != null) {
+			if (Configuration.flags.get("-opt").equals("algebraic")) {
 				Algebraic.optimize(this);
 			} else {
 				ConstantFolding.optimize(this);
 			}
 		}
 
-		if (Scanner.stopStage > Irt.level) {
+		if (Configuration.stopStage > Irt.level) {
         	Codegen codegen = new Codegen(this);
         	codegen.generate();
         } else {

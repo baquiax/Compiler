@@ -22,7 +22,7 @@ public class Ast
 	}
 			
 	public void makeTree() {
-		if (Scanner.stopStage > Ast.level) {
+		if (Configuration.stopStage > Ast.level) {
         	Semantic semantic = new Semantic(this);
         	semantic.checkSemantic();
         } else {

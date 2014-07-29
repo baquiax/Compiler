@@ -13,15 +13,11 @@ import java.util.ArrayList;
 public class Scanner
 {
     public static final int level = 1;
-    public static Hashtable < String, String > flags;
-    public static int stopStage;
     private ArrayList<String> tokens;
-        
-    public Scanner(Hashtable < String, String > flags, int stopStage) {
+    
+    public Scanner() {
         this.tokens = new ArrayList<String>();
-        Scanner.stopStage = stopStage;
-        Scanner.flags = flags;
-
+        
         System.out.println("stage: SCAN");
         if (Debug.debugEnabled("scan")) System.out.println("debugging: SCAN");
     }

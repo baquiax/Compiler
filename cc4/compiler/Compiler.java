@@ -109,7 +109,8 @@ public class Compiler {
             stopStage++;
         }
 
-        Configuration configuration = new Configuration(flags, stopStage);
+        Configuration.flags=flags;
+        Configuration.stopStage=stopStage;
 
         //Scanner s = new Scanner(flags, stopStage);
         //s.scan();

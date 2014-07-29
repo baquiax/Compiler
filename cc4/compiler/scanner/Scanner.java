@@ -1,6 +1,7 @@
 package compiler.scanner;
 import compiler.parser.CC4Parser;
 import compiler.lib.Debug;
+import compiler.lib.Configuration;
 import java.util.Hashtable;
 import java.util.ArrayList;
 
@@ -31,9 +32,9 @@ public class Scanner
      */
     
     public void scan() {          
-        if (Scanner.stopStage > Scanner.level) {
-            CC4Parser parser = new CC4Parser(this);
-            parser.parse();
+        if (Configuration.stopStage == Scanner.level) {
+            System.out.println("stage: SCAN");
+            if (Debug.debugEnabled("scan")) System.out.println("debugging: SCAN");
         } else {
             System.out.println("El proceso se ha detenido.");
         }

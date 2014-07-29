@@ -5,6 +5,7 @@ import compiler.scanner.Scanner;
 import compiler.codegen.Codegen;
 import compiler.opt.Algebraic;
 import compiler.opt.ConstantFolding;
+import compiler.lib.Configuration;
 import java.util.ArrayList;
 
 public class Irt {	

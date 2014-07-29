@@ -3,6 +3,7 @@ import compiler.lib.Debug;
 import compiler.scanner.Scanner;
 import compiler.ast.Ast;
 import compiler.irt.Irt;
+import compiler.lib.Configuration;
 
 /**
  * Esta clase se encarga de verificar la coherencia de las operaciones.

@@ -1,4 +1,5 @@
 import compiler.scanner.Scanner;
+import compiler.lib.Configuration;
 import java.util.Hashtable;
 import java.io.File;
 
@@ -108,8 +109,10 @@ public class Compiler {
             stopStage++;
         }
 
-        Scanner s = new Scanner(flags, stopStage);
-        s.scan();
+        Configuration configuration = new Configuration(flags, stopStage);
+
+        //Scanner s = new Scanner(flags, stopStage);
+        //s.scan();
     }
 
     public static boolean checkIn(String toFind, String findIn) {

@@ -2,6 +2,7 @@ package compiler.parser;
 import compiler.lib.Debug;
 import compiler.scanner.Scanner;
 import compiler.ast.Ast;
+import compiler.lib.Configuration;
 
 /**
  * El parser se encarga de validar la sintaxis de las tokens.

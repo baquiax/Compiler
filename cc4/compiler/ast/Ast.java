@@ -3,6 +3,7 @@ import compiler.lib.Debug;
 import compiler.scanner.Scanner;
 import compiler.semantic.Semantic;
 import compiler.parser.CC4Parser;
+import compiler.lib.Configuration;
 
 /**
  * Esta clase representa al Arbol de sintaxis.

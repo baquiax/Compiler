@@ -11,7 +11,7 @@ import java.io.File;
  */
 
 public class Compiler {
-
+    
     /**
      * Verifica la existencia de un archivo a partir del path enviado.
      * @param path Representa la direccion del source code a compilar.     
@@ -29,10 +29,11 @@ public class Compiler {
 
     private static void help() {
         System.out.println(
-        String.format("%-5s %5s\n", "Uso: ", "java Compiler [options] <source FILE>*\n* es requerido.\nDonde las opciones posibles son: "));
+            String.format("%-5s %5s\n", "Uso: ", "java Compiler [options] <source FILE>*\n* es requerido.\nDonde las opciones posibles son: ")
+        );
         String[][] validFlags = {
             {
-                "-target <stage>*", "Donde <stage> puede ser: scan, parse, ast, semantic, irt, codegen; la compilacion porcede hasta la etapa indicada."
+                "-target <stage>", "Donde <stage> puede ser: scan, parse, ast, semantic, irt, codegen. Por default la compilacion porcede hasta la etapa <parser>."
             }, {
                 "-o <outcome>", "Escribir el output a un archivo llamado <outname>."
             }, {
@@ -46,62 +47,60 @@ public class Compiler {
 
         for (String[] flag: validFlags) {
             System.out.println(
-            String.format("%-25s %10s\n", flag[0], flag[1]));
+                String.format("%-25s %10s\n", flag[0], flag[1])
+            );
         }
+        System.exit(0);
     }
 
     public static void main(String[] args) {
-        //Deben haber al menos 3 parametros.            
-        if (args.length == 0 || (args.length == 1 && args[0].equals("-h"))) {
-            help();
-            System.exit(0);
-        } else if (args.length < 3) {
-            Compiler.printMessageAndExit("No ha indicado los parametros minimos requeridos\nUse el flag -h para ver la ayuda.", 1);
-        }
+        //Help por default cuando no existen arguentos
+        if (args.length == 0 || (args.length == 1 && args[0].equals("-h"))) 
+        	help();
 
-        String supportedFlags = "-target,-opt,-debug,-h,-o,";
-        String[][] supportedFlagValues = {
-            {
-                "-target", "scan,parse,semantic,ast,irt,codegen,"
-            }, {
-                "-opt", "constant,algebraic,"
-            }, {
-                "-debug", "scan,parse,semantic,ast,irt,codegen,"
-            }, {
-                "-h", ""
-            }
-        };
-
+		//Informacion necesaria para validar. NOT CASE-SENSITIVE
+        String supportedFlags[] = {"-target","-opt","-debug","-h","-o"};
+		Hashtable<String, String[]> supportedFlagValues = new Hashtable<String, String[]>();
+		supportedFlagValues.put("-target", (new String[] { "scan", "parse", "semantic", "ast", "irt","codegen"}));
+		supportedFlagValues.put("-opt", new String[] {"constant","algebraic"});
+		supportedFlagValues.put("-debug", new String[] {"scan", "parse", "semantic", "ast", "irt", "codegen"});
+		supportedFlagValues.put("-h", new String[] {});
+	
         Hashtable < String, String > flags = new Hashtable < String, String > ();
-                
+               
         int i = 0;
         for (; (i + 2) <= args.length; i += 2) {
-            if (!supportedFlags.contains(args[i] + ",")) Compiler.printMessageAndExit("El flag " + args[i] + ", no se reconoce.", 1);
+	    	//Verificar validez de flag
+            if (!searchInArray(args[i], supportedFlags, false))
+				Compiler.printMessageAndExit("El flag " + args[i] + ", no se reconoce.", 1);
+	    
+	    	//Verificar validez de valor para el flag
+	    	if (!searchInArray(args[i + 1], supportedFlagValues.get(args[i]), false, ":"))
+				Compiler.printMessageAndExit(args[i + 1] + " no es un valor correcto para " + args[i], 1);
+	   
             flags.put(args[i], args[i + 1]);
         }
 
-        if (((args.length - i) == 0)) Compiler.printMessageAndExit("No has indicado el archivo fuente a compilar.", 1);
+        if (((args.length - i) != 1)) 
+	    	Compiler.printMessageAndExit("Debes indicar un UNICO archivo a compilar! Usa -h para ayudar.", 1);
+	
         flags.put("inputFile", args[args.length - 1]);
-
         String fileName = flags.get("inputFile");
 
         if (fileName.contains("/") && fileName.split("/").length > 0) {
             String[] fileNameParted = fileName.split("/");
             fileName = fileNameParted[fileNameParted.length - 1];
         }
+	
+		//Verficar nombre de archivo. No se permite que el archivo empiece con [.|-]
+        if(fileName.matches("[\\.-]+.*")) 
+	    	Compiler.printMessageAndExit("El nombre del archivo de entrada no debe empezar con . o -", 1);        
 
-        if(fileName.matches("[\\.-]+.*")) Compiler.printMessageAndExit("El nombre del archivo de entrada no debe empezar con . o -", 1);        
+        if (!Compiler.existsFile(flags.get("inputFile"))) 
+	    	Compiler.printMessageAndExit("El archivo a compilar no existe!", 1);
 
-        if (!Compiler.existsFile(flags.get("inputFile"))) Compiler.printMessageAndExit("El archivo a compilar no existe!", 1);
-
-        for (String[] f: supportedFlagValues) {
-            if (flags.get(f[0]) != null && !Compiler.checkIn(flags.get(f[0]), f[1])) {
-                Compiler.printMessageAndExit("\tHa indicado un valor no valido para " + f[0], 1);
-            }
-        }
-
-        //Settear el flag limite. Hasta donde se debe llegar.
-        if (flags.get("-target") == null)  Compiler.printMessageAndExit("\nEl flag -target es OBLIGATORIO.", 1);
+        //Settear el flag limite hasta donde se podra trabajar. Ahora es al parser.
+		flags.put("-target", "parse");
 
         int stopStage = 1;
         for (String f: "scan,parse,semantic,ast,irt,codegen".split(",")) {
@@ -111,26 +110,33 @@ public class Compiler {
 
         Configuration.flags=flags;
         Configuration.stopStage=stopStage;
-
-        //Scanner s = new Scanner(flags, stopStage);
-        //s.scan();
     }
 
-    public static boolean checkIn(String toFind, String findIn) {
-        if (toFind.contains(":")) {
+    public static boolean searchInArray(String toFind, String[] findIn, boolean caseSensitive, String separator) {
+		if (toFind.contains(":")) {
             String[] values = toFind.split(":");
             for (String s: values) {
-                if (!findIn.contains(s + ",")) return false;
+                if (!searchInArray(toFind, findIn, caseSensitive)) return false;
             }
             return true;
         } else {
-            return findIn.contains(toFind + ",");
+            return searchInArray(toFind, findIn, caseSensitive);
         }
+    }
+
+    public static boolean searchInArray(String toFind, String[] findIn, boolean caseSensitive) {
+        for (String s : findIn) {
+            if (!caseSensitive) {
+                if (s.toUpperCase().equals(toFind.toUpperCase())) return true;
+            } else {
+                if (s.equals(toFind)) return true;
+            }
+        }
+        return false;
     }
 
     private static void printMessageAndExit (String message, int type) {
         //type 0 no error, 1 error.
-
         switch (type) {
             case 1:
                 System.err.println(message);

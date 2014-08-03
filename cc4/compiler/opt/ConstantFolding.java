@@ -7,5 +7,4 @@ public class ConstantFolding {
 		System.out.println("stage: ConstantFolding OPT.");
 		return null;
 	}
-	
 }

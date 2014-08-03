@@ -9,9 +9,11 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 
 public class Codegen {
-	File create;	
+	File create;
+	Irt irt; 	
 	
-	public Codegen(Irt parameter) {
+	public Codegen(Irt irt) {
+		this.irt=irt;
 
 		System.out.println("stage: CODEGEN");
         if (Debug.debugEnabled("codegen")) System.out.println("debugging: CODEGEN");		

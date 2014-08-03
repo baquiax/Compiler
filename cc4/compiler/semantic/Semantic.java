@@ -17,15 +17,12 @@ public class Semantic {
 	
 	public Semantic(Ast ast) {
 		this.ast = ast;
-		
-		System.out.println("stage: SEMANTIC");
-        if (Debug.debugEnabled("semantic")) System.out.println("debugging: SEMANTIC");
 	}	
 	
 	public void checkSemantic() {
 		if (Configuration.stopStage > Semantic.level) {
-        	Irt irt = new Irt(this);
-        	irt.translateAst();
+        	System.out.println("stage: SEMANTIC");
+        	if (Debug.debugEnabled("semantic")) System.out.println("debugging: SEMANTIC");	
         } else {
         	System.out.println("El proceso se ha detenido.");
         }		

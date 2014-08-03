@@ -15,9 +15,6 @@ public class CC4Parser
 	
 	public CC4Parser(Scanner scanner) {
 		this.scanner = scanner;
-
-		System.out.println("stage: PARSE");
-        if (Debug.debugEnabled("parse")) System.out.println("debugging: PARSE");
 	}		
 	
 	/**
@@ -25,8 +22,8 @@ public class CC4Parser
 	 */
 	public void parse() {        
         if (Configuration.stopStage > CC4Parser.level) {
-        	Ast ast = new Ast(this);
-        	ast.makeTree();
+        	System.out.println("stage: PARSE");
+        	if (Debug.debugEnabled("parse")) System.out.println("debugging: PARSE");
         } else {
         	System.out.println("El proceso se ha detenido.");
         }
@@ -39,6 +36,5 @@ public class CC4Parser
 		
 	public void makeSintaxisTree() {
 		// TODO implement me
-		
 	}
 }

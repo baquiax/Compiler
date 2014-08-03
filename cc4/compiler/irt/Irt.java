@@ -16,9 +16,6 @@ public class Irt {
 	
 	public Irt(Semantic semantic) {
 		this.semantic = semantic;
-		
-		System.out.println("stage: IRT");
-        if (Debug.debugEnabled("irt")) System.out.println("debugging: IRT");		
 	}
 	
 	public void translateAst() {
@@ -32,8 +29,8 @@ public class Irt {
 		}
 
 		if (Configuration.stopStage > Irt.level) {
-        	Codegen codegen = new Codegen(this);
-        	codegen.generate();
+        	System.out.println("stage: IRT");
+        	if (Debug.debugEnabled("irt")) System.out.println("debugging: IRT");		
         } else {
         	System.out.println("El proceso se ha detenido.");
         }		

@@ -16,18 +16,14 @@ public class Ast
 	
 	public Ast(CC4Parser parser) {
 		this.parser = parser;
-
-		System.out.println("stage: AST");
-        if (Debug.debugEnabled("ast")) System.out.println("debugging: AST");
 	}
 			
 	public void makeTree() {
 		if (Configuration.stopStage > Ast.level) {
-        	Semantic semantic = new Semantic(this);
-        	semantic.checkSemantic();
+        	System.out.println("stage: AST");
+        	if (Debug.debugEnabled("ast")) System.out.println("debugging: AST");
         } else {
         	System.out.println("El proceso se ha detenido.");
         }		
 	}
-	
 }

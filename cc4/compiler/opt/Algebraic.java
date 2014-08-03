@@ -7,5 +7,4 @@ public class Algebraic {
 		System.out.println("stage: Algebraic OPT.");
 		return null;	
 	}
-	
 }

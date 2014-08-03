@@ -20,11 +20,11 @@ public class Semantic {
 	}	
 	
 	public void checkSemantic() {
-		if (Configuration.stopStage > Semantic.level) {
+		if (Configuration.stopStage >= Semantic.level) {
         	System.out.println("stage: SEMANTIC");
         	if (Debug.debugEnabled("semantic")) System.out.println("debugging: SEMANTIC");	
-        } else {
+        }/* else {
         	System.out.println("El proceso se ha detenido.");
-        }		
+        }*/		
 	}
 }

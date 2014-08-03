@@ -16,7 +16,6 @@ public class Debug {
 		
 	}
 
-
 	public void printError(String parameter, String parameter2) {
 		// TODO implement me	
 	}

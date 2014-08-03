@@ -19,11 +19,11 @@ public class Ast
 	}
 			
 	public void makeTree() {
-		if (Configuration.stopStage > Ast.level) {
+		if (Configuration.stopStage >= Ast.level) {
         	System.out.println("stage: AST");
         	if (Debug.debugEnabled("ast")) System.out.println("debugging: AST");
-        } else {
+        } /*else {
         	System.out.println("El proceso se ha detenido.");
-        }		
+        }*/		
 	}
 }

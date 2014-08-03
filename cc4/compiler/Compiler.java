@@ -1,4 +1,9 @@
 import compiler.scanner.Scanner;
+import compiler.parser.CC4Parser;
+import compiler.ast.Ast;
+import compiler.semantic.Semantic;
+import compiler.irt.Irt;
+import compiler.codegen.Codegen;
 import compiler.lib.Configuration;
 import java.util.Hashtable;
 import java.io.File;
@@ -110,6 +115,9 @@ public class Compiler {
 
         Configuration.flags=flags;
         Configuration.stopStage=stopStage;
+
+        /*INSTANCIAS DE CLASES*/
+        instanceCodegen(instanceIrt(instanceSemantic(instanceAst(instanceParser(instanceScanner())))));
     }
 
     public static boolean searchInArray(String toFind, String[] findIn, boolean caseSensitive, String separator) {
@@ -146,5 +154,45 @@ public class Compiler {
                 System.out.println(message);
                 System.exit(type);
         }
+    }
+
+    private static Scanner instanceScanner() {
+        Scanner scanner= new Scanner();
+        scanner.scan();
+
+        return scanner;
+    }
+
+    private static CC4Parser instanceParser(Scanner scanner) {
+        CC4Parser parser=new CC4Parser(scanner);
+        parser.parse();
+
+        return parser;
+    }
+
+    private static Ast instanceAst(CC4Parser parser) {
+        Ast ast = new Ast(parser);
+        ast.makeTree();
+
+        return ast;
+    }
+
+    private static Semantic instanceSemantic(Ast ast) {
+        Semantic semantic = new Semantic(ast);
+        semantic.checkSemantic();
+
+        return semantic;
+    }
+
+    private static Irt instanceIrt(Semantic semantic) {
+        Irt irt=new Irt(semantic);
+        irt.translateAst();
+
+        return irt;
+    }
+
+    private static void instanceCodegen(Irt irt) {
+        Codegen codegen=new Codegen(irt);
+        codegen.generate();
     }
 }

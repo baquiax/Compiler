@@ -28,12 +28,12 @@ public class Irt {
 			}
 		}
 
-		if (Configuration.stopStage > Irt.level) {
+		if (Configuration.stopStage >= Irt.level) {
         	System.out.println("stage: IRT");
         	if (Debug.debugEnabled("irt")) System.out.println("debugging: IRT");		
-        } else {
+        }/* else {
         	System.out.println("El proceso se ha detenido.");
-        }		
+        }*/		
 	}	
 	
 }

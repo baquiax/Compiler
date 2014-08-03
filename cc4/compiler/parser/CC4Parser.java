@@ -21,12 +21,12 @@ public class CC4Parser
 	 * Inicia el proceso del parser.
 	 */
 	public void parse() {        
-        if (Configuration.stopStage > CC4Parser.level) {
+        if (Configuration.stopStage >= CC4Parser.level) {
         	System.out.println("stage: PARSE");
         	if (Debug.debugEnabled("parse")) System.out.println("debugging: PARSE");
-        } else {
+        }/* else {
         	System.out.println("El proceso se ha detenido.");
-        }
+        }*/
 	}
 			
 	private boolean validateTokens(String tokens) {

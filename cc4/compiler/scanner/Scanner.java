@@ -25,11 +25,11 @@ public class Scanner
      */
     
     public void scan() {          
-        if (Configuration.stopStage > Scanner.level) {
+        if (Configuration.stopStage >= Scanner.level) {
             System.out.println("stage: SCAN");
             if (Debug.debugEnabled("scan")) System.out.println("debugging: SCAN");
-        } else {
+        } /*else {
             System.out.println("El proceso se ha detenido.");
-        }
+        }*/
     }
 }

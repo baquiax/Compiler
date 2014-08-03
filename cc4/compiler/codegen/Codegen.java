@@ -9,17 +9,20 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 
 public class Codegen {
+	public static final int level = 6;
 	File create;
 	Irt irt; 	
 	
 	public Codegen(Irt irt) {
 		this.irt=irt;
-
-		System.out.println("stage: CODEGEN");
-        if (Debug.debugEnabled("codegen")) System.out.println("debugging: CODEGEN");		
 	}
-			
+
 	public void generate() {
+		if (Configuration.stopStage == Codegen.level) {
+			System.out.println("stage: CODEGEN");
+        	if (Debug.debugEnabled("codegen")) System.out.println("debugging: CODEGEN");		
+		}
+
 		String output = Configuration.flags.get("-o");
 		if (output == null) {
 			output = Configuration.flags.get("inputFile");			

@@ -104,8 +104,10 @@ public class Compiler {
         if (!Compiler.existsFile(flags.get("inputFile"))) 
 	    	Compiler.printMessageAndExit("El archivo a compilar no existe!", 1);
 
-        //Settear el flag limite hasta donde se podra trabajar. Ahora es al parser.
+        //Flag target default si no es indicado.
+        if (flags.get("-target") == null) {
 		flags.put("-target", "parse");
+        }
 
         int stopStage = 1;
         for (String f: "scan,parse,semantic,ast,irt,codegen".split(",")) {

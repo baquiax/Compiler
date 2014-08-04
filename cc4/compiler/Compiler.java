@@ -117,7 +117,20 @@ public class Compiler {
         Configuration.stopStage=stopStage;
 
         /*INSTANCIAS DE CLASES*/
-        instanceCodegen(instanceIrt(instanceSemantic(instanceAst(instanceParser(instanceScanner())))));
+
+        if (Configuration.stopStage==1) {
+            instanceScanner();
+        } else if (Configuration.stopStage==2) {
+            instanceParser(instanceScanner());
+        } else if (Configuration.stopStage==3) {
+            instanceAst(instanceParser(instanceScanner()));   
+        } else if (Configuration.stopStage==4) {
+            instanceSemantic(instanceAst(instanceParser(instanceScanner())));   
+        } else if (Configuration.stopStage==5) {
+            instanceIrt(instanceSemantic(instanceAst(instanceParser(instanceScanner()))));   
+        } else if (Configuration.stopStage==6) {
+            instanceCodegen(instanceIrt(instanceSemantic(instanceAst(instanceParser(instanceScanner())))));    
+        }
     }
 
     public static boolean searchInArray(String toFind, String[] findIn, boolean caseSensitive, String separator) {

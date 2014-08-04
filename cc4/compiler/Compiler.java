@@ -125,13 +125,13 @@ public class Compiler {
         } else if (Configuration.stopStage==2) {
             instanceParser(instanceScanner());
         } else if (Configuration.stopStage==3) {
-            instanceAst(instanceParser(instanceScanner()));   
+            instanceSemantic(instanceParser(instanceScanner()));
         } else if (Configuration.stopStage==4) {
-            instanceSemantic(instanceAst(instanceParser(instanceScanner())));   
+            instanceAst(instanceSemantic(instanceParser(instanceScanner())));
         } else if (Configuration.stopStage==5) {
-            instanceIrt(instanceSemantic(instanceAst(instanceParser(instanceScanner()))));   
+            instanceIrt(instanceAst(instanceSemantic(instanceParser(instanceScanner()))));
         } else if (Configuration.stopStage==6) {
-            instanceCodegen(instanceIrt(instanceSemantic(instanceAst(instanceParser(instanceScanner())))));    
+            instanceCodegen(instanceIrt(instanceAst(instanceSemantic(instanceParser(instanceScanner())))));
         }
     }
 
@@ -185,22 +185,22 @@ public class Compiler {
         return parser;
     }
 
-    private static Ast instanceAst(CC4Parser parser) {
-        Ast ast = new Ast(parser);
-        ast.makeTree();
-
-        return ast;
-    }
-
-    private static Semantic instanceSemantic(Ast ast) {
-        Semantic semantic = new Semantic(ast);
+    private static Semantic instanceSemantic(CC4Parser parser) {
+        Semantic semantic = new Semantic(parser);
         semantic.checkSemantic();
 
         return semantic;
     }
 
-    private static Irt instanceIrt(Semantic semantic) {
-        Irt irt=new Irt(semantic);
+    private static Ast instanceAst(Semantic semantic) {
+        Ast ast = new Ast(semantic);
+        ast.makeTree();
+
+        return ast;
+    }
+
+    private static Irt instanceIrt(Ast ast) {
+        Irt irt=new Irt(ast);
         irt.translateAst();
 
         return irt;

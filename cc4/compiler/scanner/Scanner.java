@@ -1,5 +1,4 @@
 package compiler.scanner;
-import compiler.parser.CC4Parser;
 import compiler.lib.Debug;
 import compiler.lib.Configuration;
 import java.util.Hashtable;

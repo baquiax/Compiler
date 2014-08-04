@@ -1,8 +1,6 @@
 package compiler.ast;
 import compiler.lib.Debug;
-import compiler.scanner.Scanner;
 import compiler.semantic.Semantic;
-import compiler.parser.CC4Parser;
 import compiler.lib.Configuration;
 
 /**
@@ -11,11 +9,11 @@ import compiler.lib.Configuration;
 
 public class Ast
 {	
-	public static final int level = 3;
-	private CC4Parser parser;
+	public static final int level = 4;
+	private Semantic semantic;
 	
-	public Ast(CC4Parser parser) {
-		this.parser = parser;
+	public Ast(Semantic semantic) {
+		this.semantic = semantic;
 	}
 			
 	public void makeTree() {

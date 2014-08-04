@@ -1,7 +1,6 @@
 package compiler.codegen;
 import compiler.lib.Debug;
 import compiler.irt.Irt;
-import compiler.scanner.Scanner;
 import compiler.lib.Configuration;
 import java.io.File;
 import java.io.IOException;

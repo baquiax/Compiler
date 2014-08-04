@@ -1,8 +1,6 @@
 package compiler.semantic;
 import compiler.lib.Debug;
-import compiler.scanner.Scanner;
-import compiler.ast.Ast;
-import compiler.irt.Irt;
+import compiler.parser.CC4Parser;
 import compiler.lib.Configuration;
 
 /**
@@ -12,11 +10,11 @@ import compiler.lib.Configuration;
 
 public class Semantic {	
 
-	public static final int level = 4;
-	private Ast ast;	
+	public static final int level = 3;
+	private CC4Parser parser;	
 	
-	public Semantic(Ast ast) {
-		this.ast = ast;
+	public Semantic(CC4Parser parser) {
+		this.parser = parser;
 	}	
 	
 	public void checkSemantic() {

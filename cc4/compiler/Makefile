@@ -1,4 +1,4 @@
-make: lib/Debug.class lib/ErrorHandler.class scanner/Scanner.class parser/CC4Parser.class ast/Ast.class semantic/Semantic.class irt/Irt.class opt/Algebraic.class opt/ConstantFolding.class codegen/Codegen.class Compiler.class lib/Configuration.class
+make: lib/Debug.class lib/ErrorHandler.class scanner/Scanner.class parser/CC4Parser.class ast/Ast.class semantic/Semantic.class irt/Irt.class opt/Algebraic.class opt/ConstantFolding.class codegen/Codegen.class Compiler.class lib/Configuration.class scanner/LexerDecaf.java scanner/LexerDecaf.class parser/ParserDecaf.java parser/ParserDecaf.class
 
 Compiler.class: Compiler.java
 	javac Compiler.java
@@ -34,7 +34,19 @@ codegen/Codegen.class: codegen/Codegen.java
 	javac codegen/Codegen.java
 
 lib/Configuration.class: lib/Configuration.java
-	javac lib/Configuration.java	
+	javac lib/Configuration.java
+
+scanner/LexerDecaf.class: scanner/LexerDecaf.java
+	javac scanner/LexerDecaf.java
+
+scanner/LexerDecaf.java: scanner/LexerDecaf.g
+	java org.antlr.v4.Tool scanner/LexerDecaf.g
+
+parser/ParserDecaf.class: parser/ParserDecaf.java
+	javac parser/ParserDecaf.java
+
+parser/ParserDecaf.java: parser/ParserDecaf.g
+	java org.antlr.v4.Tool -lib scanner parser/ParserDecaf.g
 
 clean:
 	rm -f Compiler.class
@@ -49,3 +61,9 @@ clean:
 	rm -f lib/Debug.class
 	rm -f lib/ErrorHandler.class
 	rm -f lib/Configuration.class
+	rm -rf scanner/*.class scanner/*~ scanner/*.tokens
+	rm -rf parser/*.class parser/*~ parser/*.tokens
+	rm -rf scanner/LexerDecaf.java
+	rm -rf parser/ParserDecaf.java
+	rm -rf parser/ParserDecafBaseListener.java
+	rm -rf parser/ParserDecafListener.java

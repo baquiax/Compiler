@@ -61,6 +61,7 @@ AND  			: 	'&';
 OR  			: 	'|';
 EQUAL			: 	'==';
 NEGATION		: 	'!';
+NOT_EQUAL		:	'!=';
 SC_AMP			: 	'&&';
 SC_PIPE			:	'||';
 

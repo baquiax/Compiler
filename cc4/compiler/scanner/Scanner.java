@@ -3,6 +3,7 @@ import compiler.lib.Debug;
 import compiler.lib.Configuration;
 import java.util.Hashtable;
 import java.util.ArrayList;
+import org.antlr.v4.runtime.*;
 
 /**
  * Esta clase represetna el nivel de analisis,
@@ -23,12 +24,16 @@ public class Scanner
      * existe, por lo que si llega aca se puede cargar el archivo en memoria con confianza.     
      */
     
-    public void scan() {          
+    public void scan() throws Exception {          
         if (Configuration.stopStage >= Scanner.level) {
             System.out.println("stage: SCAN");
             if (Debug.debugEnabled("scan")) System.out.println("debugging: SCAN");
-        } /*else {
-            System.out.println("El proceso se ha detenido.");
-        }*/
+	    LexerDecaf ld = new LexerDecaf(new ANTLRFileStream(Configuration.flags.get("inputFile")));
+	    Token t = ld.nextToken();
+	    while (t.getType() != Token.EOF) {
+		System.out.println(t.getText() + " " + t.getType());
+		t = ld.nextToken();
+	    }
+        }
     }
 }

@@ -46,7 +46,7 @@ parser/ParserDecaf.class: parser/ParserDecaf.java
 	javac parser/ParserDecaf.java
 
 parser/ParserDecaf.java: parser/ParserDecaf.g
-	java org.antlr.v4.Tool -lib scanner parser/ParserDecaf.g
+	java org.antlr.v4.Tool -lib scanner -visitor parser/ParserDecaf.g
 
 clean:
 	rm -f Compiler.class

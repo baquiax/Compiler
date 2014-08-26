@@ -20,7 +20,7 @@ var_decl		: 	id
 				|	id O_BRACKET int_literal C_BRACKET COMA var_decl
 				|	;
 
-field_decl    	: 	type var_decl END_LINE
+field_decl    	: 	type var_decl EOL
 				|	;
 
 method_deriv	:	INT id
@@ -39,15 +39,15 @@ block			:	O_BRACE var_decl statement C_BRACE;
 type			:	INT
 				|	BOOLEAN;
 
-statement		: 	location assign_op expr END_LINE
-				|	method_call END_LINE
+statement		: 	location assign_op expr EOL
+				|	method_call EOL
 				|	IF O_PAR expr C_PAR block
 				| 	IF O_PAR expr C_PAR block ELSE block
 				|	FOR id ASIGN expr COMA expr block
-				|	RETURN END_LINE
-				|	RETURN expr END_LINE
-				|	BREAK END_LINE
-				|	CONTINUE END_LINE
+				|	RETURN EOL
+				|	RETURN expr EOL
+				|	BREAK EOL
+				|	CONTINUE EOL
 				| 	block
 				|	;
 

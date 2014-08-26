@@ -119,20 +119,23 @@ public class Compiler {
         Configuration.stopStage=stopStage;
 
         /*INSTANCIAS DE CLASES*/
-
-        if (Configuration.stopStage==1) {
-            instanceScanner();
-        } else if (Configuration.stopStage==2) {
-            instanceParser(instanceScanner());
-        } else if (Configuration.stopStage==3) {
-            instanceSemantic(instanceParser(instanceScanner()));
-        } else if (Configuration.stopStage==4) {
+	try {
+	    if (Configuration.stopStage==1) {
+		instanceScanner();
+	    } else if (Configuration.stopStage==2) {
+		instanceParser(instanceScanner());
+	    } else if (Configuration.stopStage==3) {
+		instanceSemantic(instanceParser(instanceScanner()));
+	    } else if (Configuration.stopStage==4) {
             instanceAst(instanceSemantic(instanceParser(instanceScanner())));
-        } else if (Configuration.stopStage==5) {
-            instanceIrt(instanceAst(instanceSemantic(instanceParser(instanceScanner()))));
-        } else if (Configuration.stopStage==6) {
-            instanceCodegen(instanceIrt(instanceAst(instanceSemantic(instanceParser(instanceScanner())))));
-        }
+	    } else if (Configuration.stopStage==5) {
+		instanceIrt(instanceAst(instanceSemantic(instanceParser(instanceScanner()))));
+	    } else if (Configuration.stopStage==6) {
+		instanceCodegen(instanceIrt(instanceAst(instanceSemantic(instanceParser(instanceScanner())))));
+	    }
+	} catch (Exception e) {
+	    //Cath someone error.
+	}
     }
 
     public static boolean searchInArray(String toFind, String[] findIn, boolean caseSensitive, String separator) {
@@ -171,7 +174,7 @@ public class Compiler {
         }
     }
 
-    private static Scanner instanceScanner() {
+    private static Scanner instanceScanner() throws Exception {
         Scanner scanner= new Scanner();
         scanner.scan();
 

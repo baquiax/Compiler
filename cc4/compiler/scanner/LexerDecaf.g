@@ -27,6 +27,14 @@ VOID			:	'void';
 CLASS_PROGRAM   :   CLASS 'Program';
 ID		    	:   [a-zA-Z_]+ [a-zA-Z0-9_]*;
 
+
+//ERRORES
+WHITHOUT_S_QUOTE    :   '\'' ~['\''] '\n';
+WHITHOUT_D_QUOTE    :   '\"' ~['\"'] '\n';
+MULTIPLE_DOT        :   DOT(DOT)+;
+MULTIPLE_COMMA      :   COMA(COMA)+;
+MULTIPLE_EOL        :   EOL(EOL)+;
+
 // MISC
 O_BRACE         :   '{';
 C_BRACE         :   '}';
@@ -34,12 +42,12 @@ O_PAR 			: 	'(';
 C_PAR 			: 	')';
 O_BRACKET		:	'[';
 C_BRACKET		:	']';
-END_LINE		: 	';';
+EOL 	    	: 	';';
 COMA  			: 	',';
-DOT             :   '.';
 RETURN_TYPE		: 	INT | BOOLEAN | VOID;
-ALL_MISC        :   O_BRACE | C_BRACE | O_PAR | C_PAR | O_BRACKET |
-                    C_BRACKET | END_LINE | COMA | DOT | RETURN_TYPE;
+DOT             :   '.';
+
+
 
 // LITERALS
 ESCAPED_CHAR	:	'\\n' | '\\\"' | '\\\'' | '\\\\' | '\\t' ;
@@ -75,8 +83,5 @@ LESS_THAN			:	'<';
 LESS_EQUAL_THAN		:	'<=';
 
 
-//ERRORES
-WHITHOUT_S_QUOTE    :   '\'' ~['\''] '\n';
-WHITHOUT_D_QUOTE    :   '\"' ~['\"'] '\n';
+//LAST CATCH ERRORS
 INVALID_CHAR        :   ~[CHAR];
-REPEAT_SELF         :   DOT[DOT]+ | ALL_MISC[ALL_MISC]+;

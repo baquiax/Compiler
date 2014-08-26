@@ -1,4 +1,4 @@
-¬°!!!_i|nt alex = 1;
- ...
-!!!
-,,,
+int 1alex;
+|alex;
+¬alex;
+alex¬s2;

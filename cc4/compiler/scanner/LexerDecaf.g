@@ -9,7 +9,7 @@ COMMENT     	:   '//' ~['\n'] '\n' { skip(); } ;
 
 // FRAGMENTS ;)
 fragment DIGIT	: [0-9];
-fragment CHAR	: [\u0020-\u0073];
+fragment CHAR	: [\u0020-\u007F];
 
 // KEYWORDS
 BOOLEAN 		:	'boolean';
@@ -34,6 +34,7 @@ WHITHOUT_D_QUOTE    :   '\"' ~['\"'] '\n';
 MULTIPLE_DOT        :   DOT(DOT)+;
 MULTIPLE_COMMA      :   COMA(COMA)+;
 MULTIPLE_EOL        :   EOL(EOL)+;
+INVALID_ID          :   [0-9]+ [a-zA-Z0-9_]*;
 
 // MISC
 O_BRACE         :   '{';

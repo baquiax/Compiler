@@ -67,3 +67,5 @@ clean:
 	rm -rf parser/ParserDecaf.java
 	rm -rf parser/ParserDecafBaseListener.java
 	rm -rf parser/ParserDecafListener.java
+	rm -rf parser/ParserDecafBaseVisitor.java
+	rm -rf parser/ParserDecafVisitor.java

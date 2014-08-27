@@ -1,4 +1,37 @@
-int 1alex;
-|alex;
-¬alex;
-alex¬s2;
+class Program
+{
+   int i,j,k;
+   boolean b1;
+   int a1[50];
+   boolean b1[40];
+
+   int max(int x[50])
+   {
+      int tmp;
+      tmp = 0;
+      miMax = 0;
+      while (tmp < 50)
+      {
+         boolean otro;
+         if (x[tmp] > miMax)
+         {
+            miMax = x[tmp];
+            otro = false;
+         }
+      }
+      return miMax;
+   }
+
+   void main()
+   {
+      int a,b[50],c;
+      boolean s,t;
+
+      a = callout(max,b);
+      if (a < 100 && a > 10)
+      {
+         s = true;
+         t = false;
+      }
+   }
+}

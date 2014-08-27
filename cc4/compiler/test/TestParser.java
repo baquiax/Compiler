@@ -1,19 +1,17 @@
-import  org.antlr.runtime.*;
-import  org.antlr.runtime.tree.*;
-import compiler.parser.ParserDecaf;
+import org.antlr.v4.runtime.*;
 import compiler.scanner.LexerDecaf;
- 
-public  class TestParser {
-    public static void main(String[] args)  {
-     try {
-           LexerDecaf lex = new LexerDecaf(new ANTLRFileStream("test.txt"));
-           CommonTokenStream tokens = new  CommonTokenStream(lex);
- 
-           ParserDecaf parser = new ParserDecaf(tokens);
-           parser.document();
-       }  catch(Throwable t) {
-           System.out.println("exception: "+t);
-           t.printStackTrace();
-       }
-    }
+import compiler.parser.ParserDecaf;
+
+public class TestParser {
+  public static void main(String[] args) throws Exception {
+    try {     
+  (new ParserDecaf(new CommonTokenStream(new LexerDecaf(new ANTLRFileStream("test.txt"))))).start();
+    } catch (ArrayIndexOutOfBoundsException aiobe) {
+      System.err.println("usage: java Main <file>\nwhere file is the path to the filename with the tokens");
+      System.exit(1);
+    } catch (Exception e) {
+      System.err.println("usage: jaca Main <file>\nwhere file is the path to the filename with the tokens");
+      System.exit(1);
+    } 
+  }
 }

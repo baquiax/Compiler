@@ -1,5 +1,7 @@
 package compiler.lib;
 import compiler.scanner.Scanner;
+import compiler.lib.Configuration;
+import java.util.Hashtable;
 
 /**
  * Esta clase es tuilizada para debugear el proceoso de compilacion.
@@ -31,9 +33,10 @@ public class Debug {
 		return "";	
 	}
 
-	public static boolean debugEnabled(String level) {
-		if (Configuration.flags.get("-debug") != null) {
-			for (String l : Configuration.flags.get("-debug").split(":")) {
+	public static boolean debugEnabled(String level) {	
+		Hashtable<String, String> flags = Configuration.flags;
+		if (flags.get("-debug") != null) {
+			for (String l : flags.get("-debug").split(":")) {
 				if (l.equals(level)) return true;
 			}
 		}

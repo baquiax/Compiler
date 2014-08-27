@@ -7,6 +7,12 @@ lexer grammar LexerDecaf;
 WHITESPACE  	:   ( '\t' | ' ' | '\r' | '\n')+ { skip(); } ;
 COMMENT     	:   '//' ~['\n'] '\n' { skip(); } ;
 
+/**
+ * TODO
+ * En el ACTION de cada regla agregaré algo como
+ * this.listOfTokens.put("<LINE>", {<TEXT>, <TYPE_TOKEN>})
+ */
+
 // FRAGMENTS ;)
 fragment DIGIT	: [0-9];
 fragment CHAR	: [\u0020-\u007F];
@@ -35,6 +41,7 @@ MULTIPLE_DOT        :   DOT(DOT)+;
 MULTIPLE_COMMA      :   COMA(COMA)+;
 MULTIPLE_EOL        :   EOL(EOL)+;
 INVALID_ID          :   [0-9]+ [a-zA-Z0-9_]*;
+INVALID_ID_CHAR     :   ([a-zA-Z_] ~[CHAR]+ [a-zA-Z0-9_]*)+;
 
 // MISC
 O_BRACE         :   '{';

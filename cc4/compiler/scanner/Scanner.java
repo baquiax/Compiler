@@ -29,10 +29,14 @@ public class Scanner
             System.out.println("stage: SCAN");
             if (Debug.debugEnabled("scan")) System.out.println("debugging: SCAN");
 	    LexerDecaf ld = new LexerDecaf(new ANTLRFileStream(Configuration.flags.get("inputFile")));
-	    Token t = ld.nextToken();
-	    while (t.getType() != Token.EOF) {
-		System.out.println(t.getText() + " " + t.getType());
-		t = ld.nextToken();
+	    while (ld.nextToken().getType() != Token.EOF) {}
+	    ArrayList<String[]> rt = ld.getRecognizedTokens();
+	    ArrayList<String[]> errors = ld.getErrors();
+	    for (String[] data: errors) {
+		for (int i = 0; i < data.length; i++) {
+		    System.out.print(data[i] + "\t");
+		}
+		System.out.println("");
 	    }
         }
     }

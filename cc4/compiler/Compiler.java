@@ -135,6 +135,7 @@ public class Compiler {
 	    }
 	} catch (Exception e) {
 	    //Cath someone error.
+	    e.printStackTrace();
 	}
     }
 

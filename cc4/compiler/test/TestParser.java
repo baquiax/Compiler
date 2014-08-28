@@ -5,7 +5,7 @@ import compiler.parser.ParserDecaf;
 public class TestParser {
   public static void main(String[] args) throws Exception {
     try {     
-  (new ParserDecaf(new CommonTokenStream(new LexerDecaf(new ANTLRFileStream("test.txt"))))).start();
+  (new ParserDecaf(new CommonTokenStream(new LexerDecaf(new ANTLRFileStream("test2.decaf"))))).start();
     } catch (ArrayIndexOutOfBoundsException aiobe) {
       System.err.println("usage: java Main <file>\nwhere file is the path to the filename with the tokens");
       System.exit(1);

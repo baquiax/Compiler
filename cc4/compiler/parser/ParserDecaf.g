@@ -15,19 +15,19 @@ options {
 start			: 	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE EOF	# inicio
 				;
 
-var_decl		: 	id 															# oneId
+var_deriv		: 	id 															# oneId
 				|	id O_BRACKET int_literal C_BRACKET 							# array
-				| 	id COMMA var_decl											# variousId
-				|	id O_BRACKET int_literal C_BRACKET COMMA var_decl			# variousArray
+				| 	id COMMA var_deriv											# variousId
+				|	id O_BRACKET int_literal C_BRACKET COMMA var_deriv			# variousArray
 				;
 
-field_decl    	: 	type var_decl EOL 											# varDeclaration
+field_decl    	: 	type var_deriv EOL 											# varDeclaration
 				;
 
-method_deriv	:	INT id 														# integerType
-				|	BOOLEAN id 													# booleanType
-				|	INT id COMMA method_deriv 									# integerVariousType
-				|	BOOLEAN id COMMA method_deriv								# booleanVariousType
+method_deriv	:	type id 													# simpleType
+				|	type id COMMA method_deriv 									# composedType
+				|	type var_deriv												# simpleArrayType
+				|	type var_deriv COMMA method_deriv							# composedArrayType
 				;
 
 method_decl   	: 	type id O_PAR C_PAR block 									# methodSimple
@@ -37,6 +37,9 @@ method_decl   	: 	type id O_PAR C_PAR block 									# methodSimple
 				;
 
 block			:	O_BRACE var_decl* statement* C_BRACE						# blockConstruction
+				;
+
+var_decl		:	type var_deriv EOL 											# simpleVarDecl
 				;
 
 type			:	INT 														# typeInt
@@ -69,7 +72,6 @@ callout_deriv	:	callout_arg COMMA callout_deriv 							# variousCallout
 				;
 
 method_call		:	method_name O_PAR expr_deriv C_PAR							# methodCallComposed
-				|	CALLOUT O_PAR string_literal C_PAR							# calloutCallSimple
 				|	CALLOUT O_PAR string_literal COMMA callout_deriv C_PAR		# calloutCallComposed
 				;
 

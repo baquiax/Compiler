@@ -26,7 +26,7 @@ lexer grammar LexerDecaf;
 }
 
 WHITESPACE  	:   ( '\t' | ' ' | '\r' | '\n')+ { skip(); } ;
-COMMENT     	:   '//' ~['\n'] '\n' { skip(); } ;
+COMMENT     	:   '//' ~['\n']* '\n' { skip(); } ;
 
 /**
  * TODO

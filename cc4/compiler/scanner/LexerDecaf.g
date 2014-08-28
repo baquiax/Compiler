@@ -16,9 +16,12 @@ lexer grammar LexerDecaf;
       return this.errors;
   }
 
-  private String getErrorDesc(CharStream cs, int index) {
-      int si = index - 1;
-      return cs.getText(new Interval(((si >= 0) ? si : 0), index));
+  private String getErrorDesc(String text, int index) {
+      int hasNewLine = text.indexOf('\n');
+      if (hasNewLine > -1) {
+          text = text.substring(0, hasNewLine);
+      }
+      return  text;
   }
 }
 
@@ -98,11 +101,11 @@ LESS_THAN			    :	'<'       { recognizedTokens.add(new String[] {String.valueOf(
 LESS_EQUAL_THAN		:	'<='      { recognizedTokens.add(new String[] {String.valueOf(getLine()), "LESS_EQUAL_THAN", getText()});};
 
 //ERRORS
-INVALID_CHAR       :   ~[CHAR]              {errors.add(new String[] {String.valueOf(getLine()), "UNRECOGNIZED CHAR", getErrorDesc(getInputStream(), getCharIndex())});};
-WHITHOUT_S_QUOTE   :   '\'' ~['\'']* '\n'   {errors.add(new String[] {String.valueOf(getLine()), "WITHOUT_SIMPLE_QUOTE", getErrorDesc(getInputStream(), getCharIndex())});};
-WHITHOUT_D_QUOTE   :   '\"' ~['\"']* '\n'   {errors.add(new String[] {String.valueOf(getLine()), "WITHOUT_DOUBLE_QUOTE", getErrorDesc(getInputStream(), getCharIndex())});};
-MULTIPLE_DOT       :   DOT(DOT)+            {errors.add(new String[] {String.valueOf(getLine()), "MULTIPLE DOT", getErrorDesc(getInputStream(), getCharIndex())});};
-MULTIPLE_COMMA     :   COMMA(COMMA)+        {errors.add(new String[] {String.valueOf(getLine()), "MULTIPLE COMMA", getErrorDesc(getInputStream(), getCharIndex())});};
-MULTIPLE_EOL       :   EOL(EOL)+            {errors.add(new String[] {String.valueOf(getLine()), "UNESPECTED END OF LINE", getErrorDesc(getInputStream(), getCharIndex())});};
-INVALID_ID         :   [0-9]+ [a-zA-Z0-9_]* {errors.add(new String[] {String.valueOf(getLine()), "INVALID VAR NAME", getText(), getErrorDesc(getInputStream(), getCharIndex())});};
-INVALID_OPERATOR   :   ALL_L_OPERATOR[ALL_L_OPERATOR]+ {errors.add(new String[] {String.valueOf(getLine()), "INVALID OPERATOR", getErrorDesc(getInputStream(), getCharIndex())});};
+WHITHOUT_S_QUOTE   :   '\'' ~['\'']* '\n'   {errors.add(new String[] {String.valueOf(getLine()), "WITHOUT_SIMPLE_QUOTE", getErrorDesc(getText(), getCharIndex())});};
+WHITHOUT_D_QUOTE   :   '\"' ~['\"']* '\n'   {errors.add(new String[] {String.valueOf(getLine()), "WITHOUT_DOUBLE_QUOTE", getErrorDesc(getText(), getCharIndex())});};
+MULTIPLE_DOT       :   DOT(DOT)+            {errors.add(new String[] {String.valueOf(getLine()), "MULTIPLE DOT", getErrorDesc(getText(), getCharIndex())});};
+MULTIPLE_COMMA     :   COMMA(COMMA)+        {errors.add(new String[] {String.valueOf(getLine()), "MULTIPLE COMMA", getErrorDesc(getText(), getCharIndex())});};
+MULTIPLE_EOL       :   EOL(EOL)+            {errors.add(new String[] {String.valueOf(getLine()), "UNESPECTED END OF LINE", getErrorDesc(getText(), getCharIndex())});};
+INVALID_ID         :   [0-9]+ [a-zA-Z0-9_]* {errors.add(new String[] {String.valueOf(getLine()), "INVALID VAR NAME", getText(), getErrorDesc(getText(), getCharIndex())});};
+INVALID_CHAR       :   ~[CHAR]              {errors.add(new String[] {String.valueOf(getLine()), "UNRECOGNIZED CHAR", getErrorDesc(getText(), getCharIndex())});};
+INVALID_OPERATOR   :   ALL_L_OPERATOR[ALL_L_OPERATOR]+ {errors.add(new String[] {String.valueOf(getLine()), "INVALID OPERATOR", getErrorDesc(getText(), getCharIndex())});};

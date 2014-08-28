@@ -4,6 +4,10 @@ import compiler.lib.Configuration;
 import java.util.Hashtable;
 import java.util.ArrayList;
 import org.antlr.v4.runtime.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 /**
  * Esta clase represetna el nivel de analisis,
@@ -31,6 +35,7 @@ public class Scanner
 	    LexerDecaf ld = new LexerDecaf(new ANTLRFileStream(Configuration.flags.get("inputFile")));
 	    while (ld.nextToken().getType() != Token.EOF) {}
 	    ArrayList<String[]> rt = ld.getRecognizedTokens();
+	    this.saveTokensRecognized("recognized.tokens", rt);
 	    ArrayList<String[]> errors = ld.getErrors();
 	    for (String[] data: errors) {
 		for (int i = 0; i < data.length; i++) {
@@ -39,5 +44,24 @@ public class Scanner
 		System.out.println("");
 	    }
         }
+    }
+
+    private void saveTokensRecognized(String fileName, ArrayList<String[]> tokens) {
+	fileName = Configuration.getCurrentFolderPath() + "/" + fileName;
+	File outputFile = new File(fileName);
+	try {
+	    outputFile.createNewFile();			
+	    FileWriter fwriter = new FileWriter(fileName);
+	    PrintWriter pwriter = new PrintWriter(fwriter);
+	    for (String[] data : tokens) {
+		for (int i = 0; i < data.length; i++) { 
+		    pwriter.print(data[i] + "\t");
+		}
+		pwriter.println("");
+	    }	    
+	    fwriter.close();	
+	} catch (Exception e) {
+	    System.err.println("No se ha podido guardar el archivo de salida.");
+	}
     }
 }

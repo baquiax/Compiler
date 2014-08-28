@@ -95,10 +95,10 @@ OR          :	'||'    { recognizedTokens.add(new String[] {String.valueOf(getLin
 fragment ALL_L_OPERATOR  :   AND | OR | EQUAL | NEGATION | NOT_EQUAL;
 
 // ARITHMETIC-LOGIC OPERATOR
-GREAT_THAN		    :	'>'     { recognizedTokens.add(new String[] {String.valueOf(getLine()), "GREAT_THAN", getText()});};
-GREAT_EQUAL_THAN	:	'>='    { recognizedTokens.add(new String[] {String.valueOf(getLine()), "GREAT_EQUAL_THAN", getText()});};
+GREAT_THAN          :	'>'     { recognizedTokens.add(new String[] {String.valueOf(getLine()), "GREAT_THAN", getText()});};
+GREAT_EQUAL_THAN    :	'>='    { recognizedTokens.add(new String[] {String.valueOf(getLine()), "GREAT_EQUAL_THAN", getText()});};
 LESS_THAN           :	'<'     { recognizedTokens.add(new String[] {String.valueOf(getLine()), "LESS_THAN", getText()});};
-LESS_EQUAL_THAN		:	'<='    { recognizedTokens.add(new String[] {String.valueOf(getLine()), "LESS_EQUAL_THAN", getText()});};
+LESS_EQUAL_THAN     :	'<='    { recognizedTokens.add(new String[] {String.valueOf(getLine()), "LESS_EQUAL_THAN", getText()});};
 
 //ERRORS
 WHITHOUT_S_QUOTE   :   '\'' ~['\'']* '\n'   {errors.add(new String[] {String.valueOf(getLine()), "WITHOUT_SIMPLE_QUOTE", getErrorDesc(getText(), getCharIndex())});};

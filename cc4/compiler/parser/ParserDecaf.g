@@ -12,34 +12,31 @@ options {
  * PARSER RULES
  *------------------------------------------------------------------*/
 
-start			: 	CLASS_PROGRAM O_BRACE field_decl method_decl C_BRACE EOF	# inicio
+start			: 	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE EOF	# inicio
 				;
 
 var_decl		: 	id 															# oneId
 				|	id O_BRACKET int_literal C_BRACKET 							# array
-				| 	id COMA var_decl											# variousId
-				|	id O_BRACKET int_literal C_BRACKET COMA var_decl			# variousArray
-				|																# epsilonId
+				| 	id COMMA var_decl											# variousId
+				|	id O_BRACKET int_literal C_BRACKET COMMA var_decl			# variousArray
 				;
 
 field_decl    	: 	type var_decl EOL 											# varDeclaration
-				|																# epsilonVar
 				;
 
 method_deriv	:	INT id 														# integerType
 				|	BOOLEAN id 													# booleanType
-				|	INT id COMA method_deriv 									# integerVariousType
-				|	BOOLEAN id COMA method_deriv								# booleanVariousType
+				|	INT id COMMA method_deriv 									# integerVariousType
+				|	BOOLEAN id COMMA method_deriv								# booleanVariousType
 				;
 
 method_decl   	: 	type id O_PAR C_PAR block 									# methodSimple
 				|	type id O_PAR method_deriv C_PAR block 						# methodComposed
 				|	VOID id O_PAR C_PAR block									# methodVoidSimple
 				|	VOID id O_PAR method_deriv C_PAR block						# methodVoidComposed
-				|																# epsilonMethod
 				;
 
-block			:	O_BRACE var_decl statement C_BRACE							# blockConstruction
+block			:	O_BRACE var_decl* statement* C_BRACE						# blockConstruction
 				;
 
 type			:	INT 														# typeInt
@@ -50,32 +47,30 @@ statement		: 	location assign_op expr EOL 								# locationAsign
 				|	method_call EOL												# callMethod
 				|	IF O_PAR expr C_PAR block 									# ifSimple
 				| 	IF O_PAR expr C_PAR block ELSE block 						# ifComposed
-				|	FOR id ASIGN expr COMA expr block 							# forBucle
+				|	FOR id ASSIGN expr COMMA expr block 						# forBucle
 				|	RETURN EOL 													# returnEmpty
 				|	RETURN expr EOL 											# returnValue
 				|	BREAK EOL													# exitBreak
 				|	CONTINUE EOL												# continueInstruction
 				| 	block 														# constructionBlock
-				|																# epsilonStatement
 				;
 
-assign_op		:	ASIGN 														# asignValue
+assign_op		:	ASSIGN 														# asignValue
 				|	ADD_ASSIGN 													# asignValuePlus
 				|	SUB_ASSIGN 													# asignValueMinus
 				;
 
-expr_deriv		:	expr COMA expr_deriv 										# variousExpresion
+expr_deriv		:	expr COMMA expr_deriv 										# variousExpresion
 				|	expr 														# oneExpresion
-				|	 															# epsilonExprDeriv
 				;
 
-callout_deriv	:	callout_arg COMA callout_deriv 								# variousCallout
+callout_deriv	:	callout_arg COMMA callout_deriv 							# variousCallout
 				|	callout_arg													# oneCallout
 				;
 
 method_call		:	method_name O_PAR expr_deriv C_PAR							# methodCallComposed
 				|	CALLOUT O_PAR string_literal C_PAR							# calloutCallSimple
-				|	CALLOUT O_PAR string_literal COMA callout_deriv C_PAR		# calloutCallComposed
+				|	CALLOUT O_PAR string_literal COMMA callout_deriv C_PAR		# calloutCallComposed
 				;
 
 method_name		:	id 															# methodName
@@ -121,8 +116,8 @@ eq_op			: 	EQUAL 														# equalValue
 				|	NOT_EQUAL 													# equalNotValue
 				;
 
-cond_op			:	SC_AMP														# condAmperson
-				|	SC_PIPE														# condPipe
+cond_op			:	AND															# condAmperson
+				|	OR															# condPipe
 				;
 
 literal 		:	int_literal 												# litInt

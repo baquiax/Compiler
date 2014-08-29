@@ -6,13 +6,20 @@ options {
 
 @parser::header{
   package compiler.parser;
+  import java.util.ArrayList;
+}
+
+@parser::members {
+	private  ArrayList<String[]> displayDerivation = new ArrayList<String[]>();
 }
 
 /*-----------------------------------------------------------------
  * PARSER RULES
  *------------------------------------------------------------------*/
 
-start			: 	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE EOF	# inicio
+start			: 	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE EOF
+					{displayDerivation.add("CLASS_PROGRAM");}
+					#inicio
 				;
 
 var_deriv		: 	id 															# oneId

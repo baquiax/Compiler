@@ -44,7 +44,11 @@ public class CC4Parser
         	if (errors.size() > 0) {
 		    saveProductions("derivations.errors", errors);
 		    for (String[] list : errors) {
-			System.out.println(">>>" + list[0]);
+			if (list.length > 2) {
+			    System.out.println("ERROR L:" + list[1] + "\n" + list[0]);
+			    System.out.println(String.format("%" + list[2] +"s", "^"));
+			    System.out.println("");
+			}
 		    }	
         	}
         	else

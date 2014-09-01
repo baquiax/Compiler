@@ -382,8 +382,11 @@ string_literal	:	STRING_LITERAL
 error_type		:	type type var_deriv EOL;
 
 error_assign	:	id ASSIGN* EOL
+                    {this.errors.add(new String[] {$id.text + " " + $ASSIGN.text + " " + $EOL.text, String.valueOf($ASSIGN.line),String.valueOf($EOL.pos - 1)});}
 				|	id ADD_ASSIGN EOL
+                    {this.errors.add(new String[] {$id.text + " " + $ADD_ASSIGN.text + " " + $EOL.text, String.valueOf($ADD_ASSIGN.line),String.valueOf($EOL.pos - 1)});}
 				|	id SUB_ASSIGN EOL
+                    {this.errors.add(new String[] {$id.text + " " + $SUB_ASSIGN.text + " " + $EOL.text, String.valueOf($SUB_ASSIGN.line),String.valueOf($EOL.pos - 1)});}
 				;
 
 err_init_assign	:	type* var_deriv ASSIGN expr EOL

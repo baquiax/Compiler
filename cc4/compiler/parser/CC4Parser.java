@@ -28,7 +28,11 @@ public class CC4Parser
 	 * Inicia el proceso del parser.
 	 */
 	public void parse() {        
-        if (Configuration.stopStage >= CC4Parser.level) {
+	    if (Configuration.stopStage >= CC4Parser.level) {
+		if (scanner.getLexer().getErrors().size() > 0) {
+		    System.err.println("Solve the errors to continue");
+		    return;
+		}
         	System.out.println("stage: PARSE");
         	if (Debug.debugEnabled("parse")) System.out.println("debugging: PARSE");
         	
@@ -36,21 +40,18 @@ public class CC4Parser
         	this.parser.start();
         	ArrayList<String[]> derivations = this.parser.getDerivations();
         	ArrayList<String[]> errors = this.parser.getErrorsDerivation();
-        	this.saveProductions("derivations.context", derivations);
-        	/*for (String[] list : derivations) {
-        		System.out.println(">>>" + list[0]);
-        	}*/
-        	if (errors.size()!=0) {
-        		saveProductions("derivations.errors", errors);
-        		for (String[] list : errors) {
-        			System.out.println(">>>" + list[0]);
-        		}	
+        	this.saveProductions("derivations.context", derivations);        	
+        	if (errors.size() > 0) {
+		    saveProductions("derivations.errors", errors);
+		    for (String[] list : errors) {
+			System.out.println(">>>" + list[0]);
+		    }	
         	}
         	else
-        		System.out.println("PARSER EJECUTADO EXITOSAMENTE");
-        }
+		    System.out.println("PARSER EJECUTADO EXITOSAMENTE");
+	    }
 	}
-	
+    
 	private void saveProductions(String fileName, ArrayList<String[]> productions) {
 		fileName = Configuration.getCurrentFolderPath() + "/" + fileName;
 		File outputFile = new File(fileName);

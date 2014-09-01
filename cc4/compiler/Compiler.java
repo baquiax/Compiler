@@ -106,7 +106,7 @@ public class Compiler {
 
         //Flag target default si no es indicado.
         if (flags.get("-target") == null) {
-		flags.put("-target", "parse");
+		  flags.put("-target", "parse");
         }
 
         int stopStage = 1;
@@ -119,24 +119,24 @@ public class Compiler {
         Configuration.stopStage=stopStage;
 
         /*INSTANCIAS DE CLASES*/
-	try {
-	    if (Configuration.stopStage==1) {
-		instanceScanner();
-	    } else if (Configuration.stopStage==2) {
-		instanceParser(instanceScanner());
-	    } else if (Configuration.stopStage==3) {
-		instanceSemantic(instanceParser(instanceScanner()));
-	    } else if (Configuration.stopStage==4) {
-            instanceAst(instanceSemantic(instanceParser(instanceScanner())));
-	    } else if (Configuration.stopStage==5) {
-		instanceIrt(instanceAst(instanceSemantic(instanceParser(instanceScanner()))));
-	    } else if (Configuration.stopStage==6) {
-		instanceCodegen(instanceIrt(instanceAst(instanceSemantic(instanceParser(instanceScanner())))));
-	    }
-	} catch (Exception e) {
-	    //Cath someone error.
-	    e.printStackTrace();
-	}
+        try {
+            if (Configuration.stopStage==1) {
+                instanceScanner();
+            } else if (Configuration.stopStage==2) {
+                instanceParser(instanceScanner());
+            } else if (Configuration.stopStage==3) {
+                instanceSemantic(instanceParser(instanceScanner()));
+            } else if (Configuration.stopStage==4) {
+                instanceAst(instanceSemantic(instanceParser(instanceScanner())));
+            } else if (Configuration.stopStage==5) {
+                instanceIrt(instanceAst(instanceSemantic(instanceParser(instanceScanner()))));
+            } else if (Configuration.stopStage==6) {
+                instanceCodegen(instanceIrt(instanceAst(instanceSemantic(instanceParser(instanceScanner())))));
+            }
+        } catch (Exception e) {
+            //Cath someone error.
+            e.printStackTrace();
+        }
     }
 
     public static boolean searchInArray(String toFind, String[] findIn, boolean caseSensitive, String separator) {

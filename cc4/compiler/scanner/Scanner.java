@@ -18,7 +18,8 @@ public class Scanner
 {
     public static final int level = 1;
     private ArrayList<String> tokens;
-    
+    private LexerDecaf ld;
+
     public Scanner() {
         this.tokens = new ArrayList<String>();
     }
@@ -32,38 +33,45 @@ public class Scanner
         if (Configuration.stopStage >= Scanner.level) {
             System.out.println("stage: SCAN");
             if (Debug.debugEnabled("scan")) System.out.println("debugging: SCAN");
-	    LexerDecaf ld = new LexerDecaf(new ANTLRFileStream(Configuration.flags.get("inputFile")));
-	    while (ld.nextToken().getType() != Token.EOF) {}
-	    ArrayList<String[]> rt = ld.getRecognizedTokens();
-	    this.saveTokensRecognized("recognized.tokens", rt);
-
-	    ArrayList<String[]> errors = ld.getErrors();
-	    for (String[] data: errors) {
-		System.out.println("LINE " + data[0] + "\t" + data[1]);
-		System.out.println(data[2]);
-		int size = String.valueOf(data[2]).length() - 1;
-		size = (size > 0) ? size : 1;
-		System.out.println(String.format("%" + size + "s\n", "^"));
-	    }
+		    LexerDecaf ld = new LexerDecaf(new ANTLRFileStream(Configuration.flags.get("inputFile")));
+		    this.ld = ld;
+		    while (this.ld.nextToken().getType() != Token.EOF) {}
+		    this.ld.reset();
+			if (Debug.debugEnabled("scan")) {
+				ArrayList<String[]> rt = this.ld.getRecognizedTokens();
+		    	this.saveTokensRecognized("recognized.tokens", rt);	
+			}		    			    
+		    ArrayList<String[]> errors = this.ld.getErrors();
+		    for (String[] data: errors) {
+				System.out.println("LINE " + data[0] + "\t" + data[1]);
+				System.out.println(data[2]);
+				int size = String.valueOf(data[2]).length() - 1;
+				size = (size > 0) ? size : 1;
+				System.out.println(String.format("%" + size + "s\n", "^"));
+		    }
         }
     }
 
     private void saveTokensRecognized(String fileName, ArrayList<String[]> tokens) {
-	fileName = Configuration.getCurrentFolderPath() + "/" + fileName;
-	File outputFile = new File(fileName);
-	try {
-	    outputFile.createNewFile();			
-	    FileWriter fwriter = new FileWriter(fileName);
-	    PrintWriter pwriter = new PrintWriter(fwriter);
-	    for (String[] data : tokens) {
-		for (int i = 0; i < data.length; i++) { 
-		    pwriter.print(data[i] + "\t");
+		fileName = Configuration.getCurrentFolderPath() + "/" + fileName;
+		File outputFile = new File(fileName);
+		try {
+		    outputFile.createNewFile();
+		    FileWriter fwriter = new FileWriter(fileName);
+		    PrintWriter pwriter = new PrintWriter(fwriter);
+		    for (String[] data : tokens) {
+				for (int i = 0; i < data.length; i++) { 
+				    pwriter.print(data[i] + "\t");
+				}
+				pwriter.println("");
+		    }	    
+		    fwriter.close();	
+		} catch (Exception e) {
+		    System.err.println("No se ha podido guardar el archivo de salida.");
 		}
-		pwriter.println("");
-	    }	    
-	    fwriter.close();	
-	} catch (Exception e) {
-	    System.err.println("No se ha podido guardar el archivo de salida.");
-	}
+    }
+
+    public LexerDecaf getLexer() {
+    	return this.ld;
     }
 }

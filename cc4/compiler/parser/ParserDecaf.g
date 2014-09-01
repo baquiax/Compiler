@@ -10,7 +10,11 @@ options {
 }
 
 @parser::members {
-	private  ArrayList<String[]> displayDerivation = new ArrayList<String[]>();
+	private  ArrayList<String[]> derivations = new ArrayList<String[]>();
+
+	public ArrayList<String[]> getDerivations() {
+		return this.derivations;
+	}
 }
 
 /*-----------------------------------------------------------------
@@ -18,7 +22,7 @@ options {
  *------------------------------------------------------------------*/
 
 start			: 	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE EOF
-					{displayDerivation.add("CLASS_PROGRAM");}
+					{derivations.add(new String[] {"CLASS_PROGRAM"});}
 					#inicio
 				;
 

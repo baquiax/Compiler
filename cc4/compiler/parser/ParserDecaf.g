@@ -379,7 +379,9 @@ string_literal	:	STRING_LITERAL
 				;
 
 //CAPTURA DE ERRORES
-error_type		:	type type var_deriv EOL;
+error_type		:	type type var_deriv EOL
+					{this.errors.add(new String[] {$type.text +" "+ $type.text +" "+ $var_deriv.text +" "+ $EOL.text, String.valueOf($EOL.line), String.valueOf($EOL.pos -1)});}
+				;
 
 error_assign	:	id ASSIGN* EOL
                     {this.errors.add(new String[] {$id.text + " " + $ASSIGN.text + " " + $EOL.text, String.valueOf($ASSIGN.line),String.valueOf($EOL.pos - 1)});}
@@ -390,77 +392,134 @@ error_assign	:	id ASSIGN* EOL
 				;
 
 err_init_assign	:	type* var_deriv ASSIGN expr EOL
+					{this.errors.add(new String[] {$type.text +" "+ $var_deriv.text +" "+ $ASSIGN.text +" "+ $expr.text +" "+ $EOL.text, String.valueOf($ASSIGN.line), String.valueOf($EOL.pos -1)});}
 				|	type* var_deriv ADD_ASSIGN expr EOL
+					{this.errors.add(new String[] {$type.text +" "+ $var_deriv.text +" "+ $ADD_ASSIGN.text +" "+ $expr.text +" "+ $EOL.text, String.valueOf($ADD_ASSIGN.line), String.valueOf($EOL.pos -1)});}
 				|	type* var_deriv SUB_ASSIGN expr EOL
+					{this.errors.add(new String[] {$type.text +" "+ $var_deriv.text +" "+ $SUB_ASSIGN.text +" "+ $expr.text +" "+ $EOL.text, String.valueOf($SUB_ASSIGN.line), String.valueOf($EOL.pos -1)});}
 				;
 
 error_eol		:	type* var_deriv MULTIPLE_EOL
+					{this.errors.add(new String[] {$type.text +" "+ $var_deriv.text +" "+ $MULTIPLE_EOL.text, String.valueOf($MULTIPLE_EOL.line), String.valueOf($MULTIPLE_EOL.pos -1)});}
 				|	location assign_op expr MULTIPLE_EOL
+					{this.errors.add(new String[] {$location.text +" "+ $assign_op.text +" "+ $expr.text +" "+ $MULTIPLE_EOL.text, String.valueOf($MULTIPLE_EOL.line), String.valueOf($MULTIPLE_EOL.pos -1)});}
 				|	method_call MULTIPLE_EOL
+					{this.errors.add(new String[] {$method_call.text +" "+ $MULTIPLE_EOL.text, String.valueOf($MULTIPLE_EOL.line), String.valueOf($MULTIPLE_EOL.pos -1)});}
 				|	RETURN MULTIPLE_EOL
+					{this.errors.add(new String[] {$RETURN.text +" "+ $MULTIPLE_EOL.text, String.valueOf($RETURN.line), String.valueOf($MULTIPLE_EOL.pos -1)});}
 				|	RETURN expr MULTIPLE_EOL
+					{this.errors.add(new String[] {$RETURN.text +" "+  $expr.text +" "+ $MULTIPLE_EOL.text, String.valueOf($RETURN.line), String.valueOf($MULTIPLE_EOL.pos -1)});}
 				|	BREAK MULTIPLE_EOL
+					{this.errors.add(new String[] {$BREAK.text +" "+ $MULTIPLE_EOL.text, String.valueOf($BREAK.line), String.valueOf($MULTIPLE_EOL.pos -1)});}
 				|	CONTINUE MULTIPLE_EOL
+					{this.errors.add(new String[] {$CONTINUE.text +" "+ $MULTIPLE_EOL.text, String.valueOf($CONTINUE.line), String.valueOf($MULTIPLE_EOL.pos -1)});}
 				;
 
 error_brace_mo	:	CLASS_PROGRAM O_BRACE O_BRACE+ field_decl* method_decl* C_BRACE EOF
+					{this.errors.add(new String[] {$CLASS_PROGRAM.text +" "+ $O_BRACE.text +" "+ $O_BRACE.text +" "+ $field_decl.text +" "+ $method_decl.text +" "+ $C_BRACE.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE C_BRACE+ EOF
+					{this.errors.add(new String[] {$CLASS_PROGRAM.text +" "+ $O_BRACE.text +" "+ $field_decl.text +" "+ $method_decl.text +" "+ $C_BRACE.text +" "+ $C_BRACE.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	O_BRACE O_BRACE+ var_decl* statement* C_BRACE
+					{this.errors.add(new String[] {$O_BRACE.text +" "+ $O_BRACE.text +" "+ $var_decl.text +" "+ $statement.text +" "+ $C_BRACE.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	O_BRACE var_decl* statement* C_BRACE C_BRACE+
+					{this.errors.add(new String[] {$O_BRACE.text +" "+ $var_decl.text +" "+ $statement.text +" "+ $C_BRACE.text +" "+ $C_BRACE.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				;
 
 error_brace_mi	:	CLASS_PROGRAM O_BRACE field_decl* method_decl*
-				|	CLASS_PROGRAM field_decl* method_decl* C_BRACE 
+					{this.errors.add(new String[] {$CLASS_PROGRAM.text +" "+ $O_BRACE.text +" "+ $field_decl.text +" "+ $method_decl.text, String.valueOf($O_BRACE.line), String.valueOf($O_BRACE.pos -1)});}
+				|	CLASS_PROGRAM field_decl* method_decl* C_BRACE
+					{this.errors.add(new String[] {$CLASS_PROGRAM.text +" "+ $field_decl.text +" "+ $method_decl.text +" "+ $C_BRACE.text, String.valueOf($CLASS_PROGRAM.line), String.valueOf($C_BRACE.pos -1)});}
 				|	var_decl statement C_BRACE
+					{this.errors.add(new String[] {$var_decl.text +" "+ $statement.text +" "+ $C_BRACE.text, String.valueOf($C_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	O_BRACE var_decl statement
+					{this.errors.add(new String[] {$O_BRACE.text +" "+ $var_decl.text +" "+ $statement.text, String.valueOf($O_BRACE.line), String.valueOf($O_BRACE.pos -1)});}
 				;
 
 error_sintax	:	CLASS_PROGRAM O_BRACE char_literal field_decl* method_decl* C_BRACE
-				|	CLASS_PROGRAM O_BRACE string_literal field_decl* method_decl* C_BRACE 
+					{this.errors.add(new String[] {$CLASS_PROGRAM.text +" "+ $O_BRACE.text +" "+ $char_literal.text +" "+ $field_decl.text +" "+ $method_decl.text +" "+ $C_BRACE.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
+				|	CLASS_PROGRAM O_BRACE string_literal field_decl* method_decl* C_BRACE
+					{this.errors.add(new String[] {$CLASS_PROGRAM.text +" "+ $O_BRACE.text +" "+ $string_literal.text +" "+ $field_decl.text +" "+ $method_decl.text +" "+ $C_BRACE.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	CLASS_PROGRAM O_BRACE id field_decl* method_decl* C_BRACE
+					{this.errors.add(new String[] {$CLASS_PROGRAM.text +" "+ $O_BRACE.text +" "+ $id.text +" "+ $field_decl.text +" "+ $method_decl.text +" "+ $C_BRACE.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE char_literal
+					{this.errors.add(new String[] {$CLASS_PROGRAM.text +" "+ $O_BRACE.text +" "+ $field_decl.text +" "+ $method_decl.text +" "+ $C_BRACE.text +" "+ $char_literal.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE string_literal
+					{this.errors.add(new String[] {$CLASS_PROGRAM.text +" "+ $O_BRACE.text +" "+ $field_decl.text +" "+ $method_decl.text +" "+ $C_BRACE.text +" "+ $string_literal.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE id
+					{this.errors.add(new String[] {$CLASS_PROGRAM.text +" "+ $O_BRACE.text +" "+ $field_decl.text +" "+ $method_decl.text +" "+ $C_BRACE.text +" "+ $id.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	O_BRACE char_literal var_decl* statement* C_BRACE
+					{this.errors.add(new String[] {$O_BRACE.text +" "+ $char_literal.text +" "+ $var_decl.text +" "+ $statement.text +" "+ $C_BRACE.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	O_BRACE string_literal var_decl* statement* C_BRACE
+					{this.errors.add(new String[] {$O_BRACE.text +" "+ $string_literal.text +" "+ $var_decl.text +" "+ $statement.text +" "+ $C_BRACE.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	O_BRACE id var_decl* statement* C_BRACE
+					{this.errors.add(new String[] {$O_BRACE.text +" "+ $id.text +" "+ $var_decl.text +" "+ $statement.text +" "+ $C_BRACE.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	O_BRACE var_decl* statement* C_BRACE char_literal
+					{this.errors.add(new String[] {$O_BRACE.text +" "+ $var_decl.text +" "+ $statement.text +" "+ $C_BRACE.text +" "+ $char_literal.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	O_BRACE var_decl* statement* C_BRACE string_literal
+					{this.errors.add(new String[] {$O_BRACE.text +" "+ $var_decl.text +" "+ $statement.text +" "+ $C_BRACE.text +" "+ $string_literal.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	O_BRACE var_decl* statement* C_BRACE id
+					{this.errors.add(new String[] {$O_BRACE.text +" "+ $var_decl.text +" "+ $statement.text +" "+ $C_BRACE.text +" "+ $id.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				;
 
 err_brack_mo	:	id O_BRACKET O_BRACKET+ int_literal C_BRACKET
+					{this.errors.add(new String[] {$id.text +" "+ $O_BRACKET.text +" "+ $O_BRACKET.text +" "+ $int_literal.text +" "+ $C_BRACKET.text, String.valueOf($O_BRACKET.line), String.valueOf($O_BRACKET.pos -1)});}
 				|	id O_BRACKET int_literal C_BRACKET C_BRACKET+
+					{this.errors.add(new String[] {$id.text +" "+ $O_BRACKET.text +" "+ $int_literal.text +" "+ $C_BRACKET.text +" "+ $C_BRACKET.text, String.valueOf($O_BRACKET.line), String.valueOf($C_BRACKET.pos -1)});}
 				|	id O_BRACKET O_BRACKET+ int_literal C_BRACKET COMMA var_deriv
+					{this.errors.add(new String[] {$id.text +" "+ $O_BRACKET.text +" "+ $O_BRACKET.text +" "+ $int_literal.text +" "+ $C_BRACKET.text +" "+ $COMMA.text +" "+ $var_deriv.text, String.valueOf($O_BRACKET.line), String.valueOf($O_BRACKET.pos -1)});}
 				|	id O_BRACKET int_literal C_BRACKET C_BRACKET+ COMMA var_deriv
+					{this.errors.add(new String[] {$id.text +" "+ $O_BRACKET.text +" "+ $int_literal.text +" "+ $C_BRACKET.text +" "+ $C_BRACKET.text +" "+ $COMMA.text +" "+ $var_deriv.text, String.valueOf($O_BRACKET.line), String.valueOf($C_BRACKET.pos -1)});}
 				;
 
 err_brack_mi	:	id O_BRACKET int_literal
+					{this.errors.add(new String[] {$id.text +" "+ $O_BRACKET.text +" "+ $int_literal.text, String.valueOf($O_BRACKET.line), String.valueOf($O_BRACKET.pos -1)});}
 				|	id C_BRACKET
+					{this.errors.add(new String[] {$id.text +" "+ $C_BRACKET.text, String.valueOf($C_BRACKET.line), String.valueOf($C_BRACKET.pos -1)});}
 				|	id C_BRACKET COMMA var_deriv
+					{this.errors.add(new String[] {$id.text +" "+ $C_BRACKET.text +" "+ $COMMA.text +" "+ $var_deriv.text, String.valueOf($C_BRACKET.line), String.valueOf($COMMA.pos -1)});}
 				|	id O_BRACKET int_literal COMMA var_deriv
+					{this.errors.add(new String[] {$id.text +" "+ $O_BRACKET.text +" "+ $int_literal.text +" "+ $COMMA.text +" "+ $var_deriv.text, String.valueOf($O_BRACKET.line), String.valueOf($COMMA.pos -1)});}
 				;
 
 error_par_mo	:	type id O_PAR O_PAR+ C_PAR block
+					{this.errors.add(new String[] {$type.text +" "+ $id.text +" "+ $O_PAR.text +" "+ $O_PAR.text +" "+ $C_PAR.text +" "+ $block.text, String.valueOf($O_PAR.line), String.valueOf($O_PAR.pos -1)});}
 				|	type id O_PAR C_PAR C_PAR+ block
+					{this.errors.add(new String[] {$type.text +" "+ $id.text +" "+ $O_PAR.text +" "+ $C_PAR.text +" "+ $C_PAR.text +" "+ $block.text, String.valueOf($O_PAR.line), String.valueOf($C_PAR.pos -1)});}
 				|	type id O_PAR O_PAR+ method_deriv C_PAR block
+					{this.errors.add(new String[] {$type.text +" "+ $id.text +" "+ $O_PAR.text +" "+ $O_PAR.text +" "+ $method_deriv.text +" "+ $C_PAR.text +" "+ $block.text, String.valueOf($O_PAR.line), String.valueOf($O_PAR.pos -1)});}
 				|	type id O_PAR method_deriv C_PAR C_PAR+ block
+					{this.errors.add(new String[] {$type.text +" "+ $id.text +" "+ $O_PAR.text +" "+ $method_deriv.text +" "+ $C_PAR.text +" "+ $C_PAR.text +" "+ $block.text, String.valueOf($O_PAR.line), String.valueOf($C_PAR.pos -1)});}
 				|	VOID id O_PAR O_PAR+ C_PAR block
+					{this.errors.add(new String[] {$VOID.text +" "+ $id.text +" "+ $O_PAR.text +" "+ $O_PAR.text +" "+ $C_PAR.text +" "+ $block.text, String.valueOf($O_PAR.line), String.valueOf($O_PAR.pos -1)});}
 				|	VOID id O_PAR C_PAR C_PAR+ block
+					{this.errors.add(new String[] {$VOID.text +" "+ $id.text +" "+ $O_PAR.text +" "+ $C_PAR.text +" "+ $C_PAR.text +" "+ $block.text, String.valueOf($O_PAR.line), String.valueOf($C_PAR.pos -1)});}
 				|	VOID id O_PAR O_PAR+ method_deriv C_PAR block
+					{this.errors.add(new String[] {$VOID.text +" "+ $id.text +" "+ $O_PAR.text +" "+ $O_PAR.text +" "+ $method_deriv.text +" "+ $C_PAR.text +" "+ $block.text, String.valueOf($O_PAR.line), String.valueOf($O_PAR.pos -1)});}
 				|	VOID id O_PAR method_deriv C_PAR C_PAR+ block
+					{this.errors.add(new String[] {$VOID.text +" "+ $id.text +" "+ $O_PAR.text +" "+ $method_deriv.text +" "+ $C_PAR.text +" "+ $C_PAR.text +" "+ $block.text, String.valueOf($O_PAR.line), String.valueOf($C_PAR.pos -1)});}
 				|	IF O_PAR O_PAR+ expr C_PAR block
+					{this.errors.add(new String[] {$IF.text +" "+ $O_PAR.text +" "+ $O_PAR.text +" "+ $expr.text +" "+ $C_PAR.text +" "+ $block.text, String.valueOf($O_PAR.line), String.valueOf($O_PAR.pos -1)});}
 				|	IF O_PAR expr C_PAR C_PAR+ block
+					{this.errors.add(new String[] {$IF.text +" "+ $O_PAR.text +" "+ $expr.text +" "+ $C_PAR.text +" "+ $C_PAR.text +" "+ $block.text, String.valueOf($O_PAR.line), String.valueOf($C_PAR.pos -1)});}
 				|	IF O_PAR O_PAR+ expr C_PAR block ELSE block
+					{this.errors.add(new String[] {$IF.text +" "+ $O_PAR.text +" "+ $O_PAR.text +" "+ $expr.text +" "+ $C_PAR.text +" "+ $block.text +" "+ $ELSE.text +" "+ $block.text, String.valueOf($O_PAR.line), String.valueOf($O_PAR.pos -1)});}
 				|	IF O_PAR expr C_PAR C_PAR+ block ELSE block
+					{this.errors.add(new String[] {$IF.text +" "+ $O_PAR.text +" "+ $expr.text +" "+ $C_PAR.text +" "+ $C_PAR.text +" "+ $block.text +" "+ $ELSE.text +" "+ $block.text, String.valueOf($O_PAR.line), String.valueOf($C_PAR.pos -1)});}
 				|	method_name O_PAR O_PAR+ expr_deriv C_PAR
+					{this.errors.add(new String[] {$method_name.text +" "+ $O_PAR.text +" "+ $O_PAR.text +" "+ $expr_deriv.text +" "+ $C_PAR.text, String.valueOf($O_PAR.line), String.valueOf($O_PAR.pos -1)});}
 				|	method_name O_PAR expr_deriv C_PAR C_PAR+
+					{this.errors.add(new String[] {$method_name.text +" "+ $O_PAR.text +" "+ $expr_deriv.text +" "+ $C_PAR.text +" "+ $C_PAR.text, String.valueOf($O_PAR.line), String.valueOf($C_PAR.pos -1)});}
 				|	CALLOUT O_PAR O_PAR+ string_literal COMMA callout_deriv C_PAR
+					{this.errors.add(new String[] {$CALLOUT.text +" "+ $O_PAR.text +" "+ $O_PAR.text +" "+ $string_literal.text +" "+ $COMMA.text +" "+ $callout_deriv.text +" "+ $C_PAR.text, String.valueOf($CALLOUT.line), String.valueOf($O_PAR.pos -1)});}
 				|	CALLOUT O_PAR string_literal COMMA callout_deriv C_PAR C_PAR+
+					{this.errors.add(new String[] {$CALLOUT.text +" "+ $O_PAR.text +" "+ $string_literal.text +" "+ $COMMA.text +" "+ $callout_deriv.text +" "+ $C_PAR.text +" "+ $C_PAR.text, String.valueOf($CALLOUT.line), String.valueOf($C_PAR.pos -1)});}
 				|	O_PAR O_PAR+ expr C_PAR
+					{this.errors.add(new String[] {$O_PAR.text +" "+ $O_PAR.text +" "+ $expr.text +" "+ $C_PAR.text, String.valueOf($O_PAR.line), String.valueOf($O_PAR.pos -1)});}
 				|	O_PAR expr C_PAR C_PAR+
+					{this.errors.add(new String[] {$O_PAR.text +" "+ $expr.text +" "+ $C_PAR.text +" "+ $C_PAR.text, String.valueOf($O_PAR.line), String.valueOf($C_PAR.pos -1)});}
 				;
 
+//PENDIENTE
 error_par_mi	:	type id C_PAR block	
 				|	type id O_PAR block
 				;

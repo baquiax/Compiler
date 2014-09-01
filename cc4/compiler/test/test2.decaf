@@ -7,6 +7,7 @@ class Program {
 	boolean var2, les56, joja, _1_5_4;
 	int a;
 	int b;
+	boolean var[2];
 	
 	int create_list(int v) {
 		int value;
@@ -57,10 +58,10 @@ class Program {
 
 	// function that computes the greatest common divisor
 	int gcd(int a, int b) {
-		if (b == 0) { 
+		if (b == 0) {
 			break;
 			return(a); 
-		} else { 
+		} else {
 			return(gcd(b, a % b)); 
 		}
 	}

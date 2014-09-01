@@ -44,7 +44,7 @@ start			: 	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE EOF
 var_deriv		: 	id 															
 					{derivations.add(new String[] {"var_deriv: id"});}
 					# oneId
-				|	id O_BRACKET int_literal C_BRACKET 							
+				|	id O_BRACKET int_literal C_BRACKET
 					{derivations.add(new String[] {"var_deriv: id O_BRACKET int_literal C_BRACKET"});}
 					# array
 				| 	id COMMA var_deriv											
@@ -53,6 +53,12 @@ var_deriv		: 	id
 				|	id O_BRACKET int_literal C_BRACKET COMMA var_deriv			
 					{derivations.add(new String[] {"var_deriv: id O_BRACKET int_literal C_BRACKET COMMA var_deriv"});}
 					# variousArray
+				|	err_brack_mo
+					{err++;errors.add(new String[] {"Error"+err+":Hay '[' ']' de mas"});}
+					# errorBracketMoreVar
+				|	err_brack_mi
+					{err++;errors.add(new String[] {"Error"+err+":Hay '[' ']' faltantes"});}
+					# errorBracketMissingVar
 				;
 
 field_decl    	: 	type var_deriv EOL
@@ -98,6 +104,9 @@ method_decl   	: 	type id O_PAR C_PAR block
 				|	VOID id O_PAR method_deriv C_PAR block
 					{derivations.add(new String[] {"method_decl: VOID id O_PAR method_deriv C_PAR block"});}
 					# methodVoidComposed
+				|	error_par_mo
+					{err++;errors.add(new String[] {"Error"+err+":Hay '(' ')' de mas"});}
+					# errorParMethod
 				;
 
 block			:	O_BRACE var_decl* statement* C_BRACE
@@ -169,6 +178,9 @@ statement		: 	location assign_op expr EOL
 				|	error_eol
 					{err++;errors.add(new String[] {"Error"+err+":Instruccion ';' repetida"});}
 					# errorStatementEol
+				|	error_par_mo
+					{err++;errors.add(new String[] {"Error"+err+":Hay '(' ')' de mas"});}
+					# errorParStatement
 				;
 
 assign_op		:	ASSIGN
@@ -204,6 +216,9 @@ method_call		:	method_name O_PAR expr_deriv C_PAR
 				|	CALLOUT O_PAR string_literal COMMA callout_deriv C_PAR
 					{derivations.add(new String[] {"method_call: CALLOUT O_PAR string_literal COMMA callout_deriv C_PAR"});}
 					# calloutCallComposed
+				|	error_par_mo
+					{err++;errors.add(new String[] {"Error"+err+":Hay '(' ')' de mas"});}
+					# errorParMethodCall
 				;
 
 method_name		:	id
@@ -240,6 +255,9 @@ expr			:	location
 				|	O_PAR expr C_PAR
 					{derivations.add(new String[] {"expr: O_PAR expr C_PAR"});}
 					# exprEnclosed
+				|	error_par_mo
+					{err++;errors.add(new String[] {"Error"+err+":Hay '(' ')' de mas"});}
+					# errorParExpr
 				;
 
 callout_arg		:	expr
@@ -406,4 +424,40 @@ error_sintax	:	CLASS_PROGRAM O_BRACE char_literal field_decl* method_decl* C_BRA
 				|	O_BRACE var_decl* statement* C_BRACE char_literal
 				|	O_BRACE var_decl* statement* C_BRACE string_literal
 				|	O_BRACE var_decl* statement* C_BRACE id
+				;
+
+err_brack_mo	:	id O_BRACKET O_BRACKET+ int_literal C_BRACKET
+				|	id O_BRACKET int_literal C_BRACKET C_BRACKET+
+				|	id O_BRACKET O_BRACKET+ int_literal C_BRACKET COMMA var_deriv
+				|	id O_BRACKET int_literal C_BRACKET C_BRACKET+ COMMA var_deriv
+				;
+
+err_brack_mi	:	id O_BRACKET int_literal
+				|	id C_BRACKET
+				|	id C_BRACKET COMMA var_deriv
+				|	id O_BRACKET int_literal COMMA var_deriv
+				;
+
+error_par_mo	:	type id O_PAR O_PAR+ C_PAR block
+				|	type id O_PAR C_PAR C_PAR+ block
+				|	type id O_PAR O_PAR+ method_deriv C_PAR block
+				|	type id O_PAR method_deriv C_PAR C_PAR+ block
+				|	VOID id O_PAR O_PAR+ C_PAR block
+				|	VOID id O_PAR C_PAR C_PAR+ block
+				|	VOID id O_PAR O_PAR+ method_deriv C_PAR block
+				|	VOID id O_PAR method_deriv C_PAR C_PAR+ block
+				|	IF O_PAR O_PAR+ expr C_PAR block
+				|	IF O_PAR expr C_PAR C_PAR+ block
+				|	IF O_PAR O_PAR+ expr C_PAR block ELSE block
+				|	IF O_PAR expr C_PAR C_PAR+ block ELSE block
+				|	method_name O_PAR O_PAR+ expr_deriv C_PAR
+				|	method_name O_PAR expr_deriv C_PAR C_PAR+
+				|	CALLOUT O_PAR O_PAR+ string_literal COMMA callout_deriv C_PAR
+				|	CALLOUT O_PAR string_literal COMMA callout_deriv C_PAR C_PAR+
+				|	O_PAR O_PAR+ expr C_PAR
+				|	O_PAR expr C_PAR C_PAR+
+				;
+
+error_par_mi	:	type id C_PAR block	
+				|	type id O_PAR block
 				;

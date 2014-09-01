@@ -1,30 +1,25 @@
 class Program {
-	int int value;
-	boolean next;;
+	int value;
+	boolean next;
 	int tintin[5], rinrin, _foo[4];
 	boolean ran, _fa_a[4],tang[5];
 	int var, les5, jojojo, _7_5_4;
 	boolean var2, les56, joja, _1_5_4;
 	int a;
 	int b;
-	b;;
-	a = test;
-	int value = 50;
 	
 	int create_list(int v) {
-		int int value;
-		boolean new_element;; 
+		int value;
+		boolean new_element; 
 		new_element = 5;
-		value =;
 		return new_element;
 	}
 	
 	boolean insert(int v) {
 		boolean new_element;
 		new_element = old_element;
-		value =;
-		continue;;
-		return new_element;;
+		continue;
+		return new_element;
 	}
 
 	boolean search(int v) {
@@ -40,7 +35,7 @@ class Program {
 		}
 		var = hola;
 
-		return;;
+		return;
 	}
 
 	int length() {
@@ -63,14 +58,14 @@ class Program {
 	// function that computes the greatest common divisor
 	int gcd(int a, int b) {
 		if (b == 0) { 
-			break;;
+			break;
 			return(a); 
 		} else { 
 			return(gcd(b, a % b)); 
 		}
 	}
 
-	int f() { 
+	int f() {
 		return 2; 
 	}
 

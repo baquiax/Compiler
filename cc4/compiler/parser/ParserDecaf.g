@@ -29,7 +29,16 @@ options {
 
 start			: 	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE EOF
 					{derivations.add(new String[] {"start: CLASS_PROGRAM O_BRACE field_decl method_decl C_BRACE"});}
-					#inicio
+					# inicio
+				|	error_brace_mo
+					{err++;errors.add(new String[] {"Error"+err+":Hay '{' '}' de mas"});}
+					# errorMoreBrace
+				|	error_brace_mi
+					{err++;errors.add(new String[] {"Error"+err+":Hay '{' '}' faltantes"});}
+					# errorMissingBrace
+				|	error_sintax
+					{err++;errors.add(new String[] {"Error"+err+":Valor no reconocido"});}
+					# errorSintax
 				;
 
 var_deriv		: 	id 															
@@ -51,16 +60,16 @@ field_decl    	: 	type var_deriv EOL
 					# varDeclaration
 				|	error_type
 					{err++;errors.add(new String[] {"Error"+err+":Error en declaracion de variable"});}
-					#errorTypeField
+					# errorTypeField
 				|	error_assign
 					{err++;errors.add(new String[] {"Error"+err+":Declaracion invalida"});}
-					# asignErrorField
+					# errorAsignField
 				|	err_init_assign
 					{err++;errors.add(new String[] {"Error"+err+":Asignacion no permitida"});}
-					# assignInvalid
+					# errorAssignInvalid
 				|	error_eol
 					{err++;errors.add(new String[] {"Error"+err+":Instruccion ';' repetida"});}
-					# field_eol_error
+					# errorFieldEol
 				;
 
 method_deriv	:	type id 													
@@ -94,6 +103,15 @@ method_decl   	: 	type id O_PAR C_PAR block
 block			:	O_BRACE var_decl* statement* C_BRACE
 					{derivations.add(new String[] {"block: O_BRACE var_decl statement C_BRACE"});}
 					# blockConstruction
+				|	error_brace_mo
+					{err++;errors.add(new String[] {"Error"+err+":Hay '{' '}' de mas"});}
+					# errorBlockBraceMore
+				|	error_brace_mi
+					{err++;errors.add(new String[] {"Error"+err+":Hay '{' '}' faltantes"});}
+					# errorBlockBraceMissing
+				|	error_sintax
+					{err++;errors.add(new String[] {"Error"+err+":Valor no reconocido"});}
+					# errorSintaxBlock
 				;
 
 var_decl		:	type var_deriv EOL
@@ -104,7 +122,7 @@ var_decl		:	type var_deriv EOL
 					# errorMethod
 				|	error_eol
 					{err++;errors.add(new String[] {"Error"+err+":Instruccion ';' repetida"});}
-					# var_eol_error
+					# errorVarEol
 				;
 
 type			:	INT
@@ -147,10 +165,10 @@ statement		: 	location assign_op expr EOL
 					# constructionBlock
 				|	error_assign
 					{err++;errors.add(new String[] {"Error"+err+":Asignacion de valor invalida"});}
-					# asignErrorMethod
+					# ErrorAsignMethod
 				|	error_eol
 					{err++;errors.add(new String[] {"Error"+err+":Instruccion ';' repetida"});}
-					# statement_eol_error
+					# errorStatementEol
 				;
 
 assign_op		:	ASSIGN
@@ -345,20 +363,14 @@ string_literal	:	STRING_LITERAL
 //CAPTURA DE ERRORES
 error_type		:	type type var_deriv EOL;
 
-error_assign	:	id ASSIGN EOL
-					# errorAsign
+error_assign	:	id ASSIGN* EOL
 				|	id ADD_ASSIGN EOL
-					# errorAddAssign
 				|	id SUB_ASSIGN EOL
-					# errorSubAssign
 				;
 
 err_init_assign	:	type* var_deriv ASSIGN expr EOL
-					# errorInitAsign
 				|	type* var_deriv ADD_ASSIGN expr EOL
-					# errorInitAddAsign
 				|	type* var_deriv SUB_ASSIGN expr EOL
-					# errorInitSubAsign
 				;
 
 error_eol		:	type* var_deriv MULTIPLE_EOL
@@ -368,4 +380,30 @@ error_eol		:	type* var_deriv MULTIPLE_EOL
 				|	RETURN expr MULTIPLE_EOL
 				|	BREAK MULTIPLE_EOL
 				|	CONTINUE MULTIPLE_EOL
+				;
+
+error_brace_mo	:	CLASS_PROGRAM O_BRACE O_BRACE+ field_decl* method_decl* C_BRACE EOF
+				|	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE C_BRACE+ EOF
+				|	O_BRACE O_BRACE+ var_decl* statement* C_BRACE
+				|	O_BRACE var_decl* statement* C_BRACE C_BRACE+
+				;
+
+error_brace_mi	:	CLASS_PROGRAM O_BRACE field_decl* method_decl*
+				|	CLASS_PROGRAM field_decl* method_decl* C_BRACE 
+				|	var_decl statement C_BRACE
+				|	O_BRACE var_decl statement
+				;
+
+error_sintax	:	CLASS_PROGRAM O_BRACE char_literal field_decl* method_decl* C_BRACE
+				|	CLASS_PROGRAM O_BRACE string_literal field_decl* method_decl* C_BRACE 
+				|	CLASS_PROGRAM O_BRACE id field_decl* method_decl* C_BRACE
+				|	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE char_literal
+				|	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE string_literal
+				|	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE id
+				|	O_BRACE char_literal var_decl* statement* C_BRACE
+				|	O_BRACE string_literal var_decl* statement* C_BRACE
+				|	O_BRACE id var_decl* statement* C_BRACE
+				|	O_BRACE var_decl* statement* C_BRACE char_literal
+				|	O_BRACE var_decl* statement* C_BRACE string_literal
+				|	O_BRACE var_decl* statement* C_BRACE id
 				;

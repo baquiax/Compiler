@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.*;
 import compiler.scanner.LexerDecaf;
 import compiler.parser.ParserDecaf;
 import java.util.ArrayList;
+import java.util.List;
 /**
  * El parser se encarga de validar la sintaxis de las tokens.
  */
@@ -34,17 +35,6 @@ public class CC4Parser
         	for (String[] list : derivations) {
         		System.out.println(">>>" + list[0]);
         	}
-	        
-
-        	/*try {     
-  				(new ParserDecaf(new CommonTokenStream(new LexerDecaf(new ANTLRFileStream(Configuration.flags.get("inputFile")))))).start();
-    		} catch (ArrayIndexOutOfBoundsException aiobe) {
-      			System.err.println("usage: java Main <file>\nwhere file is the path to the filename with the tokens");
-      			System.exit(1);
-    		} catch (Exception e) {
-      			System.err.println("usage: jaca Main <file>\nwhere file is the path to the filename with the tokens");
-      			System.exit(1);
-    		}*/
         }
 	}
 	

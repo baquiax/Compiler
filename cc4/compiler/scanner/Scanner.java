@@ -37,10 +37,8 @@ public class Scanner
 		    this.ld = ld;
 		    while (this.ld.nextToken().getType() != Token.EOF) {}
 		    this.ld.reset();
-			if (Debug.debugEnabled("scan")) {
-				ArrayList<String[]> rt = this.ld.getRecognizedTokens();
-		    	this.saveTokensRecognized("recognized.tokens", rt);	
-			}		    			    
+			ArrayList<String[]> rt = this.ld.getRecognizedTokens();
+    		this.saveTokensRecognized("recognized.tokens", rt);				
 		    ArrayList<String[]> errors = this.ld.getErrors();
 		    for (String[] data: errors) {
 				System.out.println("LINE " + data[0] + "\t" + data[1]);
@@ -61,9 +59,11 @@ public class Scanner
 		    PrintWriter pwriter = new PrintWriter(fwriter);
 		    for (String[] data : tokens) {
 				for (int i = 0; i < data.length; i++) { 
+					if (Debug.debugEnabled("scan")) System.out.print(data[i] + "\t");					
 				    pwriter.print(data[i] + "\t");
 				}
 				pwriter.println("");
+				if (Debug.debugEnabled("scan")) System.out.println("");
 		    }	    
 		    fwriter.close();	
 		} catch (Exception e) {

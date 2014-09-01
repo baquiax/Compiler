@@ -379,8 +379,8 @@ string_literal	:	STRING_LITERAL
 				;
 
 //CAPTURA DE ERRORES
-error_type		:	type type var_deriv EOL
-					{this.errors.add(new String[] {$type.text +" "+ $type.text +" "+ $var_deriv.text +" "+ $EOL.text, String.valueOf($EOL.line), String.valueOf($EOL.pos -1)});}
+error_type		:	t1=type t2=type v=var_deriv EOL
+					{this.errors.add(new String[] {$t1.text +" "+ $t2.text +" "+ $v.text +" "+ $EOL.text, String.valueOf($EOL.line), String.valueOf($EOL.pos - 1)});}
 				;
 
 error_assign	:	id ASSIGN* EOL

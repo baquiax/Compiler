@@ -105,7 +105,7 @@ WHITHOUT_S_QUOTE   :   '\'' ~['\'']* '\n'   {errors.add(new String[] {String.val
 WHITHOUT_D_QUOTE   :   '\"' ~['\"']* '\n'   {errors.add(new String[] {String.valueOf(getLine()), "WITHOUT_DOUBLE_QUOTE", getErrorDesc(getText(), getCharIndex())});};
 MULTIPLE_DOT       :   DOT(DOT)+            {errors.add(new String[] {String.valueOf(getLine()), "MULTIPLE DOT", getErrorDesc(getText(), getCharIndex())});};
 MULTIPLE_COMMA     :   COMMA(COMMA)+        {errors.add(new String[] {String.valueOf(getLine()), "MULTIPLE COMMA", getErrorDesc(getText(), getCharIndex())});};
-MULTIPLE_EOL       :   EOL(EOL)+            {errors.add(new String[] {String.valueOf(getLine()), "UNESPECTED END OF LINE", getErrorDesc(getText(), getCharIndex())});};
+MULTIPLE_EOL       :   EOL(EOL)+            {errors.add(new String[] {String.valueOf(getLine()), "UNEXPECTED END OF LINE", getErrorDesc(getText(), getCharIndex())});};
 INVALID_ID         :   [0-9]+ [a-zA-Z0-9_]* {errors.add(new String[] {String.valueOf(getLine()), "INVALID VAR NAME", getText(), getErrorDesc(getText(), getCharIndex())});};
 INVALID_CHAR       :   ~[CHAR]              {errors.add(new String[] {String.valueOf(getLine()), "UNRECOGNIZED CHAR", getErrorDesc(getText(), getCharIndex())});};
 INVALID_OPERATOR   :   ALL_L_OPERATOR[ALL_L_OPERATOR]+ {errors.add(new String[] {String.valueOf(getLine()), "INVALID OPERATOR", getErrorDesc(getText(), getCharIndex())});};

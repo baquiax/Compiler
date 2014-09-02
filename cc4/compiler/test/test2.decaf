@@ -9,14 +9,14 @@ class Program {
 	int b;
 	boolean var[2];
 
-	int create_list(int v))) {
+	int create_list(int v) {
 		int value;                
 		boolean new_element; 
 		new_element = 5;
 		return new_element;
 	}
 	
-	boolean insert(((int v) {
+	boolean insert(int v) {
 		boolean new_element;
 		new_element = old_element;
 		continue;
@@ -24,7 +24,7 @@ class Program {
 	}
 
 	boolean search(int v) {
-		if (value == v)) {
+		if (value == v) {
 			return true;
 		} else {
 			if (next == null) { 
@@ -39,8 +39,8 @@ class Program {
 		return;
 	}
 
-	boolean length((())) {
-		if (next == null))) {
+	boolean length() {
+		if (next == null) {
 			return 1;
 		} else {
 			return 1 + lock;
@@ -51,9 +51,9 @@ class Program {
 		int x, y, z;
 		x = a;
 		y = b;
-		z = gcd(x, y);
+		z = gcd(x, y));
 		// print_int is part of the standard input-output library
-		print_int(((z);
+		print_int(z);
 	}
 
 	// function that computes the greatest common divisor
@@ -66,16 +66,16 @@ class Program {
 		}
 	}
 
-	int f(()) {
+	int f() {
 		return 2; 
 	}
 
-	int g((((())) { 
+	int g() { 
 		return 3;
 	}
 
-	int f((int z))) {
-		if (((z > 0) {
+	int f(int z) {
+		if (z > 0) {
 			int z;
 			z = x * 2;
 			return z; // line 1
@@ -84,7 +84,7 @@ class Program {
 		return z; // line 2
 	}
 
-	void hola((()) {
+	void hola() {
 		int val;
 		val=2;
 
@@ -93,7 +93,7 @@ class Program {
 		}
 	}
 
-	void adios((int value, boolean val, boolean lala))) {
+	void adios(int value, boolean val, boolean lala) {
 		int val;
 		boolean val2;
 		int val3;

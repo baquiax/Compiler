@@ -71,3 +71,5 @@ clean:
 	rm -rf parser/ParserDecafVisitor.java
 	rm -rf test/*.class
 	rm -rf test/recognized.tokens
+	rm -rf test/derivations.context
+	rm -rf test/derivations.errors

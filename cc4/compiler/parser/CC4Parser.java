@@ -40,19 +40,20 @@ public class CC4Parser
         	this.parser.start();
         	ArrayList<String[]> derivations = this.parser.getDerivations();
         	ArrayList<String[]> errors = this.parser.getErrorsDerivation();
-        	this.saveProductions("derivations.context", derivations);        	
+        	
         	if (errors.size() > 0) {
-		    saveProductions("derivations.errors", errors);
-		    for (String[] list : errors) {
-			if (list.length > 2) {
-			    System.out.println("ERROR L:" + list[1] + "\n" + list[0]);
-			    System.out.println(String.format("%" + list[2] +"s", "^"));
-			    System.out.println("");
-			}
-		    }	
+		    	saveProductions("derivations.errors", errors);
+		    	for (String[] list : errors) {
+					if (list.length > 2) {
+			    		System.out.println("ERROR L:" + list[1] + "\n" + list[0]);
+			    		System.out.println(String.format("%" + list[2] +"s", "^"));
+			    		System.out.println("");
+					}
+		    	}
+        	} else {
+        		this.saveProductions("derivations.context", derivations);
+		    	System.out.println("PARSER EJECUTADO EXITOSAMENTE");	
         	}
-        	else
-		    System.out.println("PARSER EJECUTADO EXITOSAMENTE");
 	    }
 	}
     

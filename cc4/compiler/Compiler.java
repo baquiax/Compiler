@@ -61,63 +61,63 @@ public class Compiler {
     public static void main(String[] args) {
         //Help por default cuando no existen arguentos
         if (args.length == 0 || (args.length == 1 && args[0].equals("-h"))) 
-        	help();
-
-		//Informacion necesaria para validar. NOT CASE-SENSITIVE
+	    help();
+	
+	//Informacion necesaria para validar. NOT CASE-SENSITIVE
         String supportedFlags[] = {"-target","-opt","-debug","-h","-o"};
-		Hashtable<String, String[]> supportedFlagValues = new Hashtable<String, String[]>();
-		supportedFlagValues.put("-target", (new String[] { "scan", "parse", "semantic", "ast", "irt","codegen"}));
-		supportedFlagValues.put("-opt", new String[] {"constant","algebraic"});
-		supportedFlagValues.put("-debug", new String[] {"scan", "parse", "semantic", "ast", "irt", "codegen"});
-		supportedFlagValues.put("-h", new String[] {});
+	Hashtable<String, String[]> supportedFlagValues = new Hashtable<String, String[]>();
+	supportedFlagValues.put("-target", (new String[] { "scan", "parse", "semantic", "ast", "irt","codegen"}));
+	supportedFlagValues.put("-opt", new String[] {"constant","algebraic"});
+	supportedFlagValues.put("-debug", new String[] {"scan", "parse", "semantic", "ast", "irt", "codegen"});
+	supportedFlagValues.put("-h", new String[] {});
 	
         Hashtable < String, String > flags = new Hashtable < String, String > ();
-               
+        
         int i = 0;
         for (; (i + 2) <= args.length; i += 2) {
-	    	//Verificar validez de flag
+	    //Verificar validez de flag
             if (!searchInArray(args[i], supportedFlags, false))
-				Compiler.printMessageAndExit("El flag " + args[i] + ", no se reconoce.", 1);
+		Compiler.printMessageAndExit("El flag " + args[i] + ", no se reconoce.", 1);
 	    
-	    	//Verificar validez de valor para el flag
-	    	if (!searchInArray(args[i + 1], supportedFlagValues.get(args[i]), false, ":"))
-				Compiler.printMessageAndExit(args[i + 1] + " no es un valor correcto para " + args[i], 1);
-	   
+	    //Verificar validez de valor para el flag
+	    if (!searchInArray(args[i + 1], supportedFlagValues.get(args[i]), false, ":"))
+		Compiler.printMessageAndExit(args[i + 1] + " no es un valor correcto para " + args[i], 1);
+	    
             flags.put(args[i], args[i + 1]);
         }
-
+	
         if (((args.length - i) != 1)) 
-	    	Compiler.printMessageAndExit("Debes indicar un UNICO archivo a compilar! Usa -h para ayudar.", 1);
+	    Compiler.printMessageAndExit("Debes indicar un UNICO archivo a compilar! Usa -h para ayudar.", 1);
 	
         flags.put("inputFile", args[args.length - 1]);
         String fileName = flags.get("inputFile");
-
+	
         if (fileName.contains("/") && fileName.split("/").length > 0) {
             String[] fileNameParted = fileName.split("/");
             fileName = fileNameParted[fileNameParted.length - 1];
         }
 	
-		//Verficar nombre de archivo. No se permite que el archivo empiece con [.|-]
+	//Verficar nombre de archivo. No se permite que el archivo empiece con [.|-]
         if(fileName.matches("[\\.-]+.*")) 
-	    	Compiler.printMessageAndExit("El nombre del archivo de entrada no debe empezar con . o -", 1);        
-
+	    Compiler.printMessageAndExit("El nombre del archivo de entrada no debe empezar con . o -", 1);        
+	
         if (!Compiler.existsFile(flags.get("inputFile"))) 
-	    	Compiler.printMessageAndExit("El archivo a compilar no existe!", 1);
-
+	    Compiler.printMessageAndExit("El archivo a compilar no existe!", 1);
+	
         //Flag target default si no es indicado.
         if (flags.get("-target") == null) {
-		  flags.put("-target", "parse");
+	    flags.put("-target", "parse");
         }
-
+	
         int stopStage = 1;
         for (String f: "scan,parse,semantic,ast,irt,codegen".split(",")) {
             if (f.trim().equals(flags.get("-target"))) break;
             stopStage++;
         }
-
+	
         Configuration.flags=flags;
         Configuration.stopStage=stopStage;
-
+	
         /*INSTANCIAS DE CLASES*/
         try {
             if (Configuration.stopStage==1) {
@@ -140,10 +140,10 @@ public class Compiler {
     }
 
     public static boolean searchInArray(String toFind, String[] findIn, boolean caseSensitive, String separator) {
-		if (toFind.contains(":")) {
-            String[] values = toFind.split(":");
+	if (toFind.contains(separator)) {
+            String[] values = toFind.split(separator);
             for (String s: values) {
-                if (!searchInArray(toFind, findIn, caseSensitive)) return false;
+                if (!searchInArray(s, findIn, caseSensitive)) return false;
             }
             return true;
         } else {
@@ -153,7 +153,7 @@ public class Compiler {
 
     public static boolean searchInArray(String toFind, String[] findIn, boolean caseSensitive) {
         for (String s : findIn) {
-            if (!caseSensitive) {
+            if (caseSensitive) {
                 if (s.toUpperCase().equals(toFind.toUpperCase())) return true;
             } else {
                 if (s.equals(toFind)) return true;

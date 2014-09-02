@@ -21,6 +21,10 @@ options {
 	public ArrayList<String[]> getErrorsDerivation() {
 		return this.errors;
 	}
+
+    public String getStringTokens(ParserRuleContext p) {
+         return "" + p.children.size();
+    }
 }
 
 /*-----------------------------------------------------------------
@@ -379,8 +383,9 @@ string_literal	:	STRING_LITERAL
 				;
 
 //CAPTURA DE ERRORES
-error_type		:	t1=type t2=type v=var_deriv EOL
-					{this.errors.add(new String[] {$t1.text +" "+ $t2.text +" "+ $v.text +" "+ $EOL.text, String.valueOf($EOL.line), String.valueOf($t2.start.getCharPositionInLine())});}
+multiple_type   :   type multiple_type | ;
+error_type		:	t1=type t2=multiple_type v=var_deriv EOL
+					{this.errors.add(new String[] {$t1.text +" "+ $t2.ctx.start.getText() + " " + $t2.ctx.stop.getText() + " "+ $v.text +" "+ $EOL.text, String.valueOf($EOL.line), String.valueOf($t2.start.getCharPositionInLine())});}
 				;
 
 error_assign	:	id ASSIGN* EOL

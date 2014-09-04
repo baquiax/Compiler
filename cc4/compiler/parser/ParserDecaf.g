@@ -440,8 +440,10 @@ error_brace_mi	:	CLASS_PROGRAM O_BRACE field_decl* method_decl*
 					{this.errors.add(new String[] {$O_BRACE.text +" "+ $var_decl.text +" "+ $statement.text, String.valueOf($O_BRACE.line), String.valueOf($O_BRACE.pos -1)});}
 				;
 
-error_sintax	:	CLASS_PROGRAM O_BRACE char_literal field_decl* method_decl* C_BRACE
-					{this.errors.add(new String[] {$CLASS_PROGRAM.text +" "+ $O_BRACE.text +" "+ $char_literal.text +" "+ $field_decl.text +" "+ $method_decl.text +" "+ $C_BRACE.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
+error_sintax	:	O_BRACE field_decl* method_decl* C_BRACE
+					{this.errors.add(new String[] {$O_BRACE.text +" "+ $C_BRACE.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
+				|	CLASS_PROGRAM O_BRACE char_literal field_decl* method_decl* C_BRACE
+					{this.errors.add(new String[] {$CLASS_PROGRAM.text +" "+ $O_BRACE.text +" "+ $char_literal.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	CLASS_PROGRAM O_BRACE string_literal field_decl* method_decl* C_BRACE
 					{this.errors.add(new String[] {$CLASS_PROGRAM.text +" "+ $O_BRACE.text +" "+ $string_literal.text +" "+ $field_decl.text +" "+ $method_decl.text +" "+ $C_BRACE.text, String.valueOf($O_BRACE.line), String.valueOf($C_BRACE.pos -1)});}
 				|	CLASS_PROGRAM O_BRACE id field_decl* method_decl* C_BRACE
@@ -481,9 +483,9 @@ err_brack_mi	:	id O_BRACKET int_literal
 				|	id C_BRACKET
 					{this.errors.add(new String[] {$id.text +" "+ $C_BRACKET.text, String.valueOf($C_BRACKET.line), String.valueOf($C_BRACKET.pos -1)});}
 				|	id C_BRACKET COMMA var_deriv
-					{this.errors.add(new String[] {$id.text +" "+ $C_BRACKET.text +" "+ $COMMA.text +" "+ $var_deriv.text, String.valueOf($C_BRACKET.line), String.valueOf($COMMA.pos -1)});}
+					{this.errors.add(new String[] {$id.text +" "+ $C_BRACKET.text +" "+ $COMMA.text, String.valueOf($C_BRACKET.line), String.valueOf($COMMA.pos -1)});}
 				|	id O_BRACKET int_literal COMMA var_deriv
-					{this.errors.add(new String[] {$id.text +" "+ $O_BRACKET.text +" "+ $int_literal.text +" "+ $COMMA.text +" "+ $var_deriv.text, String.valueOf($O_BRACKET.line), String.valueOf($COMMA.pos -1)});}
+					{this.errors.add(new String[] {$id.text +" "+ $O_BRACKET.text +" "+ $int_literal.text +" "+ $COMMA.text, String.valueOf($O_BRACKET.line), String.valueOf($COMMA.pos -1)});}
 				;
 
 error_par_mo	:	type id O_PAR O_PAR+ C_PAR block

@@ -1,18 +1,21 @@
 class Program {
 	int value;
-	boolean next;
+	int next;
 	int tintin[5], rinrin, _foo[4];
 	boolean ran, _fa_a[4],tang[5];
 	int var, les5, jojojo, _7_5_4;
 	boolean var2, les56, joja, _1_5_4;
 	int a;
 	int b;
-	boolean var[2];
-	int int int int int boolean c;
+	
 	int create_list(int v) {
 		int value;                
 		boolean new_element; 
 		new_element = 5;
+		value-=5;
+		value+=6;
+		
+
 		return new_element;
 	}
 	
@@ -26,23 +29,26 @@ class Program {
 	boolean search(int v) {
 		if (value == v) {
 			return true;
-		} else {
-			if (next == null) { 
-				return false;
-			} else {
-				continue;
-				return value;
+			continue;
+		}
+		
+		var = hola;
+		
+
+		for expresion=4, 5 {
+			int hola;
+			hola=10;
+			for expresion=4, 5 {
+				int hola;
 			}
 		}
-		var = hola;
-
-		return;
 	}
 
 	boolean length() {
 		if (next == null) {
 			return 1;
 		} else {
+			break;
 			return 1 + lock;
 		} 
 	}
@@ -50,10 +56,14 @@ class Program {
 	int main() {
 		int x, y, z;
 		x = a;
-		y = b;
-		z = gcd(x, y));
+		y = b+a;
+		z = gcd(x, y);
 		// print_int is part of the standard input-output library
 		print_int(z);
+
+		if (a[4]==0) {
+			return;
+		}
 	}
 
 	// function that computes the greatest common divisor

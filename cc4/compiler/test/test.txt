@@ -1,8 +1,9 @@
 class Program {
    
-   int i,j,k;
-   boolean b1;
+   int int i,j,k;
+   int boolean boolean b1;
    int a1[50];
+   a1 = 50;
    boolean b1[40];
 
    int max(int x[50]) {

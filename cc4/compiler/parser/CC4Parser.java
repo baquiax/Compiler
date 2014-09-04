@@ -51,7 +51,7 @@ public class CC4Parser {
 		}
 	    } else {
 		this.saveProductions("derivations.context", derivations);
-		System.out.println("PARSER EJECUTADO EXITOSAMENTE");	
+		System.out.println("PARSER EJECUTADO EXITOSAMENTE");
 	    }
 	}
     }

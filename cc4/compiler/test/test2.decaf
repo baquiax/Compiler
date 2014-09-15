@@ -8,9 +8,11 @@ class Program {
 	int a;
 	int b;
 	
-	int create_list(int v) {
-		int value;                
+	int create_list(int v, boolean alex) {
+		int value;
+		int value;		
 		boolean new_element; 
+		value = 'a';
 		new_element = 5;
 		value-=5;
 		value+=6;
@@ -27,15 +29,13 @@ class Program {
 	}
 
 	boolean search(int v) {
+		var = hola;
 		if (value == v) {
 			return true;
 			continue;
-		}
-		
-		var = hola;
-		
+		}				 		
 
-		for expresion=4, 5 {
+		for expresion = 4, 5 {
 			int hola;
 			hola=10;
 			for expresion=4, 5 {
@@ -96,8 +96,9 @@ class Program {
 
 	void hola() {
 		int val;
-		val=2;
-
+		var = "";
+		val= 2  + 3   + 3;
+		val = adios(3 ,2 ,3);
 		if (hola==SS) {
 			return;
 		}

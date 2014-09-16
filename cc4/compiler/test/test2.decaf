@@ -96,7 +96,7 @@ class Program {
 
 	void hola() {
 		int val;
-		var = "";
+		var = '';
 		val= 2  + 3   + 3;
 		val = adios(3 ,2 ,3);
 		if (hola==SS) {

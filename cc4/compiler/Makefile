@@ -40,13 +40,13 @@ scanner/LexerDecaf.class: scanner/LexerDecaf.java
 	javac scanner/LexerDecaf.java
 
 scanner/LexerDecaf.java: scanner/LexerDecaf.g
-	java org.antlr.v4.Tool -o scanner scanner/LexerDecaf.g
+	java org.antlr.v4.Tool scanner/LexerDecaf.g
 
 parser/ParserDecaf.class: parser/ParserDecaf.java
 	javac parser/ParserDecaf.java
 
 parser/ParserDecaf.java: parser/ParserDecaf.g
-	java org.antlr.v4.Tool -o parser -lib scanner -visitor parser/ParserDecaf.g
+	java org.antlr.v4.Tool -lib scanner -visitor parser/ParserDecaf.g
 
 clean:
 	rm -f Compiler.class

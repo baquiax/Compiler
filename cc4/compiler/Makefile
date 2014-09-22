@@ -1,4 +1,4 @@
-make: scanner/LexerDecaf.java parser/ParserDecaf.java lib/Debug.class lib/ErrorHandler.class scanner/Scanner.class parser/CC4Parser.class ast/Ast.class semantic/Semantic.class irt/Irt.class opt/Algebraic.class opt/ConstantFolding.class codegen/Codegen.class Compiler.class lib/Configuration.class scanner/LexerDecaf.class  parser/ParserDecaf.class
+make:  scanner/LexerDecaf.java scanner/LexerDecaf.class parser/ParserDecaf.java parser/ParserDecaf.class scanner/Scanner.class parser/CC4Parser.class  ast/Ast.class semantic/Semantic.class  lib/ErrorHandler.class   irt/Irt.class opt/Algebraic.class opt/ConstantFolding.class codegen/Codegen.class lib/Configuration.class lib/Debug.class Compiler.class 
 
 Compiler.class: Compiler.java
 	javac Compiler.java

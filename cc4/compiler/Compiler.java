@@ -106,11 +106,11 @@ public class Compiler {
 	
         //Flag target default si no es indicado.
         if (flags.get("-target") == null) {
-	    flags.put("-target", "parse");
+	    flags.put("-target", "ast");
         }
 	
         int stopStage = 1;
-        for (String f: "scan,parse,semantic,ast,irt,codegen".split(",")) {
+        for (String f: "scan,parse,ast,semantic,irt,codegen".split(",")) {
             if (f.trim().equals(flags.get("-target"))) break;
             stopStage++;
         }
@@ -125,13 +125,14 @@ public class Compiler {
             } else if (Configuration.stopStage==2) {
                 instanceParser(instanceScanner());
             } else if (Configuration.stopStage==3) {
-                instanceSemantic(instanceParser(instanceScanner()));
+		System.out.println("AST");
+                instanceAst(instanceParser(instanceScanner()));
             } else if (Configuration.stopStage==4) {
-                instanceAst(instanceSemantic(instanceParser(instanceScanner())));
+		
             } else if (Configuration.stopStage==5) {
-                instanceIrt(instanceAst(instanceSemantic(instanceParser(instanceScanner()))));
+
             } else if (Configuration.stopStage==6) {
-                instanceCodegen(instanceIrt(instanceAst(instanceSemantic(instanceParser(instanceScanner())))));
+
             }
         } catch (Exception e) {
             //Cath someone error.
@@ -196,8 +197,8 @@ public class Compiler {
         return semantic;
     }
 
-    private static Ast instanceAst(Semantic semantic) {
-        Ast ast = new Ast(semantic);
+    private static Ast instanceAst(CC4Parser parser) {
+        Ast ast = new Ast(parser);
         ast.makeTree();
 
         return ast;

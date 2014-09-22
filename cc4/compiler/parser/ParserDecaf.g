@@ -7,11 +7,7 @@ options {
 @parser::header{
   package compiler.parser;
   import java.util.ArrayList;
-}
-
-@parser::members {
-	
-}
+}   
 
 /*-----------------------------------------------------------------
  * PARSER RULES

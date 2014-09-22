@@ -10,7 +10,7 @@ import compiler.lib.Configuration;
 
 public class Semantic {	
 
-	public static final int level = 3;
+	public static final int level = 4;
 	private CC4Parser parser;	
 	
 	public Semantic(CC4Parser parser) {

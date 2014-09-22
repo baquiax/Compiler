@@ -39,6 +39,7 @@ public class CC4Parser {
 		    this.parser.removeErrorListeners();
 		    this.parser.addErrorListener(new ErrorListener());
 		    this.parser.start();
+		    this.parser.reset();
 		}
     }
     
@@ -68,7 +69,7 @@ public class CC4Parser {
 	return false;
     }
     
-    public void makeSintaxisTree() {
-	// TODO implement me
+    public ParserDecaf getParser() {
+	return this.parser;
     }
 }

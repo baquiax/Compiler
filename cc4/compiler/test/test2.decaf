@@ -17,7 +17,6 @@ class Program {
 		value-=5;
 		value+=6;
 		
-
 		return new_element;
 	}
 	

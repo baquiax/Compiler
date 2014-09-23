@@ -1,10 +1,10 @@
 class Program {
-   int i,alex[3];
+   int i,alex[0x3];
    boolean varname;   
    int a,b[3];
 
    int method(int p) {
-       int value;
+       value += 1;
    }
    int method2(int p) {
        int value;

@@ -19,17 +19,17 @@ start			: 	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE EOF
 field_decl    	: 	type (field_decl_deriv) (COMMA (field_decl_deriv))* EOL
                     # fieldDecl;
 
-field_decl_deriv    :   id #varDeclFD | id O_BRACKET int_literal C_BRACKET #arrayDeclFD;
+field_decl_deriv    :   ID #varDeclFD | ID O_BRACKET int_literal C_BRACKET #arrayDeclFD;
 
-method_decl		:	(type | VOID) id O_PAR method_param C_PAR block
+method_decl		:	(type | VOID) ID O_PAR method_param C_PAR block
 					# methodDecl;
 
-method_param	: 	type id (COMMA type id)* #methodParam | #nothing;
+method_param	: 	type ID (COMMA type ID)* #methodParam | #nothing;
 
 block			:	O_BRACE var_decl* statement* C_BRACE
 					# blockDecl;
 
-var_decl		:	type id (COMMA id)* EOL
+var_decl		:	type ID (COMMA ID)* EOL
 					# varDecl;
 
 type			:	INT
@@ -43,7 +43,7 @@ statement		: 	location assign_op expr EOL
 					# methodCallStat
 				|	IF O_PAR expr C_PAR block if_else?
 					# if
-				|	FOR id ASSIGN expr COMMA expr block
+				|	FOR ID ASSIGN expr COMMA expr block
 					# for
 				|	RETURN expr? EOL
 					# return
@@ -71,11 +71,11 @@ callout_expr	:	expr (COMMA expr)*
 callout_args	:	(COMMA callout_arg)+
                     #calloutArgs;
 
-method_name		:	id
+method_name		:	ID
 					# methodName;
 
-location		: 	id
-				|	id O_BRACKET expr C_BRACKET	;
+location		: 	ID
+				|	ID O_BRACKET expr C_BRACKET	;
 
 expr			:	location
 					# exprLocation
@@ -143,9 +143,6 @@ literal 		:	int_literal
 					# charLiteral
 				|	bool_literal
 					# boolnLiteral;
-
-id				:	ID					
-					# identifier;
 
 hex_literal		:	HEX_LITERAL					
 					# hexaLit

@@ -17,5 +17,8 @@ public class FieldDecl extends Node {
     
     public void print(String padding) {
 	System.out.println(padding + "FieldsDecl (Type: " + this.type + ") -> ");
+	for (Node n : fields) {
+	    n.print(padding + "\t");
+	}
     }
 }

@@ -33,8 +33,20 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
 
     @Override
     public Node visitMethodDecl(ParserDecaf.MethodDeclContext ctx) {
-	MethodDecl m = new MethodDecl(ctx.id().getText());
+	MethodDecl m = new MethodDecl(ctx.ID().getText());
 	m.setReturnType((ctx.VOID() == null) ? visit(ctx.type()) : visit(ctx.VOID()));
 	return m;
+    }
+
+    @Override
+    public Node visitVarDeclFD(ParserDecaf.VarDeclFDContext ctx) {
+	Var v = new Var(ctx.ID().getText());
+	return v;
+    }
+
+    @Override
+    public Node visitArrayDeclFD(ParserDecaf.ArrayDeclFDContext ctx) {
+	Array v = new Array(ctx.ID().getText(), ctx.int_literal().getText());
+	return v;
     }
 }

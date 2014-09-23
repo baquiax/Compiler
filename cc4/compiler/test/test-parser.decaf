@@ -1,6 +1,6 @@
 class Program {
 	int value;
-	variable = ;
+	//variable = ;
 	boolean next;
 	int tintin[5], rinrin, _foo[4];
 	boolean ran, _fa_a[4],tang[5];
@@ -9,12 +9,12 @@ class Program {
 	int a;
 	int b;
 	boolean var[2];
-	alex += ;		
-	int create_list(int v) {
-	        //Error aca si coloco alex += ; REVISAR
+	//alex += ;		
+	int create_list(int v) {	        
 		int value;
 		boolean new_element; 
 		new_element = 5;
+		alex += 2;
 		return new_element;
 	}
 	

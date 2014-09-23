@@ -125,7 +125,6 @@ public class Compiler {
             } else if (Configuration.stopStage==2) {
                 instanceParser(instanceScanner());
             } else if (Configuration.stopStage==3) {
-		System.out.println("AST");
                 instanceAst(instanceParser(instanceScanner()));
             } else if (Configuration.stopStage==4) {
 		

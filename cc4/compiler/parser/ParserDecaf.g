@@ -16,34 +16,21 @@ options {
 start			: 	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE EOF
 					# program;
 
-field_decl    	: 	type field_deriv EOL
-					# fieldDecl;
+field_decl    	: 	type (field_decl_deriv) (COMMA (field_decl_deriv))* EOL
+                    # fieldDecl;
 
-field_deriv		: 	id
-					# oneId
-				|	id O_BRACKET int_literal C_BRACKET
-					# array
-				| 	field_deriv COMMA field_deriv
-					# multipleVarDecl;
+field_decl_deriv    :   id #varDeclFD | id O_BRACKET int_literal C_BRACKET #arrayDeclFD;
 
-method_decl		:	return_type_method id O_PAR method_param C_PAR block
+method_decl		:	(type | VOID) id O_PAR method_param C_PAR block
 					# methodDecl;
 
-return_type_method	:	type | VOID;
-
-method_param	: 	list_method_param 	|	;
-
-list_method_param	:	type id
-					|	list_method_param COMMA list_method_param;
+method_param	: 	type id (COMMA type id)* #methodParam | #nothing;
 
 block			:	O_BRACE var_decl* statement* C_BRACE
-					# blockDef;
+					# blockDecl;
 
-var_decl		:	type var_deriv EOL
+var_decl		:	type id (COMMA id)* EOL
 					# varDecl;
-
-var_deriv		:	id
-				|	var_deriv COMMA	 var_deriv;
 
 type			:	INT
 					# typeInt
@@ -53,7 +40,7 @@ type			:	INT
 statement		: 	location assign_op expr EOL
 					# locationAsign
 				|	method_call EOL
-					# callMethod
+					# methodCallStat
 				|	IF O_PAR expr C_PAR block if_else?
 					# if
 				|	FOR id ASSIGN expr COMMA expr block
@@ -61,7 +48,7 @@ statement		: 	location assign_op expr EOL
 				|	RETURN expr? EOL
 					# return
 				|	BREAK EOL
-					# brek
+					# break
 				|	CONTINUE EOL
 					# continue
 				|	block
@@ -73,23 +60,16 @@ assign_op		:	ASSIGN
 				|	ADD_ASSIGN 
 				|	SUB_ASSIGN;
 
-method_call		:	method_name O_PAR expr_deriv? C_PAR
+method_call		:	method_name O_PAR callout_expr? C_PAR
 					# methodCall
-				|	CALLOUT O_PAR string_literal callout_deriv? C_PAR
+				|	CALLOUT O_PAR string_literal callout_args? C_PAR
 					# calloutCall;
 
-expr_deriv		:	expr
-				|	expr COMMA expr_deriv;
+callout_expr	:	expr (COMMA expr)*
+                    #calloutExpr;
 
-callout_deriv	:	COMMA callout_arg_list;
-
-callout_arg_list	:	callout_arg
-					|	callout_arg COMMA callout_arg_list;
-
-callout_arg		:	expr
-					# calloutExpr
-				|	string_literal
-					# calloutStringLit;
+callout_args	:	(COMMA callout_arg)+
+                    #calloutArgs;
 
 method_name		:	id
 					# methodName;
@@ -100,17 +80,22 @@ location		: 	id
 expr			:	location
 					# exprLocation
 				|	method_call
-					# exprCallMethod
+					# exprMethodCall
 				|	literal
 					# exprLiteral
 				|	expr bin_op expr
 					# exprBinOp
 				|	SUB expr
-					# exprSub
+					# exprNegative
 				|	NEGATION expr
 					# exprNegation
 				|	O_PAR expr C_PAR
 					# exprEnclosed;
+
+callout_arg		:	expr
+					# calloutArgExpr
+				|	string_literal
+					# calloutArgStringLit;
 
 bin_op			:	arith_op					
 					# arithmeticOp
@@ -122,10 +107,10 @@ bin_op			:	arith_op
 					# conditionOp
 				;
 
-arith_op		:	MULT
-					# mult
-				|	DIV
+arith_op		:   DIV
 					# div
+                |   MULT
+					# mult
 				| 	MOD
 					# mod
 				|	ADD
@@ -157,7 +142,7 @@ literal 		:	int_literal
 				|	char_literal
 					# charLiteral
 				|	bool_literal
-					# booleanLiteral;
+					# boolnLiteral;
 
 id				:	ID					
 					# identifier;

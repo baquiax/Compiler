@@ -73,3 +73,4 @@ clean:
 	rm -rf test/recognized.tokens
 	rm -rf test/derivations.context
 	rm -rf test/derivations.errors
+	rm -rf ast/*.class

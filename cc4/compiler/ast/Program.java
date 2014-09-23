@@ -16,11 +16,11 @@ public class Program extends Node {
     public void print(String padding) {
 	System.out.println("PROGRAM -> ");
 	for (Node n: this.fieldsAndMethods) {
-	    //ADD DECL FIELD and METHOD
+	    n.print(padding + "\t");
 	}
     } 
     
     public void print() {	   
-	this.print("");
+	this.print("");	
     }
 }

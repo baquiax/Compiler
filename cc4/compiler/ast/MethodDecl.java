@@ -25,6 +25,8 @@ public class MethodDecl extends Node {
         System.out.println(padding + "Parameters: ");
         for(Node p : this.parameters) {
             p.print(padding + "\t");
-        }       
+        }
+        System.out.println(padding + "Block: ");
+        block.print(padding + "\t");
     }
 }

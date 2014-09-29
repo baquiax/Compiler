@@ -7,7 +7,7 @@ public class Var extends Node {
     private String varName;
     
 	public Var(String varName) {
-    	this.type = "";
+    	this.type = null;
 		this.varName = varName;
     }
 
@@ -21,6 +21,9 @@ public class Var extends Node {
     }
 
     public void print(String padding) {
-		System.out.println(padding + this.varName + "[" + this.type + "]");
-    }
+        if (this.type == null) 
+            System.out.println(padding + this.varName);
+        else
+            System.out.println(padding + "(" + this.type + "):"+ this.varName );
+    }   
 }

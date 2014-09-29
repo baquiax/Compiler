@@ -13,4 +13,9 @@ class Program {
    int method3(int p) {
        int value;
    }
+
+   void method4() {
+      int subB;
+      int subC;
+   }
 }

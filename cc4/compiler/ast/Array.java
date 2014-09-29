@@ -4,11 +4,20 @@ public class Array extends Node {
 	private String type;
     private String name;
     private String size;
+    private Node currentIndex;
+
+    public Array(String n) {
+        this.type = null;
+        this.size = null;
+        this.name = n;        
+        this.currentIndex = null;
+    }
 
     public Array(String n, String s) {
-    	this.type = "";
+    	this.type = null;
 		this.name = n;
 		this.size = s;
+        this.currentIndex = null;
     }
 
 	public Array(String t, String n, String s) {
@@ -21,7 +30,15 @@ public class Array extends Node {
     	this.type = t;
     }
 
+    public void setIndex(Node n) {
+        this.currentIndex = n;
+    }
+
     public void print(String padding) {
-		System.out.println(padding + this.name + "[" + this.size + "]");
+        if (this.size != null) {
+            System.out.println(padding + this.name);
+        } else {
+            System.out.println(padding + this.name + "[" + this.size + "]");
+        }		
     }
 }

@@ -13,21 +13,30 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     	List<ParserDecaf.Method_declContext> methods = ctx.method_decl();
 
     	for (ParserDecaf.Field_declContext e : fields) {
-        	    program.add(visit(e));
-        	}
+    	    program.add(visit(e));
+        }
 
-        	for (ParserDecaf.Method_declContext e : methods) {
-        	    program.add(visit(e));
-        	}
+    	for (ParserDecaf.Method_declContext e : methods) {
+    	    program.add(visit(e));
+    	}
     	return program;
     }
 
     @Override
     public Node visitFieldDecl(ParserDecaf.FieldDeclContext ctx) {
     	FieldDecl fd = new FieldDecl(ctx.type().getText());
-    	List<ParserDecaf.Field_decl_derivContext> decls = ctx.field_decl_deriv();
-    	for (ParserDecaf.Field_decl_derivContext e: decls) {
-    	    fd.add(visit(e));
+    	List<ParserDecaf.Field_decl_derivContext> decls = ctx.field_decl_deriv();        
+    	for (ParserDecaf.Field_decl_derivContext e : decls) {
+            Node n = visit(e);            
+            if (n.getClass().getName().equals("compiler.ast.Var"))   {
+                Var v = (Var)visit(e);
+                v.setType(ctx.type().getText());
+                fd.add((Node)v);
+            } else {
+                Array a = (Array)visit(e);
+                a.setType(ctx.type().getText());
+                fd.add((Node)a);
+            }            
     	}
     	return fd;
     }
@@ -35,7 +44,7 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     @Override
     public Node visitMethodDecl(ParserDecaf.MethodDeclContext ctx) {
         String type = (ctx.VOID() == null) ? ctx.type().getText() : ctx.VOID().getText();
-    	MethodDecl m = new MethodDecl(type, ctx.ID().getText(), visit(ctx.block()));
+    	MethodDecl m = new MethodDecl(ctx.ID().getText(), type, visit(ctx.block()));
         ParserDecaf.MethodParamContext  mp = (ParserDecaf.MethodParamContext)ctx.method_param();
         if (mp != null) {                        
             List<TerminalNode> ids = mp.ID();
@@ -54,7 +63,7 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
 
     @Override
     public Node visitVarDeclFD(ParserDecaf.VarDeclFDContext ctx) {
-    	Var v = new Var("", ctx.ID().getText());
+    	Var v = new Var(ctx.ID().getText());
     	return v;
     }
 

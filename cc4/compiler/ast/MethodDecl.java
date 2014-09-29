@@ -21,9 +21,10 @@ public class MethodDecl extends Node {
     }
 
     public void print(String padding) {
-        System.out.println(padding + "Method (Name: " + this.methodName + ") -> ");
+        System.out.println(padding + "Method (Name: " + this.methodName + ")[" + this.returnType + "] -> ");
+        System.out.println(padding + "Parameters: ");
         for(Node p : this.parameters) {
-            p.print(padding);
+            p.print(padding + "\t");
         }       
     }
 }

@@ -6,7 +6,7 @@ public class Program extends Node {
     private List<Node> fieldsAndMethods;
         
     public Program () {
-	this.fieldsAndMethods = new LinkedList<Node>();       
+	   this.fieldsAndMethods = new LinkedList<Node>();       
     }
     
     public void add(Node node) {
@@ -14,13 +14,13 @@ public class Program extends Node {
     }
     
     public void print(String padding) {
-	System.out.println("PROGRAM -> ");
-	for (Node n: this.fieldsAndMethods) {
-	    n.print(padding + "\t");
-	}
+	   System.out.println("PROGRAM -> ");
+	   for (Node n: this.fieldsAndMethods) {
+	       n.print(padding + "\t");
+	   }
     } 
     
     public void print() {	   
-	this.print("");	
+	   this.print("");	
     }
 }

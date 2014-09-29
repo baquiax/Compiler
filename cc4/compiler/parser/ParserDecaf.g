@@ -21,10 +21,10 @@ field_decl    	: 	type (field_decl_deriv) (COMMA (field_decl_deriv))* EOL
 
 field_decl_deriv    :   ID #varDeclFD | ID O_BRACKET int_literal C_BRACKET #arrayDeclFD;
 
-method_decl		:	(type | VOID) ID O_PAR method_param C_PAR block
+method_decl		:	(type | VOID) ID O_PAR method_param? C_PAR block
 					# methodDecl;
 
-method_param	: 	type ID (COMMA type ID)* #methodParam | #nothing;
+method_param	: 	type ID (COMMA type ID)* #methodParam;
 
 block			:	O_BRACE var_decl* statement* C_BRACE
 					# blockDecl;

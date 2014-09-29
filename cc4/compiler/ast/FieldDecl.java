@@ -7,18 +7,18 @@ public class FieldDecl extends Node {
     private List<Node> fields;
     
     public FieldDecl(String type) {
-	this.type = type;
-	this.fields = new LinkedList<Node>();
+    	this.type = type;
+    	this.fields = new LinkedList<Node>();
     }
 
     public void add(Node n) {
-	this.fields.add(n);
+	   this.fields.add(n);
     }
     
     public void print(String padding) {
-	System.out.println(padding + "FieldsDecl (Type: " + this.type + ") -> ");
-	for (Node n : fields) {
-	    n.print(padding + "\t");
-	}
+    	System.out.println(padding + "FieldsDecl (Type: " + this.type + ") -> ");
+    	for (Node n : fields) {
+    	    n.print(padding + "\t");
+    	}
     }
 }

@@ -1,4 +1,4 @@
-make:  scanner/LexerDecaf.java scanner/LexerDecaf.class parser/ParserDecaf.java parser/ParserDecaf.class scanner/Scanner.class parser/CC4Parser.class  ast/Ast.class semantic/Semantic.class  lib/ErrorHandler.class   irt/Irt.class opt/Algebraic.class opt/ConstantFolding.class codegen/Codegen.class lib/Configuration.class lib/Debug.class Compiler.class 
+make:  scanner/LexerDecaf.java scanner/LexerDecaf.class parser/ParserDecaf.java parser/ParserDecaf.class scanner/Scanner.class parser/CC4Parser.class  ast/Ast.class ast/AstVisitor.class semantic/Semantic.class  lib/ErrorHandler.class   irt/Irt.class opt/Algebraic.class opt/ConstantFolding.class codegen/Codegen.class lib/Configuration.class lib/Debug.class Compiler.class 
 
 Compiler.class: Compiler.java
 	javac Compiler.java
@@ -17,6 +17,9 @@ parser/CC4Parser.class: parser/CC4Parser.java
 
 ast/Ast.class: ast/Ast.java
 	javac ast/Ast.java
+
+ast/AstVisitor.class: ast/AstVisitor.java
+	javac ast/AstVisitor.java
 
 semantic/Semantic.class: semantic/Semantic.java
 	javac semantic/Semantic.java
@@ -40,13 +43,13 @@ scanner/LexerDecaf.class: scanner/LexerDecaf.java
 	javac scanner/LexerDecaf.java
 
 scanner/LexerDecaf.java: scanner/LexerDecaf.g
-	java org.antlr.v4.Tool scanner/LexerDecaf.g
+	java org.antlr.v4.Tool -o scanner scanner/LexerDecaf.g
 
 parser/ParserDecaf.class: parser/ParserDecaf.java
 	javac parser/ParserDecaf.java
 
 parser/ParserDecaf.java: parser/ParserDecaf.g
-	java org.antlr.v4.Tool -lib scanner -visitor parser/ParserDecaf.g
+	java org.antlr.v4.Tool -o parser -lib scanner -visitor parser/ParserDecaf.g
 
 clean:
 	rm -f Compiler.class

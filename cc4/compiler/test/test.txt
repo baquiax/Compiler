@@ -6,7 +6,7 @@ class Program {
    int method(int p) {
        value += 1;
    }
-   int method2(int p) {
+   int method2(int p, boolean b) {
        int value;
    }
 

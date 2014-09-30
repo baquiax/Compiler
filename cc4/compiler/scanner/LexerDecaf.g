@@ -73,7 +73,6 @@ ESCAPED_CHAR    :   '\\n' | '\\\"' | '\\\'' | '\\\\' | '\\t' { recognizedTokens.
 STRING_LITERAL  :   '"' ( CHAR | ESCAPED_CHAR )* '"'         { recognizedTokens.add(new String[] {String.valueOf(getLine()), "STRING_LITERAL", getText()});} ;
 CHAR_LITERAL    :   '\'' ( CHAR | ESCAPED_CHAR )? '\''       { recognizedTokens.add(new String[] {String.valueOf(getLine()), "CHAR_LITERAL", getText()});} ;
 INT_UNSIGNED    :   DIGIT+              { recognizedTokens.add(new String[] {String.valueOf(getLine()), "INT_UNSIGNED", getText()});} ;
-INT_SIGNED      :   '-'? INT_UNSIGNED   { recognizedTokens.add(new String[] {String.valueOf(getLine()), "INT_SIGNED", getText()});} ;
 HEX_LITERAL     :   '0x' [0-9A-Fa-f]+   { recognizedTokens.add(new String[] {String.valueOf(getLine()), "HEX_LITERAL", getText()});} ;
 
 // ARITHMETIC OPERATORS

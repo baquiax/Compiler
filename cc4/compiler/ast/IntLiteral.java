@@ -8,7 +8,7 @@ public class IntLiteral extends Node {
 	}
 
 	public void print(String padding) {
-		System.out.println(padding + "(INT)" + this.value);
+		System.out.println(padding + "Integer value: " + this.value);
 	}
 
 	public void print() {

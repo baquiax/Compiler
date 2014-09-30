@@ -19,7 +19,7 @@ start			: 	CLASS_PROGRAM O_BRACE field_decl* method_decl* C_BRACE EOF
 field_decl    	: 	type (field_decl_deriv) (COMMA (field_decl_deriv))* EOL
                     # fieldDecl;
 
-field_decl_deriv    :   ID #varDecl | ID O_BRACKET int_literal C_BRACKET #arrayDecl;
+field_decl_deriv    :   ID #varDecl | ID O_BRACKET int_lit C_BRACKET #arrayDecl;
 
 method_decl		:	(type | VOID) ID O_PAR method_param? C_PAR block
 					# methodDecl;
@@ -54,7 +54,7 @@ statements		: 	location assign_op expr EOL
 				|	block
 					# subBlock;
 
-if_else			:	ELSE block;
+if_else			:	ELSE block #ifElse;
 
 assign_op		:	ASSIGN
 				|	ADD_ASSIGN 
@@ -137,33 +137,20 @@ cond_op			:	AND
 				|	OR					
 					# condPipe;
 
-literal 		:	int_literal
-					# intLiteral
-				|	char_literal
+literal 		:	int_lit
+					# intLiteralList
+				|	CHAR_LITERAL
 					# charLiteral
 				|	bool_literal
 					# boolnLiteral;
 
-hex_literal		:	HEX_LITERAL					
-					# hexaLit
-				;
-
-int_literal		:	decimal_literal
-					# intDecimal
-				|	hex_literal
-					# intHexa;
-
-decimal_literal	:	INT_UNSIGNED					
-					# numPositiveLit
-				;
+int_lit			:	INT_UNSIGNED
+					# intLiteral
+				|	HEX_LITERAL
+					# hexLiteral;
 
 bool_literal	:	BOOL_LITERAL					
-					# booleanLit
-				;
-
-char_literal	:	CHAR_LITERAL					
-					# charLit
-				;
+					# boolLiteral;
 
 string_literal	:	STRING_LITERAL
 					# stringLit;

@@ -69,7 +69,7 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
 
     @Override
     public Node visitArrayDecl(ParserDecaf.ArrayDeclContext ctx) {
-    	Array v = new Array(ctx.ID().getText(), ctx.int_literal().getText());
+    	Array v = new Array(ctx.ID().getText(), ctx.int_lit().getText());
     	return v;
     }
 
@@ -118,12 +118,96 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     }
 
     @Override
+    public Node visitIntLiteral(ParserDecaf.IntLiteralContext ctx) {
+        return new IntLiteral(ctx.INT_UNSIGNED().getText());
+    }
+
+    @Override
+    public Node visitHexLiteral(ParserDecaf.HexLiteralContext ctx) {
+        return new HexLiteral(ctx.HEX_LITERAL().getText());
+    }
+
+    @Override
+    public Node visitBoolLiteral(ParserDecaf.BoolLiteralContext ctx) {
+        return new BoolLiteral(ctx.BOOL_LITERAL().getText());
+    }
+
+    @Override
+    public Node visitCharLiteral(ParserDecaf.CharLiteralContext ctx) {
+        return new CharLiteral(ctx.CHAR_LITERAL().getText());
+    }
+
+    @Override
+    public Node visitExprBinOp(ParserDecaf.ExprBinOpContext ctx) {
+        Node lo = visit(ctx.expr(0));
+        Node ro = visit(ctx.expr(1));
+        return new BinOp(ctx.bin_op().getText(), lo, ro);
+    }
+
+    @Override
     public Node visitExprLiteral(ParserDecaf.ExprLiteralContext ctx) {
         return visit(ctx.literal());
     }
 
     @Override
-    public Node visitIntLiteral(ParserDecaf.IntLiteralContext ctx) {
-        return new IntLiteral(ctx.int_literal().getText());
+    public Node visitExprEnclosed(ParserDecaf.ExprEnclosedContext ctx) {
+        return visit(ctx.expr());
     }
+
+    @Override
+    public Node visitIf(ParserDecaf.IfContext ctx) {
+        Node con = visit(ctx.expr());
+        Node then = visit(ctx.block());
+        Node ifElse = null;
+        if (ctx.if_else() != null) {
+            ifElse = visit(ctx.if_else());
+        }
+        return new If(con,then, ifElse);
+    }
+
+    @Override
+    public Node visitIfElse(ParserDecaf.IfElseContext ctx) {
+        return visit(ctx.block());
+    }
+
+    @Override
+    public Node visitFor(ParserDecaf.ForContext ctx) {
+        Node init = new Assign("=", new Var(ctx.ID().getText()), visit(ctx.expr().get(0)));
+        Node cond = visit(ctx.expr().get(1));
+        return new For(init, cond, visit(ctx.block())); 
+    }
+
+    @Override
+    public Node visitSubBlock(ParserDecaf.SubBlockContext ctx) {
+        return visit(ctx.block());
+    }
+
+    @Override
+    public Node visitBreak(ParserDecaf.BreakContext ctx) {
+        return new ReservedWord(ctx.BREAK().getText());
+    }
+
+    @Override
+    public Node visitContinue(ParserDecaf.ContinueContext ctx) {
+        return new ReservedWord(ctx.CONTINUE().getText());
+    }
+
+    @Override
+    public Node visitReturn(ParserDecaf.ReturnContext ctx) {
+        if (ctx.expr() != null)
+            return new Return(visit(ctx.expr()));
+        else
+            return new Return();
+    }    
+
+    @Override
+    public Node visitExprNegative(ParserDecaf.ExprNegativeContext ctx) {
+        return new Negation(visit(ctx.expr()));
+    }
+
+    @Override
+    public Node visitExprNegation(ParserDecaf.ExprNegationContext ctx) {
+        return new Negation(visit(ctx.expr()));
+    }
+    
 }

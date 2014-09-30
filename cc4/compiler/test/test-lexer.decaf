@@ -1,6 +1,4 @@
-2a11234
-° /
-class IntList{
+class Program {
 	int value;
 	IntList next;
 	
@@ -34,6 +32,3 @@ class IntList{
 		else return 1 + next.length();
 	}
 }
-===
-"asdfasdfa
-'132412341

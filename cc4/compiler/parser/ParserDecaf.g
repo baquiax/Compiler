@@ -60,7 +60,7 @@ assign_op		:	ASSIGN
 				|	ADD_ASSIGN 
 				|	SUB_ASSIGN;
 
-method_call		:	method_name O_PAR callout_expr? C_PAR
+method_call		:	ID O_PAR callout_expr? C_PAR
 					# methodCall
 				|	CALLOUT O_PAR string_literal callout_args? C_PAR
 					# calloutCall;
@@ -70,9 +70,6 @@ callout_expr	:	expr (COMMA expr)*
 
 callout_args	:	(COMMA callout_arg)+
                     #calloutArgs;
-
-method_name		:	ID
-					# methodName;
 
 location		: 	ID # idLocation
 				|	ID O_BRACKET expr C_BRACKET	# arrayLocation;

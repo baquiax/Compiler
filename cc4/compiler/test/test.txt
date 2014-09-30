@@ -3,12 +3,12 @@ class Program {
    boolean varname;   
    int a,b[3];
 
-   int method(int p) {
+   int method(int p) {       
        intPlus += 1;
        hex = 0x3 + 0x2 * 1;
        char = 'a';
        bl = true;
-       if (true) {
+       if (2 > 3) {
           b2 = 777;
        } else {
           b3 = 777;
@@ -18,6 +18,8 @@ class Program {
           break;
           continue;
        }
+       method();
+       method(1);
        return -1;
    }
    int method2(int p, boolean b) {

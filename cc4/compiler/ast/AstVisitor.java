@@ -209,5 +209,64 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     public Node visitExprNegation(ParserDecaf.ExprNegationContext ctx) {
         return new Negation(visit(ctx.expr()));
     }
-    
+ 
+    @Override
+    public Node visitCalloutArgExpr(ParserDecaf.CalloutArgExprContext ctx) {
+        return visit(ctx.expr());
+    }
+
+    @Override
+    public Node visitCalloutArgStringLit(ParserDecaf.CalloutArgStringLitContext ctx) {
+        return visit(ctx.string_literal());
+    }
+
+    @Override
+    public Node visitStringLit(ParserDecaf.StringLitContext ctx) {
+        return new StringLiteral(ctx.STRING_LITERAL().getText());
+    }
+
+    @Override
+    public Node visitExprMethodCall(ParserDecaf.ExprMethodCallContext ctx) {
+        return visit(ctx.method_call());
+    }
+
+    @Override
+    public Node visitCalloutExpr(ParserDecaf.CalloutExprContext ctx) {
+        Args a = new Args();
+        for (ParserDecaf.ExprContext n : ctx.expr()) {
+            a.addArg(visit(n));
+        }
+        return a;
+    }
+
+    @Override    
+    public Node visitMethodCallStat(ParserDecaf.MethodCallStatContext ctx) {
+        return visit(ctx.method_call());
+    }
+
+    @Override
+    public Node visitMethodCall(ParserDecaf.MethodCallContext ctx) {
+        CallMethod c = new CallMethod(ctx.ID().getText());        
+        if(ctx.callout_expr() != null) {            
+            c.setArgs(visit(ctx.callout_expr()));
+        }
+        return c;
+    }
+
+    @Override
+    public Node visitCalloutCall(ParserDecaf.CalloutCallContext ctx) {
+        CallCallout c = new CallCallout(ctx.string_literal().getText());
+        if (ctx.callout_args() != null)
+            c.setArgs(visit(ctx.callout_args()));
+        return c;
+    }
+
+    @Override
+    public Node visitCalloutArgs(ParserDecaf.CalloutArgsContext ctx) {
+        Args a = new Args();
+        for (ParserDecaf.Callout_argContext n : ctx.callout_arg()) {
+            a.addArg(visit(n));
+        }
+        return a;
+    }
 }

@@ -41,6 +41,8 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     	return fd;
     }
 
+
+
     @Override
     public Node visitMethodDecl(ParserDecaf.MethodDeclContext ctx) {
         String type = (ctx.VOID() == null) ? ctx.type().getText() : ctx.VOID().getText();
@@ -142,6 +144,20 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
         Node lo = visit(ctx.expr(0));
         Node ro = visit(ctx.expr(1));
         return new BinOp(ctx.bin_op().getText(), lo, ro);
+    }
+
+    @Override
+    public Node visitExprArithAdd(ParserDecaf.ExprArithAddContext ctx) {
+        Node lo = visit(ctx.expr(0));
+        Node ro = visit(ctx.expr(1));
+        return new BinOp(ctx.arith_add().getText(), lo, ro);
+    }
+
+    @Override
+    public Node visitExprArithMult(ParserDecaf.ExprArithMultContext ctx) {
+        Node lo = visit(ctx.expr(0));
+        Node ro = visit(ctx.expr(1));
+        return new BinOp(ctx.arith_mult().getText(), lo, ro);
     }
 
     @Override

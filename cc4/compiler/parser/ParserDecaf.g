@@ -80,6 +80,10 @@ expr			:	location
 					# exprMethodCall
 				|	literal
 					# exprLiteral
+				|	expr arith_mult expr
+					# exprArithMult
+				|	expr arith_add expr
+					# exprArithAdd
 				|	expr bin_op expr
 					# exprBinOp
 				|	SUB expr
@@ -94,9 +98,7 @@ callout_arg		:	expr
 				|	string_literal
 					# calloutArgStringLit;
 
-bin_op			:	arith_op					
-					# arithmeticOp
-				|	rel_op					
+bin_op			:	rel_op					
 					# relationalOp
 				|	eq_op					
 					# equalOp
@@ -104,16 +106,17 @@ bin_op			:	arith_op
 					# conditionOp
 				;
 
-arith_op		:   DIV
+arith_add		:   ADD
+					# add
+				|	SUB
+					# sub;
+
+arith_mult		:	DIV
 					# div
                 |   MULT
 					# mult
 				| 	MOD
-					# mod
-				|	ADD
-					# add
-				|	SUB
-					# sub;
+					# mod;
 
 rel_op			:	GREAT_THAN					
 					# relGreatThan

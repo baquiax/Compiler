@@ -1,7 +1,20 @@
 package compiler.semantic;
 
+import java.util.LinkedList;
+
 public class ErrorType {
-	public ErrorType() {
+	LinkedList<String> errorList;
+
+	public ErrorType(LinkedList<String> list) {
+		errorList = new LinkedList<String>();
+	}
+
+	public void addError(String error) {
+		errorList.add(error);
+	}
+
+	public void printError() {
+
 	}
 
 	public void varField(String name) {

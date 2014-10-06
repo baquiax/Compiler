@@ -22,7 +22,7 @@ ast/AstVisitor.class: ast/AstVisitor.java
 	javac ast/AstVisitor.java
 
 semantic/Semantic.class: semantic/Semantic.java
-	javac semantic/Semantic.java
+	javac semantic/*.java
 
 irt/Irt.class: irt/Irt.java
 	javac irt/Irt.java

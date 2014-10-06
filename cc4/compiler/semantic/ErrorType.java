@@ -3,14 +3,14 @@ package compiler.semantic;
 import java.util.LinkedList;
 
 public class ErrorType {
-	LinkedList<String> errorList;
+	LinkedList<Integer> errorId;
 
-	public ErrorType(LinkedList<String> list) {
-		errorList = new LinkedList<String>();
+	public ErrorType() {
+		errorId = new LinkedList<Integer>();
 	}
 
-	public void addError(String error) {
-		errorList.add(error);
+	public void addError(int error) {
+		errorId.add(error);
 	}
 
 	public void printError() {

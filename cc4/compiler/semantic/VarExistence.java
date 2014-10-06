@@ -5,10 +5,12 @@ import java.util.LinkedList;
 public class VarExistence {
 	private LinkedList<String> localVar;
 	private LinkedList<String> globalVar;
+	private ErrorType error;
 
 	public VarExistence() {
 		localVar= new LinkedList<String>();
 		globalVar = new LinkedList<String>();
+		error = new ErrorType();
 	}
 
 	public void addLocalVar(String localVariable) {
@@ -26,6 +28,7 @@ public class VarExistence {
 			if (localVar.get(i).equals(nameVar))
 				value = true;
 			else 
+				error.addError(3);
 				value = false;
 		}
 
@@ -39,6 +42,7 @@ public class VarExistence {
 			if (globalVar.get(i).equals(nameVar))
 				value = true;
 			else 
+				error.addError(4);
 				value = false;
 		}
 

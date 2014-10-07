@@ -14,15 +14,32 @@ public class ErrorType {
 	}
 
 	public void printError() {
-
+		for (int i=0;i<errorId.size();i++) {
+			if (errorId.get(i)==1) returnFunction();
+			else if (errorId.get(i)==2) conditional();
+			else if (errorId.get(i)==3) varMethod();
+			else if (errorId.get(i)==4) varField();
+		}
 	}
 
-	public void varField(String name) {
-		System.out.println("Variable " + name + " no definida");
+	/*ERRORID = 1*/
+	public void returnFunction() {
+		System.out.println("Valor de retorno de método invalido");
 	}
 
-	public void varMethod(String name, String nameMethod) {
-		System.out.println("Variable "+name+" no definida en método "+nameMethod);
+	/*ERRORID = 2*/
+	public void conditional() {
+		System.out.println("Condicion no booleana");
+	}
+
+	/*ERRORID = 3*/
+	public void varMethod() {
+		System.out.println("Variable no definida en metodo");
+	}
+
+	/*ERRORID = 4*/
+	public void varField() {
+		System.out.println("Variable no definida");
 	}
 
 	public void callMisingMethod(String nameMethod) {
@@ -33,16 +50,8 @@ public class ErrorType {
 		System.out.println("Parametros de mas en "+nameMethod);
 	}
 
-	public void conditional() {
-		System.out.println("Valor de comparacion no booleano");
-	}
-
 	public void array(String arreglo) {
 		System.out.println("Posicion fuera de rango en "+arreglo);
-	}
-
-	public void returnFunction(String nameMethod) {
-		System.out.println("Valor de retorno de "+nameMethod+ " invalido");
 	}
 
 	public void assign(String var) {

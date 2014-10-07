@@ -77,4 +77,6 @@ clean:
 	rm -rf test/derivations.context
 	rm -rf test/derivations.errors
 	rm -rf ast/*.class
+	rm -rf semantic/*.class
 	rm -rf ast/*~
+	

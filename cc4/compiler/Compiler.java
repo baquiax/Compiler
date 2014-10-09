@@ -191,8 +191,7 @@ public class Compiler {
 
     private static Semantic instanceSemantic(CC4Parser parser) {
         Semantic semantic = new Semantic(parser);
-        semantic.checkSemantic();
-
+        semantic.check(parser.getProgram());
         return semantic;
     }
 

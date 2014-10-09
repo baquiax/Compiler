@@ -20,4 +20,20 @@ public class MethodParameter {
 	public void addName(String nameParameter) {
 		nameParam.add(nameParameter);
 	}
+
+	public int cantParameters() {
+		return nameParam.size();
+	}
+
+	public String returnNameMethod() {
+		return nameMethod;
+	}
+
+	public LinkedList<String> returnTypeParam() {
+		return typeParam;
+	}
+
+	public LinkedList<String> returnNameParam() {
+		return nameParam;
+	}
 }

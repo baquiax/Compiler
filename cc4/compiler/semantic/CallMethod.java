@@ -25,6 +25,22 @@ public class CallMethod {
 	}
 
 	public boolean countParameters() {
-		return false;
+		int countCallMethod = nameParam.size();
+		int countFunction = function.cantParameters();
+		boolean value=false;
+
+		if (nameMethod.equals(function.returnNameMethod())) {
+			if (countCallMethod==countFunction) {
+				for (int i=0;i<nameParam.size();i++) {
+					if ((nameParam.get(i).equals(function.returnNameParam().get(i))) && (typeParam.get(i).equals(function.returnTypeParam().get(i)))) {
+						value=true;
+					} else {
+						error.addError(5);
+					}
+				}
+			}
+		}
+
+		return value;
 	}
 }

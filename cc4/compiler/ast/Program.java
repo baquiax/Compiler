@@ -4,11 +4,11 @@ import java.util.LinkedList;
 
 public class Program extends Node {
     private List<FieldDecl> fields;
-    prviate List<MetodDecl> methods;
+    private List<MethodDecl> methods;
         
     public Program () {
 	   this.fields = new LinkedList<FieldDecl>();
-       this.methods = new LinkedList<MetodDecl>();
+       this.methods = new LinkedList<MethodDecl>();
     }
     
     public void addField(FieldDecl node) {
@@ -19,11 +19,11 @@ public class Program extends Node {
         return this.fields;
     }
 
-    public void addMethod(MetodDecl node) {
+    public void addMethod(MethodDecl node) {
         this.methods.add(node);
     }
 
-    public List<MetodDecl> getMethods() {
+    public List<MethodDecl> getMethods() {
         return this.methods;    
     }
 

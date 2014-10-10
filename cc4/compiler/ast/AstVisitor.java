@@ -13,11 +13,11 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     	List<ParserDecaf.Method_declContext> methods = ctx.method_decl();
 
     	for (ParserDecaf.Field_declContext e : fields) {
-    	    program.add((FieldDecl)visit(e));
+    	    program.addField((FieldDecl)visit(e));
         }
 
     	for (ParserDecaf.Method_declContext e : methods) {
-    	    program.add((MethodDecl)visit(e));
+    	    program.addMethod((MethodDecl)visit(e));
     	}
     	return program;
     }

@@ -21,60 +21,54 @@ public class ErrorType {
 			else if (errorId.get(i)==4) varField();
 			else if (errorId.get(i)==5) varDefined();
 			else if (errorId.get(i)==6) callMisingMethod();
-			else if (errorId.get(i)==7) callMethod();
-			else if (errorId.get(i)==8) array();
-			else if (errorId.get(i)==9) assign();
-			else if (errorId.get(i)==10) typeParam();
+			else if (errorId.get(i)==7) array();
+			else if (errorId.get(i)==8) assign();
+			else if (errorId.get(i)==9) typeParam();
 		}
 	}
 
 	/*ERRORID = 1*/
 	public void returnFunction() {
-		System.out.println("Valor de retorno de método invalido");
+		System.out.println("Invalid return value method");
 	}
 
 	/*ERRORID = 2*/
 	public void conditional() {
-		System.out.println("Condicion no booleana");
+		System.out.println("No boolean condition");
 	}
 
 	/*ERRORID = 3*/
 	public void varMethod() {
-		System.out.println("Variable no definida en metodo");
+		System.out.println("Variable not defined in method");
 	}
 
 	/*ERRORID = 4*/
 	public void varField() {
-		System.out.println("Variable no definida");
+		System.out.println("Variable not defined");
 	}
 
 	/*ERRORID = 5*/
 	public void varDefined() {
-		System.out.println("Variable ya fue definida");
+		System.out.println("Variable already defined");
 	}
 
 	/*ERRORID = 6*/
 	public void callMisingMethod() {
-		System.out.println("Parametros faltantes");
+		System.out.println("Missing parameters");
 	}
 
 	/*ERRORID = 7*/
-	public void callMethod() {
-		System.out.println("Parametros de mas");
+	public void array() {
+		System.out.println("Position out of range");
 	}
 
 	/*ERRORID = 8*/
-	public void array() {
-		System.out.println("Posicion fuera de rango");
+	public void assign() {
+		System.out.println("Invalid value assigned");
 	}
 
 	/*ERRORID = 9*/
-	public void assign() {
-		System.out.println("Valor asignado invalido");
-	}
-
-	/*ERRORID = 10*/
 	public void typeParam() {
-		System.out.println("Parametros incorrectos para método");
+		System.out.println("Incorrect parameters for method");
 	}		
 }

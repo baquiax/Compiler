@@ -189,12 +189,6 @@ public class Compiler {
         return parser;
     }
 
-    private static Semantic instanceSemantic(CC4Parser parser) {
-        Semantic semantic = new Semantic(parser);
-        semantic.check(parser.getProgram());
-        return semantic;
-    }
-
     private static Ast instanceAst(CC4Parser parser) {
         Ast ast = new Ast(parser);
         ast.makeTree();
@@ -202,8 +196,14 @@ public class Compiler {
         return ast;
     }
 
-    private static Irt instanceIrt(Ast ast) {
-        Irt irt=new Irt(ast);
+    private static Semantic instanceSemantic(Ast ast) {
+        Semantic semantic = new Semantic(ast);
+        //semantic.check(ast.getProgram());
+        return semantic;
+    }
+
+    private static Irt instanceIrt(Semantic semantic) {
+        Irt irt=new Irt(semantic);
         irt.translateAst();
 
         return irt;

@@ -1,6 +1,6 @@
 package compiler.irt;
 import compiler.lib.Debug;
-import compiler.ast.Ast;
+import compiler.semantic.Semantic;
 import compiler.opt.Algebraic;
 import compiler.opt.ConstantFolding;
 import compiler.lib.Configuration;
@@ -9,11 +9,11 @@ import java.util.ArrayList;
 public class Irt {	
 	
 	public static final int level = 5;
-	private Ast ast;
+	private Semantic semantic;
 	private ArrayList<String>  listSintaxis;
 	
-	public Irt(Ast ast) {
-		this.ast = ast;
+	public Irt(Semantic semantic) {
+		this.semantic = semantic;
 	}
 	
 	public void translateAst() {

@@ -1,6 +1,6 @@
 package compiler.semantic;
 
-public class BlockScope extends Scope {
+public abstract class BlockScope extends Scope {
 
     public BlockScope() {
 	

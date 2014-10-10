@@ -1,6 +1,7 @@
 package compiler.semantic;
 import compiler.lib.Debug;
-import compiler.parser.AST;
+//import compiler.parser.AST;
+import compiler.ast.Ast;
 import compiler.lib.Configuration;
 import compiler.ast.*;
 import java.util.List;
@@ -13,14 +14,14 @@ import java.util.List;
 public class Semantic {	
 
 	public static final int level = 4;
-	private AST ast;
+	private Ast ast;
 	private Scope globalScope;
 	private Scope currentScope;	
 	
-	public Semantic(AST parser) {
-		this.parser = parser;
-		this.globalScope = new ProgramScope();
-		this.currentScope = this.globalScope();
+	public Semantic(Ast ast) {
+		this.ast = ast;
+		//this.globalScope = new ProgramScope();
+		//this.currentScope = this.globalScope();
 	}
 	
 	public void check(Node n) {
@@ -29,20 +30,20 @@ public class Semantic {
         	if (Debug.debugEnabled("semantic")) System.out.println("debugging: SEMANTIC");	
         } 
 
-        if (Program.class.getName(n.getClass().getName)) {
+        /*if (Program.class.getName(n.getClass().getName)) {
 
         } else {
 
-        }
+        }*/
 	}
 
 	public void checkProgram(Program p) {
 		for(FieldDecl f : p.getFields()) {
-			this.checkFieldDecl(f);
+			//this.checkFieldDecl(f);
 		}
 
 		for(MethodDecl m : p.getMethods()) {
-			this.checkMethodDecl(m);
+			//this.checkMethodDecl(m);
 		}
 	}
 }

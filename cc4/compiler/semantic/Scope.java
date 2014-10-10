@@ -1,5 +1,6 @@
 package compiler.semantic;
-import compiler.ast;
+
+import compiler.ast.*;
 
 public abstract class Scope {
     public abstract boolean insertSymbol(String k, Node v);

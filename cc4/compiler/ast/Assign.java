@@ -19,6 +19,10 @@ public class Assign extends Node {
 		expr.print(padding + "\t");
 	}
 
+	public Node getE() {
+		return this.expr;
+    }
+
 	public void print() {
 		this.print("");
 	}

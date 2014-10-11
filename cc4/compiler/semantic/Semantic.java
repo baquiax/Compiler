@@ -1,6 +1,5 @@
 package compiler.semantic;
 import compiler.lib.Debug;
-//import compiler.parser.AST;
 import compiler.ast.Ast;
 import compiler.lib.Configuration;
 import compiler.ast.*;
@@ -15,11 +14,13 @@ public class Semantic {
 
 	public static final int level = 4;
 	private Ast ast;
+	private ErrorType error;
 	private Scope globalScope;
 	private Scope currentScope;	
 	
 	public Semantic(Ast ast) {
 		this.ast = ast;
+		error = new ErrorType();
 		//this.globalScope = new ProgramScope();
 		//this.currentScope = this.globalScope();
 	}
@@ -34,6 +35,30 @@ public class Semantic {
 	}
 
 	public void checkProgram(Node n) {
+		
+	}
+
+	public void checkAssign() {
+
+	}
+
+	public void checkType() {
+
+	}
+
+	public void checkIf() {
+
+	}
+
+	public void checkFor() {
+
+	}
+
+	public void checkArray() {
+
+	}
+
+	public void checkVars() {
 		
 	}
 }

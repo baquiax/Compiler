@@ -15,6 +15,18 @@ public class BinOp extends Node {
 		this.print("");
 	}
 
+	public Node getFirst() {
+	   return this.leftOperator;
+    }
+
+    public Node getSecond() {
+	   return this.rightOperator;
+    }
+
+    public String getOperator() {
+        return this.operator;
+    }
+
 	public void print(String padding) {
 		System.out.println(padding + this.operator + " -> ");
 		System.out.println(padding + "Left operator");

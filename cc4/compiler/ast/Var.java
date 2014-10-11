@@ -16,6 +16,10 @@ public class Var extends Node {
 		this.varName = varName;
     }
 
+    public String getName() { 
+       return this.varName;
+    }
+
     public void setType(String t) {
     	this.type = t;
     }

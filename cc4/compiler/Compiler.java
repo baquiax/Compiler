@@ -127,7 +127,7 @@ public class Compiler {
             } else if (Configuration.stopStage==3) {
                 instanceAst(instanceParser(instanceScanner()));
             } else if (Configuration.stopStage==4) {
-		
+		          instanceSemantic(instanceAst(instanceParser(instanceScanner())));
             } else if (Configuration.stopStage==5) {
 
             } else if (Configuration.stopStage==6) {
@@ -198,7 +198,7 @@ public class Compiler {
 
     private static Semantic instanceSemantic(Ast ast) {
         Semantic semantic = new Semantic(ast);
-        //semantic.check(ast.getProgram());
+        semantic.check();
         return semantic;
     }
 

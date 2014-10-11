@@ -5,7 +5,7 @@ import java.util.LinkedList;
 public class Program extends Node {
     private List<FieldDecl> fields;
     private List<MethodDecl> methods;
-        
+    
     public Program () {
 	   this.fields = new LinkedList<FieldDecl>();
        this.methods = new LinkedList<MethodDecl>();

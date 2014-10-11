@@ -24,26 +24,16 @@ public class Semantic {
 		//this.currentScope = this.globalScope();
 	}
 	
-	public void check(Node n) {
+	public void check() {
 		if (Configuration.stopStage >= Semantic.level) {
         	System.out.println("stage: SEMANTIC");
-        	if (Debug.debugEnabled("semantic")) System.out.println("debugging: SEMANTIC");	
-        } 
+        	if (Debug.debugEnabled("semantic")) System.out.println("debugging: SEMANTIC");
+        	checkProgram(ast.getProgram());
+        }
 
-        /*if (Program.class.getName(n.getClass().getName)) {
-
-        } else {
-
-        }*/
 	}
 
-	public void checkProgram(Program p) {
-		for(FieldDecl f : p.getFields()) {
-			//this.checkFieldDecl(f);
-		}
-
-		for(MethodDecl m : p.getMethods()) {
-			//this.checkMethodDecl(m);
-		}
+	public void checkProgram(Node n) {
+		
 	}
 }

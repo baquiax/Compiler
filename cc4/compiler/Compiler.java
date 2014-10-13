@@ -104,9 +104,9 @@ public class Compiler {
         if (!Compiler.existsFile(flags.get("inputFile"))) 
 	    Compiler.printMessageAndExit("El archivo a compilar no existe!", 1);
 	
-        //Flag target default si no es indicado.
+        //Flag target default. Si no es indicado.
         if (flags.get("-target") == null) {
-	    flags.put("-target", "ast");
+	    flags.put("-target", "semantic");
         }
 	
         int stopStage = 1;
@@ -127,7 +127,7 @@ public class Compiler {
             } else if (Configuration.stopStage==3) {
                 instanceAst(instanceParser(instanceScanner()));
             } else if (Configuration.stopStage==4) {
-		          instanceSemantic(instanceAst(instanceParser(instanceScanner())));
+		instanceSemantic(instanceAst(instanceParser(instanceScanner())));
             } else if (Configuration.stopStage==5) {
 
             } else if (Configuration.stopStage==6) {

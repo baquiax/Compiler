@@ -1,18 +1,17 @@
 package compiler.ast;
-import compiler.ast.Var;
 import java.util.List;
 import java.util.LinkedList;
 
 public class FieldDecl extends Node {
     private String type;
-    private List<Var> fields;
+    private List<Node> fields;
     
     public FieldDecl(String type) {
     	this.type = type;
     	this.fields = new LinkedList<Node>();
     }
 
-    public void add(Var v) {
+    public void add(Node v) {
 	   this.fields.add(v);
     }
     

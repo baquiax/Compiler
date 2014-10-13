@@ -1,35 +1,43 @@
 package compiler.semantic;
-import compiler.ast.Node;
-import java.util.List;
+import java.util.Hashtable;
 
 public class BlockScope extends Scope {
-
-    public BlockScope() {
-	
+    private int scopeId;
+    private Scope parent;
+    private Hashtable<String, Type> table;
+    
+    public BlockScope(Scope parent) {
+	this.parent = parent;
+	this.table = new Hashtable<String, Type>();
+	this.scopeId = ++Scope.scopes;
     }
     
     @Override
     public int getId() {
-        return 1;
+	return this.scopeId;
     }
 
     @Override
-    public void addScope(Scope s) {
-        
+    public boolean insertSymbol(String n, Type t) {
+	if (this.getSymbol(n) != null) {
+	    return false;
+	} else {
+	    this.table.put(n, t);
+	    return true;
+	}
+    }
+    
+    @Override
+    public Type getSymbol(String n) {
+	return this.table.get(n);
     }
 
     @Override
-    public List<Scope> getScopes() {
-        return null;
+    public Scope getParent() {
+	return this.parent;
     }
 
-    @Override
-    public Node getSymbol(String key) {
-    	return null;
-    }
-
-    @Override
-    public boolean insertSymbol(String k, Node n) {
-    	return true;
+    public String toString(String padding) {
+	return "";
     }
 }

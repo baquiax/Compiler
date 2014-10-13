@@ -24,6 +24,10 @@ public class Var extends Node {
     	this.type = t;
     }
 
+    public String getType() {
+	return this.type;
+    }
+
     public void print(String padding) {
         if (this.type == null) 
             System.out.println(padding + this.varName);

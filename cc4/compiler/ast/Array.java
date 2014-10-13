@@ -1,7 +1,7 @@
 package compiler.ast;
 
 public class Array extends Node {
-	private String type;
+    private String type;
     private String name;
     private String size;
     private Node currentIndex;
@@ -26,8 +26,16 @@ public class Array extends Node {
 		this.size = s;
     }    
 
+    public String getName() {
+	return this.name;
+    }
+
     public void setType(String t) {
     	this.type = t;
+    }
+
+    public String getType() {
+	return this.type;
     }
 
     public void setIndex(Node n) {

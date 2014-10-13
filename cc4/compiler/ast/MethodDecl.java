@@ -8,16 +8,24 @@ public class MethodDecl extends Node {
     private String returnType;
     private List<Node> parameters;
     private Node block;
-
+    
     public MethodDecl(String n, String type, Node block) {
-	   this.methodName = n;
-       this.returnType = type;
-       this.block = block;
-       this.parameters = new LinkedList<Node>();
+	this.methodName = n;
+	this.returnType = type;
+	this.block = block;
+	this.parameters = new LinkedList<Node>();
     }    
-
+    
+    public String getName() {
+	return this.methodName;
+    }
+    
     public void addParameter(Node parameter) {
         this.parameters.add(parameter);
+    }
+    
+    public String getReturnType() {
+	return this.returnType;
     }
 
     public void print(String padding) {

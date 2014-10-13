@@ -28,14 +28,14 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     	List<ParserDecaf.Field_decl_derivContext> decls = ctx.field_decl_deriv();        
     	for (ParserDecaf.Field_decl_derivContext e : decls) {
             Node n = visit(e);            
-            if (n.getClass().getName().equals(Var.getClass().getName()))   {
+            if (n.getClass().getName().equals(Var.class.getName()))   {
                 Var v = (Var)visit(e);
                 v.setType(ctx.type().getText());
                 fd.add(v);
             } else {
                 Array a = (Array)visit(e);
                 a.setType(ctx.type().getText());
-                fd.add((Node)a);
+                fd.add(a);
             }            
     	}
     	return fd;

@@ -21,8 +21,8 @@ public class Semantic {
 	public Semantic(Ast ast) {
 		this.ast = ast;
 		error = new ErrorType();
-		//this.globalScope = new ProgramScope();
-		//this.currentScope = this.globalScope();
+		this.globalScope = new ProgramScope();
+		this.currentScope = this.globalScope;
 	}
 	
 	public void check() {
@@ -31,11 +31,20 @@ public class Semantic {
         	if (Debug.debugEnabled("semantic")) System.out.println("debugging: SEMANTIC");
         	checkProgram(ast.getProgram());
         }
-
 	}
 
-	public void checkProgram(Node n) {
-		
+	public void checkProgram(Program p) {
+		List<FieldDecl> fieldDecls = p.getFields();
+		for (FieldDecl f : fieldDecls) {
+			for (Var v : f) {
+				this.currentScope.insertSymbol(v.getName(), v);	
+			}			
+		}
+
+		List<MethodDecl> methodsDecls =	p.getMethods();
+		for (MethodDecl m : methodsDecls) {
+
+		}
 	}
 
 	public void checkAssign() {

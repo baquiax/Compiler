@@ -23,6 +23,14 @@ public class MethodDecl extends Node {
     public void addParameter(Node parameter) {
         this.parameters.add(parameter);
     }
+
+    public List<Node> getParameters() {
+	return this.parameters;
+    }
+
+    public Node getBlock() {
+	return this.block;
+    }
     
     public String getReturnType() {
 	return this.returnType;

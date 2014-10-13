@@ -51,9 +51,26 @@ public class Semantic {
 	List<MethodDecl> methodsDecls =	p.getMethods();
 	for (MethodDecl n : methodsDecls) {
 	    MethodDecl m = (MethodDecl) n;
-	    Semantic.currentScope.insertSymbol(m.getName(), new MethodType(m));
+	    MethodType mt = new MethodType(m);	
+	    Semantic.currentScope.insertSymbol(m.getName(), mt);
+	    Semantic.currentScope = mt.getScope();
+	    this.checkMethod(m);
+	    Semantic.currentScope = mt.getScope().getParent();
 	}
 	this.globalScope.print();
+    }
+    
+    public void checkMethod(MethodDecl m) {		
+	for (Node n : m.getParameters()) {
+	    if (n.getClass().getName().equals(Var.class.getName())) {
+		Var v = (Var) n;
+		Semantic.currentScope.insertSymbol(v.getName(), new VarType(v));
+	    } else {
+		//It's an array.
+		Array a = (Array) n;
+		Semantic.currentScope.insertSymbol(a.getName(), new ArrayType(a));
+	    }
+	}
     }
     
     public void checkAssign() {

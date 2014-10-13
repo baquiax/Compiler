@@ -38,11 +38,11 @@ public class MethodScope extends Scope {
     }
 
     public String toString(String padding) {
-	String result = padding + "Scope #" + this.getId() + "\n";
+	String result = "\n" + padding + "---Scope #" + this.getId() + "---\n";
 	for (String k: this.table.keySet()) {
 	    Type t = this.table.get(k);
-	    result += padding + k + "\t " + t.getClass().getName() + "\t" + t.getType() + "\n\n";	    
+	    result += padding + k + "\t " + t.getClass().getName() + "\t" + t.getType() + "\n";
 	}
-	return result;
+	return result + "\n";
     }
 }

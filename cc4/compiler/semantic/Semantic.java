@@ -71,6 +71,21 @@ public class Semantic {
 		Semantic.currentScope.insertSymbol(a.getName(), new ArrayType(a));
 	    }
 	}
+	
+	//Check block method
+	Block b = (Block)m.getBlock();
+	for(Node vd : b.getVarDecl()) {
+	    if (vd.getClass().getName().equals(FieldDecl.class.getName())) {
+		FieldDecl fd = (FieldDecl) vd;
+		for (Node n : fd.getFields()) {
+		    if (n.getClass().getName().equals(Var.class.getName())) {
+			Var v = (Var) n;
+			Semantic.currentScope.insertSymbol(v.getName(), new VarType(v));
+		    }
+		}					
+	    }
+	}
+	
     }
     
     public void checkAssign() {

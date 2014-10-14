@@ -23,13 +23,14 @@ public class Ast {
     }
 
     public void makeTree() {
-		if (Configuration.stopStage >= Ast.level) {
-		    System.out.println("stage: AST");
-		    if (Debug.debugEnabled("ast")) System.out.println("debugging: AST");
-		    ParseTree tree = this.parser.getParser().start();
-		    AstVisitor visitor = new AstVisitor();
-		 	this.program = (Program) visitor.visit(tree);
-		    this.program.print();
-		}
+	if (Configuration.stopStage >= Ast.level) {
+	    System.out.println("stage: AST");
+	    if (Debug.debugEnabled("ast")) System.out.println("debugging: AST");
+	    ParseTree tree = this.parser.getParser().start();
+	    AstVisitor visitor = new AstVisitor();
+	    this.program = (Program) visitor.visit(tree);
+	    //Verify if debug is activated #19
+	    //this.program.print();
+	}
     }
 }

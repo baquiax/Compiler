@@ -90,7 +90,7 @@ public class Semantic {
 	for (Node n: b.getStatements()) {
 	    String st = n.getClass().getName();
 	    if (st.equals(Assign.class.getName())) {
-		this.checkAssign((Assign) st);
+		this.checkAssign((Assign)n);
 	    } else if (st.equals(CallMethod.class.getName())) {
 		
 	    } else if (st.equals(CallMethod.class.getName())) {
@@ -100,6 +100,7 @@ public class Semantic {
 	    } else if (st.equals(ReservedWord.class.getName())) { 
 	    } else if (st.equals(Return.class.getName())) { 
 	    } else if (st.equals(Block.class.getName())) { 
+		
 	    }
 	}
     }
@@ -109,14 +110,14 @@ public class Semantic {
 	if (as.getLocation().getClass().getName().equals(Var.class.getName())) {
 	    Var v = (Var) as.getLocation();
 	    if (Semantic.currentScope.getSymbol(v.getName()) == null) {
-		if (Semantic.currentScope.getSymbol(v.getName()) == null)
-		System.err.println(v.getName + " no está definido.");
+		if (Semantic.globalScope.getSymbol(v.getName()) == null) {
+		    System.err.println(v.getName() + " no está definido.");
+		    System.err.println("[L:" + as.getLineNumber() + "]" + as + "\n");
+		}
 	    }
-	    varName = v.getName();
 	} else if (as.getLocation().getClass().getName().equals(Array.class.getName())) {
 	    //Array is only defined in global scope.
 	    Array a = (Array) as.getLocation();
-	    varName = a.getName();
 	}
     }
     

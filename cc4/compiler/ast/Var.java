@@ -34,4 +34,8 @@ public class Var extends Node {
         else
             System.out.println(padding + "(" + this.type + "):"+ this.varName );
     }   
+
+    public String toString() {
+	return varName;
+    }
 }

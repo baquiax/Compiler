@@ -44,6 +44,14 @@ public class Semantic {
 	}
     }
     
+    private Type getSymbol(String k) {
+	Type r = Semantic.currentScope.getSymbol(k);
+	if (r == null) {
+	    r = Semantic.globalScope.getSymbol(k);
+	}
+	return r;
+    }
+    
     public void checkProgram(Program p) {
 	List<FieldDecl> fieldDecls = p.getFields();
 	for (FieldDecl f : fieldDecls) {
@@ -106,41 +114,79 @@ public class Semantic {
 	    String st = n.getClass().getName();
 	    if (st.equals(Assign.class.getName())) {
 		this.checkAssign((Assign)n);
-	    } else if (st.equals(CallMethod.class.getName())) {
-		
-	    } else if (st.equals(CallMethod.class.getName())) {
-		
+	    } else if (st.equals(CallMethod.class.getName())) {		
 	    } else if (st.equals(If.class.getName())) {
 	    } else if (st.equals(For.class.getName())) {
 	    } else if (st.equals(ReservedWord.class.getName())) { 
 	    } else if (st.equals(Return.class.getName())) { 
-	    } else if (st.equals(Block.class.getName())) { 
-		
+	    } else if (st.equals(Block.class.getName())) { 		
 	    }
 	}
     }
     
     public void checkAssign(Assign as) {
+	Type location = null;
 	//Check if location is defined
 	if (as.getLocation().getClass().getName().equals(Var.class.getName())) {
 	    Var v = (Var) as.getLocation();
-	    if (Semantic.currentScope.getSymbol(v.getName()) == null) {
-		if (Semantic.globalScope.getSymbol(v.getName()) == null) {
-		    System.err.println(v.getName() + " no está definido.");
-		    System.err.println("[L:" + as.getLineNumber() + "] " + as + "\n");
-		}
-	    }
+	    location = this.getSymbol(v.getName());
+	    if (location == null) {
+		System.err.println(v.getName() + " no está definido.");
+		System.err.println("[L:" + as.getLineNumber() + "] " + as + "\n");
+	    }	    
 	} else if (as.getLocation().getClass().getName().equals(Array.class.getName())) {
 	    //Array is only defined in global scope.
 	    Array a = (Array) as.getLocation();
-	    if (Semantic.globalScope.getSymbol(a.getName()) == null) {
+	    location = Semantic.globalScope.getSymbol(a.getName());
+	    if (location == null) {
 		System.err.println(a.getName() + " no está definido.");
 		System.err.println("[L:" + as.getLineNumber() + "] " + as + "\n");
-	    }
+	    }	    
+	}
+	
+	//Ceck Types!
+	if (location != null) {
+	    Node e = as.getE();
+	    String locationType = location.getType();
+	    String eType = this.getRealType(e);
 	    
+	    if (!locationType.equals(eType)) {
+		System.err.println(eType + " no es asignable para " + locationType);
+		System.err.println("[L:" + as.getLineNumber() + "] " + as + "\n");
+	    } 
+	}
+    }
+
+    public String getRealType(Node n) {
+	if (n.getClass().getName().equals(Var.class.getName())) {
+	    Var v = (Var) n;
+	    Type t = this.getSymbol(v.getName());
+	    if (t != null)
+		return t.getType();	    
+	} else if (n.getClass().getName().equals(Array.class.getName())) {
+	    Array a = (Array) n;
+	    Type t = this.getSymbol(a.getName());
+	    if (t != null)
+		return t.getType();	    
+	} else if (n.getClass().getName().equals(CallMethod.class.getName())) {
+	    CallMethod cm = (CallMethod)n;
+	    Type t = Semantic.globalScope.getSymbol(cm.getMethodName());
+	    if (t != null)
+		return t.getType();
+	} else if (n.getClass().getName().equals(IntLiteral.class.getName())) {
+	} else if (n.getClass().getName().equals(HexLiteral.class.getName())) {
+	} else if (n.getClass().getName().equals(BoolLiteral.class.getName())) {
+	    
+	} else if (n.getClass().getName().equals(CharLiteral.class.getName())) {
+	    
+	} else if (n.getClass().getName().equals(BinOp.class.getName())) {
+	    
+	} else if (n.getClass().getName().equals(Negation.class.getName())) {
+	} else if (n.getClass().getName().equals(Negation.class.getName())) {
 	}
 
-	//Ceck Types!
+	//No match.
+	return "error";
     }
     
     public void checkType() {

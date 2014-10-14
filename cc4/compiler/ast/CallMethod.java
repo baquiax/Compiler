@@ -27,4 +27,8 @@ public class CallMethod extends Node {
 	    this.args.print(padding + "\t");
 	}
     }	
+
+    public String toString() {
+	return this.methodName + "(" + this.args + ")";
+    }
 }

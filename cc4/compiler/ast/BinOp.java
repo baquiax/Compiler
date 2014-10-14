@@ -1,19 +1,25 @@
 package compiler.ast;
 
-public class BinOp extends Node {
+public class BinOp extends Node implements ILineNumber{
     private String operator;
     private Node leftOperator;
     private Node rightOperator;
+    private int line;
     
     public BinOp(String o, Node lo, Node ro) {
 	this.operator = o;
 	this.leftOperator = lo;
 	this.rightOperator = ro;
+	this.line = -1;
     }
     
-    public void print() {
-	this.print("");
-	}
+    public void setLineNumber(int l) {
+	this.line = l;
+    }
+
+    public int getLineNumber() {
+	return this.line;
+    }        
     
     public Node getFirst() {
 	return this.leftOperator;
@@ -25,6 +31,10 @@ public class BinOp extends Node {
     
     public String getOperator() {
         return this.operator;
+    }
+    
+    public void print() {
+	this.print("");
     }
     
     public void print(String padding) {

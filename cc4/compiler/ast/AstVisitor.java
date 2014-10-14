@@ -145,21 +145,27 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     public Node visitExprBinOp(ParserDecaf.ExprBinOpContext ctx) {
         Node lo = visit(ctx.expr(0));
         Node ro = visit(ctx.expr(1));
-        return new BinOp(ctx.bin_op().getText(), lo, ro);
+	BinOp op = new BinOp(ctx.bin_op().getText(), lo, ro);
+	op.setLineNumber(ctx.start.getLine());
+        return op;
     }
 
     @Override
     public Node visitExprArithAdd(ParserDecaf.ExprArithAddContext ctx) {
         Node lo = visit(ctx.expr(0));
         Node ro = visit(ctx.expr(1));
-        return new BinOp(ctx.arith_add().getText(), lo, ro);
+	BinOp op = new BinOp(ctx.arith_add().getText(), lo, ro);
+	op.setLineNumber(ctx.start.getLine());
+        return op;
     }
 
     @Override
     public Node visitExprArithMult(ParserDecaf.ExprArithMultContext ctx) {
         Node lo = visit(ctx.expr(0));
         Node ro = visit(ctx.expr(1));
-        return new BinOp(ctx.arith_mult().getText(), lo, ro);
+	BinOp op = new BinOp(ctx.arith_mult().getText(), lo, ro); 
+	op.setLineNumber(ctx.start.getLine());
+        return op;
     }
 
     @Override

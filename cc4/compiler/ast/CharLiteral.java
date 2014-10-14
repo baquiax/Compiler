@@ -7,6 +7,10 @@ public class CharLiteral extends Node {
 	this.value = v;
     }
     
+    public String getType() {
+	return "char";
+    }
+
     public void print() {
 	this.print("");
     }

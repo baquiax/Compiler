@@ -12,9 +12,13 @@ public class IntLiteral extends Node {
     }
     
     public void print() {
-		this.print("");
+	this.print("");
     }
     
+    public String getType() {
+	return "int";
+    }
+
     public String toString() {
 	return String.valueOf(this.value);
     }

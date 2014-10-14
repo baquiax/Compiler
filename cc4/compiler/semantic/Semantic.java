@@ -14,42 +14,23 @@ public class Semantic {
     public static final int level = 4;
     public static Scope currentScope;	
     public static ProgramScope globalScope;
-
     private Ast ast;
-    private ErrorType error;
-
-    
-    
+       
     public Semantic(Ast ast) {
 	this.ast = ast;
 	Semantic.globalScope = new ProgramScope();
 	Semantic.currentScope = Semantic.globalScope;
-    }
+    }        
     
     public void check() {
 	if (Configuration.stopStage >= Semantic.level) {
 	    System.out.println("stage: SEMANTIC");
-	    if (Debug.debugEnabled("semantic")) System.out.println("debugging: SEMANTIC");
 	    checkProgram(ast.getProgram());
+	    if (Debug.debugEnabled("semantic")) {
+		System.out.println("debugging: SEMANTIC");
+		Semantic.globalScope.print();
+	    }
         }
-    }
-
-    private boolean addSymbol(String k, Type v) {
-	//Check if already defined
-	if (Semantic.currentScope.getSymbol(k) == null) {
-	    Semantic.currentScope.insertSymbol(k, v);
-	    return true;
-	} else {
-	    return false;	    	    
-	}
-    }
-    
-    private Type getSymbol(String k) {
-	Type r = Semantic.currentScope.getSymbol(k);
-	if (r == null) {
-	    r = Semantic.globalScope.getSymbol(k);
-	}
-	return r;
     }
     
     public void checkProgram(Program p) {
@@ -80,8 +61,7 @@ public class Semantic {
 	    Semantic.currentScope = mt.getScope();
 	    this.checkMethod(m);
 	    Semantic.currentScope = mt.getScope().getParent();
-	}
-	Semantic.globalScope.print();
+	}	
     }
     
     public void checkMethod(MethodDecl m) {		
@@ -111,16 +91,21 @@ public class Semantic {
 	}
 
 	for (Node n: b.getStatements()) {
-	    String st = n.getClass().getName();
-	    if (st.equals(Assign.class.getName())) {
-		this.checkAssign((Assign)n);
-	    } else if (st.equals(CallMethod.class.getName())) {		
-	    } else if (st.equals(If.class.getName())) {
-	    } else if (st.equals(For.class.getName())) {
-	    } else if (st.equals(ReservedWord.class.getName())) { 
-	    } else if (st.equals(Return.class.getName())) { 
-	    } else if (st.equals(Block.class.getName())) { 		
-	    }
+	    this.checkStatement(n);	    
+	}
+    }
+
+    public void checkStatement(Node n) {
+	String st = n.getClass().getName();
+	if (st.equals(Assign.class.getName())) {
+	    this.checkAssign((Assign)n);
+	} else if (st.equals(CallMethod.class.getName())) {
+	    
+	} else if (st.equals(If.class.getName())) {
+	} else if (st.equals(For.class.getName())) {
+	} else if (st.equals(ReservedWord.class.getName())) { 
+	} else if (st.equals(Return.class.getName())) { 
+	} else if (st.equals(Block.class.getName())) { 		
 	}
     }
     
@@ -145,11 +130,12 @@ public class Semantic {
 	}
 	
 	//Ceck Types!
-	if (location != null) {
-	    Node e = as.getE();
-	    String locationType = location.getType();
-	    String eType = this.getRealType(e);
-	    
+	Node e = as.getE();
+	String eType = this.checkExpr(e);
+	
+	if (location != null) {	    
+	    String locationType = location.getType();	    	    
+	    //Assignation type.
 	    if (!locationType.equals(eType)) {
 		System.err.println(eType + " no es asignable para " + locationType);
 		System.err.println("[L:" + as.getLineNumber() + "] " + as + "\n");
@@ -157,7 +143,7 @@ public class Semantic {
 	}
     }
 
-    public String getRealType(Node n) {
+    public String checkExpr(Node n) {
 	if (n.getClass().getName().equals(Var.class.getName())) {
 	    Var v = (Var) n;
 	    Type t = this.getSymbol(v.getName());
@@ -174,13 +160,20 @@ public class Semantic {
 	    if (t != null)
 		return t.getType();
 	} else if (n.getClass().getName().equals(IntLiteral.class.getName())) {
+	    IntLiteral il = (IntLiteral)n;
+	    return il.getType();
 	} else if (n.getClass().getName().equals(HexLiteral.class.getName())) {
+	    HexLiteral hl = (HexLiteral)n;
+	    return hl.getType();
 	} else if (n.getClass().getName().equals(BoolLiteral.class.getName())) {
-	    
+	    BoolLiteral bl = (BoolLiteral)n;
+	    return bl.getType();
 	} else if (n.getClass().getName().equals(CharLiteral.class.getName())) {
-	    
+	    CharLiteral cl = (CharLiteral)n;
+	    return cl.getType();
 	} else if (n.getClass().getName().equals(BinOp.class.getName())) {
-	    
+	    BinOp bo = (BinOp)n;
+	    return checkBinOp(bo);
 	} else if (n.getClass().getName().equals(Negation.class.getName())) {
 	} else if (n.getClass().getName().equals(Negation.class.getName())) {
 	}
@@ -189,9 +182,70 @@ public class Semantic {
 	return "error";
     }
     
-    public void checkType() {
+    public String checkBinOp(BinOp op) {
+	String operator = op.getOperator();	
+	String firstType = this.checkExpr(op.getFirst());
+	String secondType = this.checkExpr(op.getSecond());
+	String returnType = "error";
 	
-    }
+	if (operator.equals("+") || operator.equals("-") || operator.equals("*") || 
+	    operator.equals("/") || operator.equals("%")) {	    
+	    //Arithmetic Op. (int op int) -> int
+	    if (firstType.equals(secondType)) {
+		if (!firstType.equals("int")) {
+		    System.err.println(operator + " solo debe ser usando con int" );
+		    System.err.println("[L:" + op.getLineNumber() + "] " + op + "\n");
+		} else {
+		    returnType = "int";
+		}
+	    } else {
+		System.err.println(firstType + " no es operable con " + secondType + ", usando " + operator);
+		System.err.println("[L:" + op.getLineNumber() + "] " + op + "\n");
+	    }
+	} else if (operator.equals(">=") || operator.equals(">") || operator.equals("<=") || 
+		   operator.equals("<")) {
+	    //Relational operator. (int op int ) -> boolean	    
+	    if (firstType.equals(secondType)) {
+		if (!firstType.equals("int")) {
+		    System.err.println(operator + " solo debe ser usando con int" );
+		    System.err.println("[L:" + op.getLineNumber() + "] " + op + "\n");
+		} else {
+		    returnType = "boolean";
+		}
+	    } else {
+		System.err.println(firstType + " no es operable con " + secondType + ", usando " + operator);
+		System.err.println("[L:" + op.getLineNumber() + "] " + op + "\n");
+	    }
+	    
+	}  else if (operator.equals("&&") || operator.equals("||")) {
+	    //Logical operator (boolean op boolean) -> boolean
+	    if (firstType.equals(secondType)) {
+		if (!firstType.equals("boolean")) {
+		    System.err.println(operator + " solo opera con boolean");
+		    System.err.println("[L:" + op.getLineNumber() + "] " + op + "\n");
+		} else {
+		    returnType = "boolean";
+		}
+	    } else {
+		System.err.println(firstType + " no es operable con " + secondType + ", usando " + operator);
+		System.err.println("[L:" + op.getLineNumber() + "] " + op + "\n");
+	    }
+	} else if (operator.equals("==") || operator.equals("!=")) {
+	    if (firstType.equals(secondType)) {
+		if (!firstType.equals("int") && !firstType.equals("boolean")) {
+		    System.err.println(operator + " solo opera con boolean or int");
+		    System.err.println("[L:" + op.getLineNumber() + "] " + op + "\n");
+		} else {
+		    returnType = "boolean";
+		}
+	    } else {
+		System.err.println(firstType + " no es operable con " + secondType + ", usando " + operator);
+		System.err.println("[L:" + op.getLineNumber() + "] " + op + "\n");
+	    }
+	}
+	
+	return returnType;
+    }    
     
     public void checkIf() {
 
@@ -201,11 +255,22 @@ public class Semantic {
 	
     }
     
-    public void checkArray() {
-	
+    private boolean addSymbol(String k, Type v) {
+	//Check if already defined
+	if (Semantic.currentScope.getSymbol(k) == null) {
+	    Semantic.currentScope.insertSymbol(k, v);
+	    return true;
+	} else {
+	    return false;	    	    
+	}
     }
     
-    public void checkVars() {
-	
+    private Type getSymbol(String k) {
+	Type r = Semantic.currentScope.getSymbol(k);
+	if (r == null) {
+	    r = Semantic.globalScope.getSymbol(k);
+	}
+	return r;
     }
+    
 }

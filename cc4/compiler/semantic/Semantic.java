@@ -13,16 +13,17 @@ import java.util.List;
 public class Semantic {	
     public static final int level = 4;
     public static Scope currentScope;	
-    
+    public static ProgramScope globalScope;
+
     private Ast ast;
     private ErrorType error;
-    private ProgramScope globalScope;
+
     
     
     public Semantic(Ast ast) {
 	this.ast = ast;
-	this.globalScope = new ProgramScope();
-	Semantic.currentScope = this.globalScope;
+	Semantic.globalScope = new ProgramScope();
+	Semantic.currentScope = Semantic.globalScope;
     }
     
     public void check() {
@@ -57,7 +58,7 @@ public class Semantic {
 	    this.checkMethod(m);
 	    Semantic.currentScope = mt.getScope().getParent();
 	}
-	this.globalScope.print();
+	Semantic.globalScope.print();
     }
     
     public void checkMethod(MethodDecl m) {		
@@ -85,11 +86,38 @@ public class Semantic {
 		}					
 	    }
 	}
-	
+
+	for (Node n: b.getStatements()) {
+	    String st = n.getClass().getName();
+	    if (st.equals(Assign.class.getName())) {
+		this.checkAssign((Assign) st);
+	    } else if (st.equals(CallMethod.class.getName())) {
+		
+	    } else if (st.equals(CallMethod.class.getName())) {
+		
+	    } else if (st.equals(If.class.getName())) {
+	    } else if (st.equals(For.class.getName())) {
+	    } else if (st.equals(ReservedWord.class.getName())) { 
+	    } else if (st.equals(Return.class.getName())) { 
+	    } else if (st.equals(Block.class.getName())) { 
+	    }
+	}
     }
     
-    public void checkAssign() {
-	
+    public void checkAssign(Assign as) {
+	//Check if location is defined
+	if (as.getLocation().getClass().getName().equals(Var.class.getName())) {
+	    Var v = (Var) as.getLocation();
+	    if (Semantic.currentScope.getSymbol(v.getName()) == null) {
+		if (Semantic.currentScope.getSymbol(v.getName()) == null)
+		System.err.println(v.getName + " no está definido.");
+	    }
+	    varName = v.getName();
+	} else if (as.getLocation().getClass().getName().equals(Array.class.getName())) {
+	    //Array is only defined in global scope.
+	    Array a = (Array) as.getLocation();
+	    varName = a.getName();
+	}
     }
     
     public void checkType() {

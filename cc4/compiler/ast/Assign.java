@@ -44,6 +44,6 @@ public class Assign extends Node implements ILineNumber{
     }
     
     public String toString() {
-	return location + " " + operator + " " + expr;
+	return location + " " + operator + " " + expr + ";";
     }
 }

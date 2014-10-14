@@ -2,18 +2,18 @@ package compiler.ast;
 import java.util.List;
 import java.util.LinkedList;
 
-public class Var extends Node {
-	private String type;
+public class Var extends Node{
+    private String type;
     private String varName;
     
-	public Var(String varName) {
+    public Var(String varName) {
     	this.type = null;
-		this.varName = varName;
+	this.varName = varName;
     }
-
+    
     public Var(String type, String varName) {
     	this.type = type;
-		this.varName = varName;
+	this.varName = varName;
     }
 
     public String getName() { 
@@ -26,8 +26,8 @@ public class Var extends Node {
 
     public String getType() {
 	return this.type;
-    }
-
+    }    
+    
     public void print(String padding) {
         if (this.type == null) 
             System.out.println(padding + this.varName);
@@ -35,7 +35,7 @@ public class Var extends Node {
             System.out.println(padding + "(" + this.type + "):"+ this.varName );
     }   
 
-    public String toString() {
+    public String toString() {	
 	return varName;
     }
 }

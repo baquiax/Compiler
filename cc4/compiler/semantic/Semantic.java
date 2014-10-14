@@ -33,6 +33,16 @@ public class Semantic {
 	    checkProgram(ast.getProgram());
         }
     }
+
+    private boolean addSymbol(String k, Type v) {
+	//Check if already defined
+	if (Semantic.currentScope.getSymbol(k) == null) {
+	    Semantic.currentScope.insertSymbol(k, v);
+	    return true;
+	} else {
+	    return false;	    	    
+	}
+    }
     
     public void checkProgram(Program p) {
 	List<FieldDecl> fieldDecls = p.getFields();
@@ -40,11 +50,16 @@ public class Semantic {
 	    for (Node n : f.getFields()) {
 		if (n.getClass().getName().equals(Var.class.getName())) {
 		    Var v = (Var) n;
-		    Semantic.currentScope.insertSymbol(v.getName(), new VarType(v));
+		    if (!this.addSymbol(v.getName(), new VarType(v))) {
+			System.err.println(v.getName() + " ya esta definido!");
+			if (f instanceof ILineNumber) {
+			    System.err.println("[L:" + f.getLineNumber() +  "] " + f + "\n");
+			}
+		    }		    
 		} else {
 		    //It's an array.
 		    Array a = (Array) n;
-		    Semantic.currentScope.insertSymbol(a.getName(), new ArrayType(a));
+		    this.addSymbol(a.getName(), new ArrayType(a));
 		}
 	    }			
 	}
@@ -53,7 +68,7 @@ public class Semantic {
 	for (MethodDecl n : methodsDecls) {
 	    MethodDecl m = (MethodDecl) n;
 	    MethodType mt = new MethodType(m);	
-	    Semantic.currentScope.insertSymbol(m.getName(), mt);
+	    this.addSymbol(m.getName(), mt);
 	    Semantic.currentScope = mt.getScope();
 	    this.checkMethod(m);
 	    Semantic.currentScope = mt.getScope().getParent();
@@ -65,11 +80,11 @@ public class Semantic {
 	for (Node n : m.getParameters()) {
 	    if (n.getClass().getName().equals(Var.class.getName())) {
 		Var v = (Var) n;
-		Semantic.currentScope.insertSymbol(v.getName(), new VarType(v));
+		this.addSymbol(v.getName(), new VarType(v));
 	    } else {
 		//It's an array.
 		Array a = (Array) n;
-		Semantic.currentScope.insertSymbol(a.getName(), new ArrayType(a));
+		this.addSymbol(a.getName(), new ArrayType(a));
 	    }
 	}
 	
@@ -81,7 +96,7 @@ public class Semantic {
 		for (Node n : fd.getFields()) {
 		    if (n.getClass().getName().equals(Var.class.getName())) {
 			Var v = (Var) n;
-			Semantic.currentScope.insertSymbol(v.getName(), new VarType(v));
+			this.addSymbol(v.getName(), new VarType(v));
 		    }
 		}					
 	    }
@@ -112,13 +127,20 @@ public class Semantic {
 	    if (Semantic.currentScope.getSymbol(v.getName()) == null) {
 		if (Semantic.globalScope.getSymbol(v.getName()) == null) {
 		    System.err.println(v.getName() + " no está definido.");
-		    System.err.println("[L:" + as.getLineNumber() + "]" + as + "\n");
+		    System.err.println("[L:" + as.getLineNumber() + "] " + as + "\n");
 		}
 	    }
 	} else if (as.getLocation().getClass().getName().equals(Array.class.getName())) {
 	    //Array is only defined in global scope.
 	    Array a = (Array) as.getLocation();
+	    if (Semantic.globalScope.getSymbol(a.getName()) == null) {
+		System.err.println(a.getName() + " no está definido.");
+		System.err.println("[L:" + as.getLineNumber() + "] " + as + "\n");
+	    }
+	    
 	}
+
+	//Ceck Types!
     }
     
     public void checkType() {

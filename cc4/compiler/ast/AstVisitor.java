@@ -25,6 +25,7 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     @Override
     public Node visitFieldDecl(ParserDecaf.FieldDeclContext ctx) {
     	FieldDecl fd = new FieldDecl(ctx.type().getText());
+	fd.setLineNumber(ctx.start.getLine());
     	List<ParserDecaf.Field_decl_derivContext> decls = ctx.field_decl_deriv();        
     	for (ParserDecaf.Field_decl_derivContext e : decls) {
             Node n = visit(e);            

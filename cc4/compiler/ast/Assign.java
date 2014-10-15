@@ -1,6 +1,6 @@
 package compiler.ast;
 
-public class Assign extends Node implements ILineNumber{
+public class Assign extends Node implements ILineNumber {
     private String operator;
     private Node location;
     private Node expr;

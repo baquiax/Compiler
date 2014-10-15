@@ -25,7 +25,9 @@ class Program {
        for a = true, ((2 + 1) * 2) {
           do = 3;
           break;
-          continue;
+	  if (2 == 3) {
+	     continue;	     	
+       	  }
        }
        method(varname);
        method(1);
@@ -44,7 +46,7 @@ class Program {
        return;
    }
 
-   void method4() {
+   boolean method4(int c , int h) {
       int subB;
       int subC;
    }

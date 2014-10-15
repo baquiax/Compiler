@@ -1,18 +1,14 @@
 package compiler.semantic;
 import java.util.Hashtable;
-import compiler.ast.MethodDecl;
 
-public class MethodScope extends Scope {
+public class ForScope extends Scope {
     private int scopeId;
     private Scope parent;
-    private MethodDecl method;
     private Hashtable<String, Type> table;
-    private boolean hasReturn;
-    
-    public MethodScope(Scope parent, MethodDecl m) {
+
+    public ForScope(Scope parent) {
 	this.parent = parent;
 	this.table = new Hashtable<String, Type>();
-	this.method = m;
 	this.scopeId = ++Scope.scopes;
     }
 
@@ -39,18 +35,6 @@ public class MethodScope extends Scope {
     @Override
     public Scope getParent() {
 	return this.parent;
-    }
-
-    public void returnFound(boolean b) {
-	this.hasReturn = b;
-    }
-    
-    public boolean isReturnFound() {
-	return this.hasReturn;
-    }
-
-    public MethodDecl getMethod() {
-	return this.method;
     }
 
     public String toString(String padding) {

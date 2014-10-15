@@ -79,6 +79,13 @@ public class Semantic {
 	//Check block method
 	Block b = (Block)m.getBlock();
 	this.checkBlock(b);
+	
+	//Check 
+	MethodScope ms = (MethodScope) Semantic.currentScope;
+	if (!ms.isReturnFound() && !m.getReturnType().equals("void")) {
+	    System.err.println("No se ha indicado valor de retorno!. " + m.getReturnType() + " es requerido.");
+	    System.err.println("[L:" + m.getLineNumber() + "] " + m + "\n");
+	}
     }
 
     public void checkStatement(Node n) {
@@ -91,9 +98,49 @@ public class Semantic {
 	    this.checkIf((If)n);
 	} else if (st.equals(For.class.getName())) {
 	    this.checkFor((For)n);
-	} else if (st.equals(ReservedWord.class.getName())) { 
-	} else if (st.equals(Return.class.getName())) { 
+	} else if (st.equals(ReservedWord.class.getName())) {
+	    //break and continue ontly in for context.
+	    ReservedWord rw = (ReservedWord)n;	    
+	    Scope s = Semantic.currentScope;
+	    while(s != null) {
+		if (s.getClass().getName().equals(ForScope.class.getName()))
+		    break;
+		s = s.getParent();
+	    }
+	    
+	    if (s == null || !s.getClass().getName().equals(ForScope.class.getName())) {
+		System.err.println(((ReservedWord)n) + " es usado unicamente en bloques de iteracion.");
+		System.err.println("[L:" + rw.getLineNumber() + "] " + rw + "\n");
+	    }
+	    
+	} else if (st.equals(Return.class.getName())) {
+	    Return r = (Return)n;
+	    Scope scope = Semantic.currentScope;
+	    while(scope != null) {
+		if (scope.getClass().getName().equals(MethodScope.class.getName()))
+		    break;
+		scope = scope.getParent();
+	    }
+	    
+	    if ( scope != null ) {
+		MethodScope s = (MethodScope)scope;
+		s.returnFound(true);
+		MethodDecl md = s.getMethod();		
+		if (r.getExpr() == null && !md.getReturnType().equals("void")) {
+		    //void
+		    System.err.println("Se retorna void cuando se espera " + md.getReturnType());
+		    System.err.println("[L:" + r.getLineNumber() + "] " + r + "\n");
+		} else if (r.getExpr() != null) {
+		    String returnType = this.checkExpr(r.getExpr());
+		    if (returnType.equals(md.getReturnType())) {
+			System.err.println("Se retorna " +  returnType + " cuando se espera " + md.getReturnType());
+			System.err.println("[L:" + r.getLineNumber() + "] " + r + "\n");
+		    }
+		}
+	    }
+	    
 	} else if (st.equals(Block.class.getName())) { 		
+	    this.checkBlock((Block)n);
 	}
     }
 
@@ -174,9 +221,9 @@ public class Semantic {
 	Var location = (Var)forStat.getInit().getLocation();
 	location.setType("int");
 	
-	BlockType bt = new BlockType((Block)forStat.getBlock());
-	this.addSymbol("for" + forStat.getInit() + ", " + forStat.getCondition(), bt);
-	Semantic.currentScope = bt.getScope();
+	ForType ft = new ForType((For)forStat);
+	this.addSymbol("for " + forStat.getInit() + ", " + forStat.getCondition(), ft);
+	Semantic.currentScope = ft.getScope();
 	this.addSymbol(location.getName(), new VarType(location));	
 	
 	this.checkStatement(forStat.getInit());
@@ -190,7 +237,7 @@ public class Semantic {
 	}
 	
 	this.checkBlock((Block)forStat.getBlock());
-	Semantic.currentScope = bt.getScope().getParent();
+	Semantic.currentScope = ft.getScope().getParent();
     }
 
     public String checkExpr(Node n) {

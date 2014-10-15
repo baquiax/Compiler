@@ -3,17 +3,19 @@ package compiler.ast;
 import java.util.List;
 import java.util.LinkedList;
 
-public class MethodDecl extends Node {
+public class MethodDecl extends Node implements ILineNumber {
     private String methodName;
     private String returnType;
     private List<Var> parameters;
-    private Node block;
+    private Node block;   
+    private int line;
     
     public MethodDecl(String n, String type, Node block) {
 	this.methodName = n;
 	this.returnType = type;
 	this.block = block;
 	this.parameters = new LinkedList<Var>();
+	this.line = -1;
     }    
     
     public String getName() {
@@ -35,7 +37,7 @@ public class MethodDecl extends Node {
 
     public List<Var> getParameters() {
 	return this.parameters;
-    }
+    }    
 
     public Node getBlock() {
 	return this.block;
@@ -43,6 +45,14 @@ public class MethodDecl extends Node {
     
     public String getReturnType() {
 	return this.returnType;
+    }
+
+    public void setLineNumber(int l) {
+	this.line = l;
+    }
+
+    public int getLineNumber() {
+	return this.line;
     }
 
     public void print(String padding) {
@@ -53,5 +63,16 @@ public class MethodDecl extends Node {
         }
         System.out.println(padding + "Block: ");
         block.print(padding + "\t");
+    }
+
+    public String  toString() {
+	String result = this.returnType + " " + this.methodName + "(";
+	for (int i = 0 ; i < this.parameters.size(); i++) {
+	    result += this.parameters.get(i).getType() + " " +this.parameters.get(i);
+	    if (i < (this.parameters.size() - 1)) {
+		result += ", ";
+	    }
+	}	
+	return result + ")";
     }
 }

@@ -8,7 +8,7 @@ public class MethodType extends Type {
     
     public MethodType(MethodDecl method) {
 	this.node = method;
-	this.scope = new MethodScope(Semantic.currentScope);	
+	this.scope = new MethodScope(Semantic.currentScope, node);
     }
      
     @Override

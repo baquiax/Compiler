@@ -48,6 +48,7 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     public Node visitMethodDecl(ParserDecaf.MethodDeclContext ctx) {
         String type = (ctx.VOID() == null) ? ctx.type().getText() : ctx.VOID().getText();
     	MethodDecl m = new MethodDecl(ctx.ID().getText(), type, visit(ctx.block()));
+	m.setLineNumber(ctx.start.getLine());
         ParserDecaf.MethodParamContext  mp = (ParserDecaf.MethodParamContext)ctx.method_param();
         if (mp != null) {                        
             List<TerminalNode> ids = mp.ID();
@@ -210,20 +211,27 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
 
     @Override
     public Node visitBreak(ParserDecaf.BreakContext ctx) {
-        return new ReservedWord(ctx.BREAK().getText());
+        ReservedWord rw = new ReservedWord(ctx.BREAK().getText());
+	rw.setLineNumber(ctx.start.getLine());
+	return rw;
     }
 
     @Override
     public Node visitContinue(ParserDecaf.ContinueContext ctx) {
-        return new ReservedWord(ctx.CONTINUE().getText());
+	ReservedWord rw = new ReservedWord(ctx.CONTINUE().getText());
+	rw.setLineNumber(ctx.start.getLine());
+	return rw;
     }
 
     @Override
     public Node visitReturn(ParserDecaf.ReturnContext ctx) {
+	Return r;
         if (ctx.expr() != null)
-            return new Return(visit(ctx.expr()));
+            r = new Return(visit(ctx.expr()));
         else
-            return new Return();
+            r = new Return();
+	r.setLineNumber(ctx.start.getLine());
+	return r;
     }    
 
     @Override

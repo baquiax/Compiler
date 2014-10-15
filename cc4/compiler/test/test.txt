@@ -33,11 +33,15 @@ class Program {
        method(1);
        return -1;
    }
+
+   void jaja () {
+   }
+
    int method2(int p, boolean b) {
        int value;
        boolean v;
        v = method(value);
-
+       return !(jaja)
        return !(1 + 1);
    }
 

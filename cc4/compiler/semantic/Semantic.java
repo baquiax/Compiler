@@ -273,8 +273,15 @@ public class Semantic {
 	    BinOp bo = (BinOp)n;
 	    return checkBinOp(bo);
 	} else if (n.getClass().getName().equals(Negation.class.getName())) {
-	} else if (n.getClass().getName().equals(Negation.class.getName())) {
-	}
+	    Negation neg = (Negation)n;
+	    String eType = this.checkExpr(neg.getExpr());
+	    if (!eType.equals("int") && !eType.equals("boolean")) {
+		System.err.println("Operación invalida. No posible con el tipo dado: " + eType);
+		System.err.println("[L:" + neg.getLineNumber() + "] " + neg + "\n");
+	    } else {
+		return eType;
+	    }
+	} 
 
 	//No match.
 	return "error";

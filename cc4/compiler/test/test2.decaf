@@ -1,34 +1,11 @@
 class Program {
-      boolean valores(int z) {
-boolean val;
+      int a() {
+      	  return -1;
+      }
 
-if (z==15) {
-val=true;
-} else {
-val=false;
-}
-
-return val;
-}
-
-int totales(int z, boolean y, int w) {
-if (w==z) {
-return w;
-} else {
-return z;
-}
-}
-
-void tintin() {
-int jal;
-int jol;
-jal=jol;
-}
-
-void alg(int a, boolean b, int c, boolean d, int e, boolean f) {
-a = totales(a,b,c);
-b = valores(e);
-c = tintin();
-}
-
+      int b() {
+      	  int az;
+	  az = !(a());
+	  return !az;
+      }
 }

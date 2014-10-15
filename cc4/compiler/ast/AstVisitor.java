@@ -235,13 +235,17 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     }    
 
     @Override
-    public Node visitExprNegative(ParserDecaf.ExprNegativeContext ctx) {
-        return new Negation(visit(ctx.expr()));
+    public Node visitExprNegative(ParserDecaf.ExprNegativeContext ctx) {	
+        Negation n =  new Negation(visit(ctx.expr()));
+	n.setLineNumber(ctx.start.getLine());
+	return n;
     }
 
     @Override
     public Node visitExprNegation(ParserDecaf.ExprNegationContext ctx) {
-        return new Negation(visit(ctx.expr()));
+        Negation n =  new Negation(visit(ctx.expr()));
+	n.setLineNumber(ctx.start.getLine());
+	return n;
     }
  
     @Override

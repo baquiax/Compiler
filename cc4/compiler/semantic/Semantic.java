@@ -57,7 +57,7 @@ public class Semantic {
 	for (MethodDecl n : methodsDecls) {
 	    MethodDecl m = (MethodDecl) n;
 	    MethodType mt = new MethodType(m);	
-	    if(this.addSymbol(m.getName(), mt)) {
+	    if(!this.addSymbol(m.getName(), mt)) {
 		System.err.println(m.getName() + " ya esta definido!");
 		System.err.println("[L:" + m.getLineNumber() +  "] " + m + "\n");	    
 	    }

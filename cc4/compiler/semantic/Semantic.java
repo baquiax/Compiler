@@ -78,6 +78,25 @@ public class Semantic {
 	
 	//Check block method
 	Block b = (Block)m.getBlock();
+	this.checkBlock(b);
+    }
+
+    public void checkStatement(Node n) {
+	String st = n.getClass().getName();
+	if (st.equals(Assign.class.getName())) {
+	    this.checkAssign((Assign)n);
+	} else if (st.equals(CallMethod.class.getName())) {
+	    this.checkCallMethod((CallMethod)n);
+	} else if (st.equals(If.class.getName())) {
+	    this.checkIf((If)n);
+	} else if (st.equals(For.class.getName())) {
+	} else if (st.equals(ReservedWord.class.getName())) { 
+	} else if (st.equals(Return.class.getName())) { 
+	} else if (st.equals(Block.class.getName())) { 		
+	}
+    }
+
+    public void checkBlock(Block b) {
 	for(Node vd : b.getVarDecl()) {
 	    if (vd.getClass().getName().equals(FieldDecl.class.getName())) {
 		FieldDecl fd = (FieldDecl) vd;
@@ -89,27 +108,13 @@ public class Semantic {
 		}					
 	    }
 	}
-
+	
 	for (Node n: b.getStatements()) {
 	    this.checkStatement(n);	    
 	}
     }
 
-    public void checkStatement(Node n) {
-	String st = n.getClass().getName();
-	if (st.equals(Assign.class.getName())) {
-	    this.checkAssign((Assign)n);
-	} else if (st.equals(CallMethod.class.getName())) {
-	    
-	} else if (st.equals(If.class.getName())) {
-	} else if (st.equals(For.class.getName())) {
-	} else if (st.equals(ReservedWord.class.getName())) { 
-	} else if (st.equals(Return.class.getName())) { 
-	} else if (st.equals(Block.class.getName())) { 		
-	}
-    }
-    
-    public void checkAssign(Assign as) {
+    public String checkAssign(Assign as) {
 	Type location = null;
 	//Check if location is defined
 	if (as.getLocation().getClass().getName().equals(Var.class.getName())) {
@@ -139,8 +144,28 @@ public class Semantic {
 	    if (!locationType.equals(eType)) {
 		System.err.println(eType + " no es asignable para " + locationType);
 		System.err.println("[L:" + as.getLineNumber() + "] " + as + "\n");
-	    } 
+	    } else {
+		return eType;
+	    }
 	}
+
+	return "error";
+    }
+
+    public void checkIf(If ifStat) {
+	String conditionType = this.checkExpr(ifStat.getCondition());
+	if (!conditionType.equals("boolean")) {
+	    System.err.println("Condicion de IF debe usar valores booleanos");
+	    if (ifStat.getCondition() instanceof ILineNumber) {
+		ILineNumber ln = (ILineNumber) ifStat.getCondition();
+		System.err.println("[L:" + ln.getLineNumber() +  "] " + ifStat.getCondition() + "\n");
+	    }
+	}
+	BlockType bs = new BlockType((Block)ifStat.getConsecuent());
+	this.addSymbol("Block#" + bs.getScope().getId() + ": "+ ifStat.getCondition(), bs);
+	Semantic.currentScope = bs.getScope();
+	this.checkBlock((Block)ifStat.getConsecuent());
+	Semantic.currentScope = bs.getScope().getParent();
     }
 
     public String checkExpr(Node n) {
@@ -156,9 +181,7 @@ public class Semantic {
 		return t.getType();	    
 	} else if (n.getClass().getName().equals(CallMethod.class.getName())) {
 	    CallMethod cm = (CallMethod)n;
-	    Type t = Semantic.globalScope.getSymbol(cm.getMethodName());
-	    if (t != null)
-		return t.getType();
+	    return this.checkCallMethod(cm);
 	} else if (n.getClass().getName().equals(IntLiteral.class.getName())) {
 	    IntLiteral il = (IntLiteral)n;
 	    return il.getType();
@@ -182,6 +205,29 @@ public class Semantic {
 	return "error";
     }
     
+    public String checkCallMethod(CallMethod cm) {
+	String methodKey = cm.getMethodName() + "(";
+	List<Node> args = cm.getArgs().getList();
+	for (int i = 0; i < args.size(); i++) {
+	    methodKey += this.checkExpr(args.get(i));
+	    if((i + 1) < args.size()) {
+		methodKey += ", ";
+	    }
+	}
+	methodKey += ")";
+
+	MethodType mt = (MethodType) Semantic.globalScope.getSymbol(methodKey);
+	if (mt == null) {
+	    ILineNumber ln = (ILineNumber)cm;
+	    System.err.println("Metodo " + methodKey + " no definido");
+	    System.err.println("[L:" + ln.getLineNumber() + "] " + cm + "\n");
+	    return "error";
+	} else {
+	    MethodDecl md = (MethodDecl) mt.getNode();
+	    return md.getReturnType();
+	}
+    }
+
     public String checkBinOp(BinOp op) {
 	String operator = op.getOperator();	
 	String firstType = this.checkExpr(op.getFirst());
@@ -247,14 +293,6 @@ public class Semantic {
 	return returnType;
     }    
     
-    public void checkIf() {
-
-    }
-    
-    public void checkFor() {
-	
-    }
-    
     private boolean addSymbol(String k, Type v) {
 	//Check if already defined
 	if (Semantic.currentScope.getSymbol(k) == null) {
@@ -271,6 +309,5 @@ public class Semantic {
 	    r = Semantic.globalScope.getSymbol(k);
 	}
 	return r;
-    }
-    
+    }    
 }

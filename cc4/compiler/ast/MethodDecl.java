@@ -6,25 +6,34 @@ import java.util.LinkedList;
 public class MethodDecl extends Node {
     private String methodName;
     private String returnType;
-    private List<Node> parameters;
+    private List<Var> parameters;
     private Node block;
     
     public MethodDecl(String n, String type, Node block) {
 	this.methodName = n;
 	this.returnType = type;
 	this.block = block;
-	this.parameters = new LinkedList<Node>();
+	this.parameters = new LinkedList<Var>();
     }    
     
     public String getName() {
-	return this.methodName;
+	String name = this.methodName + "(" ;	
+	//Allowing overload
+	for (int i = 0; i < this.parameters.size() ; i++) {
+	    name += this.parameters.get(i).getType();
+	    if ((i + 1) < this.parameters.size()) {
+		name += ", ";
+	    }
+	}
+	name += ")";
+	return name;
     }
     
-    public void addParameter(Node parameter) {
+    public void addParameter(Var parameter) {
         this.parameters.add(parameter);
     }
 
-    public List<Node> getParameters() {
+    public List<Var> getParameters() {
 	return this.parameters;
     }
 

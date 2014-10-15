@@ -17,6 +17,10 @@ public class Args extends Node {
 	this.print("");
     }
     
+    public List<Node> getList() {
+	return this.args;
+    }
+    
     public void print(String padding) {
 	System.out.println(padding + "Args -> ");
 	for (Node n : this.args) {

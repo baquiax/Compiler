@@ -1,19 +1,34 @@
 package compiler.ast;
 
-public class CallMethod extends Node {
+public class CallMethod extends Node  implements ILineNumber  {
     private String methodName;
     private Node args;
-    
+    private int line;
+
     public CallMethod(String n) {
 	this.methodName = n;
+	this.args = new Args();
+	this.line = -1;
     }
-    
+
+    public void setLineNumber(int l) {
+	this.line = l;
+    }
+
+    public int getLineNumber() {
+	return this.line;
+    }    
+
     public String getMethodName() {
 	return this.methodName;
     }
     
     public void setArgs(Node a) {
 	this.args = a;
+    }
+    
+    public Args getArgs() {
+	return (Args) this.args;
     }
     
     public void print() {

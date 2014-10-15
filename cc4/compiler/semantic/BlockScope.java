@@ -38,6 +38,11 @@ public class BlockScope extends Scope {
     }
 
     public String toString(String padding) {
-	return "";
+	String result = "\n" + padding + "---Scope #" + this.getId() + "---\n";
+	for (String k: this.table.keySet()) {
+	    Type t = this.table.get(k);
+	    result += padding + k + "\t " + t.getClass().getName() + "\t" + t.getType() + "\n";
+	}
+	return result + "\n";
     }
 }

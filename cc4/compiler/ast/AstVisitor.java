@@ -271,7 +271,8 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
 
     @Override
     public Node visitMethodCall(ParserDecaf.MethodCallContext ctx) {
-        CallMethod c = new CallMethod(ctx.ID().getText());        
+        CallMethod c = new CallMethod(ctx.ID().getText());
+	c.setLineNumber(ctx.start.getLine());
         if(ctx.callout_expr() != null) {            
             c.setArgs(visit(ctx.callout_expr()));
         }

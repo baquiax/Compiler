@@ -15,8 +15,9 @@ class Program {
        bl = true;
        _b[0] = 1;
 
-       if (2 > 3) {
-          b2 = 777;
+       if (2 == 3) {
+          int b2;
+	  b2 = 777;
        } else {
           b3 = 777;
        }
@@ -25,7 +26,7 @@ class Program {
           break;
           continue;
        }
-       method();
+       method(varname);
        method(1);
        return -1;
    }

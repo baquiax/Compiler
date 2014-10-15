@@ -90,6 +90,7 @@ public class Semantic {
 	} else if (st.equals(If.class.getName())) {
 	    this.checkIf((If)n);
 	} else if (st.equals(For.class.getName())) {
+	    this.checkFor((For)n);
 	} else if (st.equals(ReservedWord.class.getName())) { 
 	} else if (st.equals(Return.class.getName())) { 
 	} else if (st.equals(Block.class.getName())) { 		
@@ -119,7 +120,7 @@ public class Semantic {
 	//Check if location is defined
 	if (as.getLocation().getClass().getName().equals(Var.class.getName())) {
 	    Var v = (Var) as.getLocation();
-	    location = this.getSymbol(v.getName());
+	    location = this.getSymbolInAll(v.getName());
 	    if (location == null) {
 		System.err.println(v.getName() + " no está definido.");
 		System.err.println("[L:" + as.getLineNumber() + "] " + as + "\n");
@@ -161,22 +162,46 @@ public class Semantic {
 		System.err.println("[L:" + ln.getLineNumber() +  "] " + ifStat.getCondition() + "\n");
 	    }
 	}
-	BlockType bs = new BlockType((Block)ifStat.getConsecuent());
-	this.addSymbol("Block#" + bs.getScope().getId() + ": "+ ifStat.getCondition(), bs);
-	Semantic.currentScope = bs.getScope();
+	BlockType bt = new BlockType((Block)ifStat.getConsecuent());
+	this.addSymbol("Block#" + bt.getScope().getId() + ": "+ ifStat.getCondition(), bt);
+	Semantic.currentScope = bt.getScope();
 	this.checkBlock((Block)ifStat.getConsecuent());
-	Semantic.currentScope = bs.getScope().getParent();
+	Semantic.currentScope = bt.getScope().getParent();
+    }
+
+    public void checkFor(For forStat) {	
+	//It's too a declaration.
+	Var location = (Var)forStat.getInit().getLocation();
+	location.setType("int");
+	
+	BlockType bt = new BlockType((Block)forStat.getBlock());
+	this.addSymbol("for" + forStat.getInit() + ", " + forStat.getCondition(), bt);
+	Semantic.currentScope = bt.getScope();
+	this.addSymbol(location.getName(), new VarType(location));	
+	
+	this.checkStatement(forStat.getInit());
+	String conditionType = this.checkExpr(forStat.getCondition());
+	if (!conditionType.equals("int")) {
+	    System.err.println("La condicion del FOR debe ser un valor de alcance int");
+	    if (forStat.getInit() instanceof ILineNumber) {
+		ILineNumber ln = (ILineNumber) forStat.getInit();
+		System.err.println("[L:" + ln.getLineNumber() +  "] " + forStat.getCondition() + "\n");
+	    }
+	}
+	
+	this.checkBlock((Block)forStat.getBlock());
+	Semantic.currentScope = bt.getScope().getParent();
     }
 
     public String checkExpr(Node n) {
 	if (n.getClass().getName().equals(Var.class.getName())) {
 	    Var v = (Var) n;
-	    Type t = this.getSymbol(v.getName());
+	    Type t = this.getSymbolInAll(v.getName());
 	    if (t != null)
 		return t.getType();	    
 	} else if (n.getClass().getName().equals(Array.class.getName())) {
 	    Array a = (Array) n;
-	    Type t = this.getSymbol(a.getName());
+	    Type t = this.getSymbolInAll(a.getName());
 	    if (t != null)
 		return t.getType();	    
 	} else if (n.getClass().getName().equals(CallMethod.class.getName())) {
@@ -302,12 +327,16 @@ public class Semantic {
 	    return false;	    	    
 	}
     }
-    
-    private Type getSymbol(String k) {
-	Type r = Semantic.currentScope.getSymbol(k);
-	if (r == null) {
-	    r = Semantic.globalScope.getSymbol(k);
+        
+    private Type getSymbolInAll(String k) {
+	Scope s = Semantic.currentScope;
+	while(s != null) {
+	    Type r = s.getSymbol(k);
+	    if (r != null) {
+		return r;
+	    }
+	    s = s.getParent();
 	}
-	return r;
+	return null;
     }    
 }

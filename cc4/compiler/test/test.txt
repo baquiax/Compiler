@@ -49,5 +49,6 @@ class Program {
    boolean method4(int c , int h) {
       int subB;
       int subC;
+      return false;
    }
 }

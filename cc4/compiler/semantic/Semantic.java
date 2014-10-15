@@ -132,7 +132,7 @@ public class Semantic {
 		    System.err.println("[L:" + r.getLineNumber() + "] " + r + "\n");
 		} else if (r.getExpr() != null) {
 		    String returnType = this.checkExpr(r.getExpr());
-		    if (returnType.equals(md.getReturnType())) {
+		    if (!returnType.equals(md.getReturnType())) {
 			System.err.println("Se retorna " +  returnType + " cuando se espera " + md.getReturnType());
 			System.err.println("[L:" + r.getLineNumber() + "] " + r + "\n");
 		    }

@@ -1,5 +1,9 @@
 package compiler.lib;
 import java.util.Hashtable;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 public class Configuration {
 
@@ -17,4 +21,18 @@ public class Configuration {
 	}
 	return folder;
     } 
+
+    public static void makeOutput(String fileName, String out) {
+	File outputFile = new File(fileName);
+	try {
+	    outputFile.createNewFile();			
+	    FileWriter fwriter = new FileWriter(fileName);
+	    PrintWriter pwriter = new PrintWriter(fwriter);
+	    pwriter.println(out);
+	    fwriter.close();
+	    
+	} catch (Exception e) {
+	    System.err.println("No se ha podido guardar el archivo de salida.");
+	}
+    }
 }

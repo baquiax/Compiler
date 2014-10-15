@@ -28,7 +28,15 @@ public class Semantic {
 	    checkProgram(ast.getProgram());
 	    if (Debug.debugEnabled("semantic")) {
 		System.out.println("debugging: SEMANTIC");
-		Semantic.globalScope.print();
+		Semantic.globalScope.print();		
+	    }
+	    if(Configuration.stopStage == Semantic.level) {
+		String fileName = Configuration.flags.get("-o");
+		if (fileName == null) {
+		    fileName = Configuration.flags.get("inputFile");
+		    fileName += ".semantic";
+		}
+		Configuration.makeOutput(fileName, Semantic.globalScope.toString(""));
 	    }
         }
     }
@@ -56,8 +64,11 @@ public class Semantic {
 	List<MethodDecl> methodsDecls =	p.getMethods();
 	for (MethodDecl n : methodsDecls) {
 	    MethodDecl m = (MethodDecl) n;
-	    MethodType mt = new MethodType(m);	
+	    MethodType mt = new MethodType(m);
+	    
 	    if(!this.addSymbol(m.getName(), mt)) {
+		//Not valid scope
+		Scope.scopes--;
 		System.err.println(m.getName() + " ya esta definido!");
 		System.err.println("[L:" + m.getLineNumber() +  "] " + m + "\n");	    
 	    }
@@ -216,13 +227,13 @@ public class Semantic {
 	    }
 	}
 	BlockType bt = new BlockType((Block)ifStat.getConsecuent());
-	this.addSymbol("Block#" + bt.getScope().getId() + ": "+ ifStat.getCondition(), bt);
+	this.addSymbol("if (" + ifStat.getCondition() + ")", bt);
 	Semantic.currentScope = bt.getScope();
 	this.checkBlock((Block)ifStat.getConsecuent());
 	Semantic.currentScope = bt.getScope().getParent();
 	if (ifStat.getAlternative() != null) {
 	    BlockType bta = new BlockType((Block)ifStat.getAlternative());
-	    this.addSymbol("Block#" + bta.getScope().getId() + ": "+ ifStat.getCondition() + " else ", bta);
+	    this.addSymbol("if (" + ifStat.getCondition() + "):else", bta);
 	    Semantic.currentScope = bta.getScope();
 	    this.checkBlock((Block)ifStat.getAlternative());
 	    Semantic.currentScope = bta.getScope().getParent();

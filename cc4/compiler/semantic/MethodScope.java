@@ -58,7 +58,11 @@ public class MethodScope extends Scope {
 	for (String k: this.table.keySet()) {
 	    Type t = this.table.get(k);
 	    result += padding + k + "\t " + t.getClass().getName() + "\t" + t.getType() + "\n";
-	    if (t.getClass().getName().equals(BlockType.class.getName())) {
+
+	    if (t.getClass().getName().equals(ForType.class.getName())) {
+		ForType f = (ForType) t;
+		result += f.getScope().toString(padding + "\t");
+	    } else if (t.getClass().getName().equals(BlockType.class.getName())) {
 		BlockType b = (BlockType) t;
 		result += b.getScope().toString(padding + "\t");
 	    }

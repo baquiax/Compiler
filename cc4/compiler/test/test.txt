@@ -22,7 +22,12 @@ class Program {
        } else {
           b3 = 777;
        }
-       for a = true, ((2 + 1) * 2) {
+
+       for z = 3, 4 {
+       	   int z_sub;
+       }
+
+       for a = true, ((2 + 1) * 2) {          
           do = 3;
           break;
 	  if (2 == 3) {
@@ -43,7 +48,7 @@ class Program {
        int value;
        boolean v;
        v = method(value);
-       return !(jaja)
+       return !(jaja);
        return !(1 + 1);
    }
 

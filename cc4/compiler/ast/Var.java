@@ -2,7 +2,7 @@ package compiler.ast;
 import java.util.List;
 import java.util.LinkedList;
 
-public class Var extends Node{
+public class Var extends Node {
     private String type;
     private String varName;
     

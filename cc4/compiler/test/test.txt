@@ -27,7 +27,9 @@ class Program {
           break;
 	  if (2 == 3) {
 	     continue;	     	
-       	  }
+       	  } else {
+	    return false;
+	  }
        }
        method(varname);
        method(1);

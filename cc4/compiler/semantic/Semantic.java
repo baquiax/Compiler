@@ -154,7 +154,10 @@ public class Semantic {
 		for (Node n : fd.getFields()) {
 		    if (n.getClass().getName().equals(Var.class.getName())) {
 			Var v = (Var) n;
-			this.addSymbol(v.getName(), new VarType(v));
+			if (!this.addSymbol(v.getName(), new VarType(v))) {
+			    System.err.println(v.getName() + " ya está definido.");
+			    System.err.println("[L:" + fd.getLineNumber() + "] " + v + "\n");
+			}
 		    }
 		}					
 	    }
@@ -217,6 +220,13 @@ public class Semantic {
 	Semantic.currentScope = bt.getScope();
 	this.checkBlock((Block)ifStat.getConsecuent());
 	Semantic.currentScope = bt.getScope().getParent();
+	if (ifStat.getAlternative() != null) {
+	    BlockType bta = new BlockType((Block)ifStat.getAlternative());
+	    this.addSymbol("Block#" + bta.getScope().getId() + ": "+ ifStat.getCondition() + " else ", bta);
+	    Semantic.currentScope = bta.getScope();
+	    this.checkBlock((Block)ifStat.getAlternative());
+	    Semantic.currentScope = bta.getScope().getParent();
+	}
     }
 
     public void checkFor(For forStat) {	

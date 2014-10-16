@@ -68,6 +68,7 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     @Override
     public Node visitVarDecl(ParserDecaf.VarDeclContext ctx) {
     	Var v = new Var(ctx.ID().getText());
+	v.setLineNumber(ctx.start.getLine());
     	return v;
     }
 
@@ -110,6 +111,7 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     public Node visitIdLocation(ParserDecaf.IdLocationContext ctx) {
         String id = ctx.ID().getText();
         Var v = new Var(id);
+	v.setLineNumber(ctx.start.getLine());
         return v;
     }
 
@@ -187,7 +189,9 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
         if (ctx.if_else() != null) {
             ifElse = visit(ctx.if_else());
         }
-        return new If(con,then, ifElse);
+	If ifR = new If(con,then, ifElse);
+	ifR.setLineNumber(ctx.start.getLine());
+        return ifR;
     }
 
     @Override

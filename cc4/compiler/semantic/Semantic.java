@@ -244,10 +244,7 @@ public class Semantic {
 	String conditionType = this.checkExpr(ifStat.getCondition());
 	if (!conditionType.equals("boolean")) {
 	    System.err.println("Condicion de IF debe usar valores booleanos");
-	    if (ifStat.getCondition() instanceof ILineNumber) {
-		ILineNumber ln = (ILineNumber) ifStat.getCondition();
-		System.err.println("[L:" + ln.getLineNumber() +  "] " + ifStat.getCondition() + "\n");
-	    }
+	    System.err.println("[L:" + ifStat.getLineNumber() +  "] " + ifStat + "\n");
 	}
 	BlockType bt = new BlockType((Block)ifStat.getConsecuent());
 	this.addSymbol("if (" + ifStat.getCondition() + ")", bt);
@@ -292,7 +289,11 @@ public class Semantic {
 	    Var v = (Var) n;
 	    Type t = this.getSymbolInAll(v.getName());
 	    if (t != null)
-		return t.getType();	    
+		return t.getType();
+	    else {
+		System.err.println(v.getName() + " no está definido.");
+		System.err.println("[L:" + v.getLineNumber() + "] " + v + "\n");
+	    }
 	} else if (n.getClass().getName().equals(Array.class.getName())) {
 	    Array a = (Array) n;
 	    Type t = this.getSymbolInAll(a.getName());

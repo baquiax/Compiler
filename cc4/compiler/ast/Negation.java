@@ -31,6 +31,10 @@ public class Negation extends Node implements ILineNumber {
     }
 
     public String toString() {
-	return String.valueOf(this.expr);
+	if (this.expr.getClass().getName().equals(IntLiteral.class.getName())) {
+	    return "-" + String.valueOf(this.expr);
+	} else {
+	    return "!" + String.valueOf(this.expr);
+	}	
     }
 }

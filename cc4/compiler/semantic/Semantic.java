@@ -56,7 +56,12 @@ public class Semantic {
 		} else {
 		    //It's an array.
 		    Array a = (Array) n;
-		    this.addSymbol(a.getName(), new ArrayType(a));
+		    if (!this.addSymbol(a.getName(), new ArrayType(a))) {
+			System.err.println(a.getName() + " ya esta definido!");
+			if (f instanceof ILineNumber) {
+			    System.err.println("[L:" + f.getLineNumber() +  "] " + f + "\n");
+			}
+		    }
 		}
 	    }			
 	}
@@ -196,7 +201,25 @@ public class Semantic {
 	    if (location == null) {
 		System.err.println(a.getName() + " no está definido.");
 		System.err.println("[L:" + as.getLineNumber() + "] " + as + "\n");
-	    }	    
+	    }
+
+	    String arrayIndexType = this.checkExpr(a.getIndex());
+	    if (!arrayIndexType.equals("int")) {
+		System.err.println("Los indices de un Array deben ser int");
+		System.err.println("[L:" + as.getLineNumber() + "] " + as + "\n");
+	    } else if(a.getIndex().getClass().getName().equals(IntLiteral.class.getName())) {
+		int intArrayIndex = Integer.parseInt(((IntLiteral)a.getIndex()).toString());
+		if (intArrayIndex < 0) {
+		    System.err.println("Indice fuera de rango");
+		    System.err.println("[L:" + as.getLineNumber() + "] " + as + "\n");
+		}
+	    } else if(a.getIndex().getClass().getName().equals(Negation.class.getName())) { 
+		Negation n = (Negation) a.getIndex();
+		if (n.getExpr().getClass().getName().equals(IntLiteral.class.getName())) {
+		    System.err.println("Indice fuera de rango. Validos unicamente 0...N");
+		    System.err.println("[L:" + as.getLineNumber() + "] " + as + "\n");
+		}
+	    }
 	}
 	
 	//Ceck Types!

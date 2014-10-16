@@ -41,6 +41,14 @@ public class Array extends Node {
     public void setIndex(Node n) {
         this.currentIndex = n;
     }
+
+    public Node getIndex() {
+	return this.currentIndex;
+    }
+
+    public String getSize() {
+	return this.size;
+    }
     
     public void print(String padding) {
         if (this.size != null) {

@@ -17,72 +17,80 @@ public class Semantic {
     private Ast ast;
        
     public Semantic(Ast ast) {
-	this.ast = ast;
-	Semantic.globalScope = new ProgramScope();
-	Semantic.currentScope = Semantic.globalScope;
+		this.ast = ast;
+		Semantic.globalScope = new ProgramScope();
+		Semantic.currentScope = Semantic.globalScope;
     }        
     
     public void check() {
-	if (Configuration.stopStage >= Semantic.level) {
-	    System.out.println("stage: SEMANTIC");
-	    checkProgram(ast.getProgram());
-	    if (Debug.debugEnabled("semantic")) {
-		System.out.println("debugging: SEMANTIC");
-		Semantic.globalScope.print();		
-	    }
-	    if(Configuration.stopStage == Semantic.level) {
-		String fileName = Configuration.flags.get("-o");
-		if (fileName == null) {
-		    fileName = Configuration.flags.get("inputFile");
-		    fileName += ".semantic";
-		}
-		Configuration.makeOutput(fileName, Semantic.globalScope.toString(""));
-	    }
+		if (Configuration.stopStage >= Semantic.level) {
+		    System.out.println("stage: SEMANTIC");
+		    checkProgram(ast.getProgram());
+		    if (Debug.debugEnabled("semantic")) {
+				System.out.println("debugging: SEMANTIC");
+				Semantic.globalScope.print();		
+		    }
+		    if(Configuration.stopStage == Semantic.level) {
+				String fileName = Configuration.flags.get("-o");
+				if (fileName == null) {
+				    fileName = Configuration.flags.get("inputFile");
+				    fileName += ".semantic";
+				}
+				Configuration.makeOutput(fileName, Semantic.globalScope.toString(""));
+		    }
         }
     }
     
     public void checkProgram(Program p) {
-	List<FieldDecl> fieldDecls = p.getFields();
-	for (FieldDecl f : fieldDecls) {
-	    for (Node n : f.getFields()) {
-		if (n.getClass().getName().equals(Var.class.getName())) {
-		    Var v = (Var) n;
-		    if (!this.addSymbol(v.getName(), new VarType(v))) {
-			System.err.println(v.getName() + " ya esta definido!");
-			if (f instanceof ILineNumber) {
-			    System.err.println("[L:" + f.getLineNumber() +  "] " + f + "\n");
-			}
-		    }		    
-		} else {
-		    //It's an array.
-		    Array a = (Array) n;
-		    if (!this.addSymbol(a.getName(), new ArrayType(a))) {
-			System.err.println(a.getName() + " ya esta definido!");
-			if (f instanceof ILineNumber) {
-			    System.err.println("[L:" + f.getLineNumber() +  "] " + f + "\n");
-			}
-		    }
+		List<FieldDecl> fieldDecls = p.getFields();
+		for (FieldDecl f : fieldDecls) {
+		    for (Node n : f.getFields()) {
+				if (n.getClass().getName().equals(Var.class.getName())) {
+				    Var v = (Var) n;
+				    if (!this.addSymbol(v.getName(), new VarType(v))) {
+						System.err.println(v.getName() + " ya esta definido!");
+						if (f instanceof ILineNumber) {
+						    System.err.println("[L:" + f.getLineNumber() +  "] " + f + "\n");
+						}
+				    }		    
+				} else {
+				    //It's an array.
+				    Array a = (Array) n;
+				    if (!this.addSymbol(a.getName(), new ArrayType(a))) {
+						System.err.println(a.getName() + " ya esta definido!");
+						if (f instanceof ILineNumber) {
+						    System.err.println("[L:" + f.getLineNumber() +  "] " + f + "\n");
+						}
+				    }
+				}
+	    	}			
 		}
-	    }			
-	}
 	
-	List<MethodDecl> methodsDecls =	p.getMethods();
-	for (MethodDecl n : methodsDecls) {
-	    MethodDecl m = (MethodDecl) n;
-	    MethodType mt = new MethodType(m);
-	    
-	    if(!this.addSymbol(m.getName(), mt)) {
-		//Not valid scope
-		Scope.scopes--;
-		System.err.println(m.getName() + " ya esta definido!");
-		System.err.println("[L:" + m.getLineNumber() +  "] " + m + "\n");	    
-	    }
-	    Semantic.currentScope = mt.getScope();
-	    this.checkMethod(m);
-	    Semantic.currentScope = mt.getScope().getParent();
-	}	
+		List<MethodDecl> methodsDecls =	p.getMethods();
+		for (MethodDecl n : methodsDecls) {
+		    MethodDecl m = (MethodDecl) n;
+		    MethodType mt = new MethodType(m);
+		    
+		    if(!this.addSymbol(m.getName(), mt)) {
+				//Not valid scope
+				Scope.scopes--;
+				System.err.println(m.getName() + " ya esta definido!");
+				System.err.println("[L:" + m.getLineNumber() +  "] " + m + "\n");	    
+		    }
+		    Semantic.currentScope = mt.getScope();
+		    this.checkMethod(m);
+		    Semantic.currentScope = mt.getScope().getParent();
+		}
+		this.checkMainMethod();
+
     }
     
+    public void checkMainMethod() {
+    	if(this.globalScope.getSymbol("main()") == null) {
+			System.err.println("No ha definido un metodo main para el programa.");
+    	}
+    }
+
     public void checkMethod(MethodDecl m) {		
 	for (Node n : m.getParameters()) {
 	    if (n.getClass().getName().equals(Var.class.getName())) {

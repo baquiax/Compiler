@@ -25,7 +25,7 @@ semantic/Semantic.class: semantic/Semantic.java
 	javac semantic/*.java
 
 irt/Irt.class: irt/Irt.java
-	javac irt/Irt.java
+	javac irt/*.java
 
 opt/Algebraic.class: opt/Algebraic.java
 	javac opt/Algebraic.java
@@ -79,3 +79,4 @@ clean:
 	rm -rf ast/*.class
 	rm -rf semantic/*.class
 	rm -rf ast/*~
+	rm -rf irt/*.class

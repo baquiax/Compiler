@@ -1,4 +1,4 @@
-public package compiler.irt;
+package compiler.irt;
 
 public class BranchInstruction extends Instruction {
 	private String condition;

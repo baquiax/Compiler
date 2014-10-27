@@ -1,4 +1,4 @@
-public package compiler.irt;
+package compiler.irt;
 
 public class BinOperation extends Instruction {
 	private String first;

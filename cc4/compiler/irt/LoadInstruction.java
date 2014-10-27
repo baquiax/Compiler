@@ -1,4 +1,4 @@
-public package compiler.irt;
+package compiler.irt;
 
 public class LoadInstruction extends Instruction {
 	private String rd;

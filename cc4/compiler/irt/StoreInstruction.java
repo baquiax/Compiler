@@ -1,4 +1,4 @@
-public package compiler.irt;
+package compiler.irt;
 
 public class StoreInstruction extends Instruction {
 	private String rs;

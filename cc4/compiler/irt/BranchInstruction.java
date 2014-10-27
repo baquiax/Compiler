@@ -1,6 +1,6 @@
 public package compiler.irt;
 
-public class BranchInstruction {
+public class BranchInstruction extends Instruction {
 	private String condition;
 	private String consecuentLabel;
 	private String alternativeLabel;

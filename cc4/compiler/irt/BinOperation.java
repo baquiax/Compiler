@@ -1,6 +1,6 @@
 public package compiler.irt;
 
-public class BinOperation {
+public class BinOperation extends Instruction {
 	private String first;
 	private String second;
 	private String operator;

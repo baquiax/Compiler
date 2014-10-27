@@ -1,6 +1,6 @@
 public package compiler.irt;
 
-public class StoreInstruction {
+public class StoreInstruction extends Instruction {
 	private String rs;
 	private String dir;
 

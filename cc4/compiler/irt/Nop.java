@@ -1,6 +1,6 @@
 public package compiler.irt;
 
-public class Nop {	
+public class Nop extends Instruction {
 
 	public Nop() {
 		

@@ -2,7 +2,7 @@ package compiler.semantic;
 import compiler.ast.Block;
 import compiler.ast.Node;
 
-public class BlockType extends Type {
+public class BlockType extends Symbol {
     private BlockScope scope;
     private Block node;
     

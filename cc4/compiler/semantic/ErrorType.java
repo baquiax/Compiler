@@ -1,7 +1,7 @@
 package compiler.semantic;
 import compiler.ast.Node;
 
-public class ErrorType extends Type {
+public class ErrorType extends Symbol {
     Node node;
     
     public ErrorType(Node n) {

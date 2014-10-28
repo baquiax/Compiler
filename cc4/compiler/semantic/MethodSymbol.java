@@ -1,8 +1,10 @@
 package compiler.semantic;
 import compiler.ast.MethodDecl;
 import compiler.ast.Node;
+import compiler.ast.Var;
+import compiler.ast.Array;
 
-public class MethodSymbol extends Type {
+public class MethodSymbol extends Symbol {
     private MethodScope scope;
     private MethodDecl node;
     
@@ -10,7 +12,7 @@ public class MethodSymbol extends Type {
 	   this.node = method;
 	   this.scope = new MethodScope(Semantic.currentScope, node);
     }
-     
+    
     @Override
     public Node getNode() {
 	   return this.node;
@@ -28,11 +30,11 @@ public class MethodSymbol extends Type {
         for (Node n : m.getParameters()) {
             if (n.getClass().getName().equals(Var.class.getName())) {
                 Var v = (Var) n;
-                Semantic.currentScope.addSymbol(v.getName(), new VarType(v));
+                Semantic.currentScope.addSymbol(v.getName(), new VarSymbol(v));
             } else {
                 //It's an array.
                 Array a = (Array) n;
-                Semantic.currentScope.addSymbol(a.getName(), new ArrayType(a));
+                Semantic.currentScope.addSymbol(a.getName(), new ArraySymbol(a));
             }
         }
         

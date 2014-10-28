@@ -15,7 +15,7 @@ public class ArraySymbol extends Symbol {
     }
 
     @Override
-    public String getSymbol() {
+    public String getType() {
 	   return this.array.getSymbol();
     }
 }

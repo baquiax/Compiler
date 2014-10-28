@@ -48,14 +48,14 @@ public class Semantic {
 		    for (Node n : f.getFields()) {
 				if (n.getClass().getName().equals(Var.class.getName())) {
 				    Var v = (Var) n;
-				    if (!this.addSymbol(v.getName(), new VarType(v))) {
+				    if (!this.addSymbol(v.getName(), new VarSymbol(v))) {
 						System.err.println(v.getName() + " ya esta definido!");
 					    System.err.println("[L:" + f.getLineNumber() +  "] " + f + "\n");	
 				    }
 				} else {
 				    //It's an array.
 				    Array a = (Array) n;
-				    if (!this.addSymbol(a.getName(), new ArrayType(a))) {
+				    if (!this.addSymbol(a.getName(), new ArraySymbol(a))) {
 						System.err.println(a.getName() + " ya esta definido!");	
 						System.err.println("[L:" + f.getLineNumber() +  "] " + f + "\n");
 				    }
@@ -66,7 +66,7 @@ public class Semantic {
 		List<MethodDecl> methodsDecls =	p.getMethods();
 		for (MethodDecl n : methodsDecls) {
 		    MethodDecl m = (MethodDecl) n;
-		    MethodType mt = new MethodType(m);
+		    MethodSymbol mt = new MethodSymbol(m);
 		    
 		    if(!this.addSymbol(m.getName(), mt)) {
 				//Not valid scope
@@ -153,7 +153,7 @@ public class Semantic {
 		for (Node n : fd.getFields()) {
 		    if (n.getClass().getName().equals(Var.class.getName())) {
 			Var v = (Var) n;
-			if (!this.addSymbol(v.getName(), new VarType(v))) {
+			if (!this.addSymbol(v.getName(), new VarSymbol(v))) {
 			    System.err.println(v.getName() + " ya está definido.");
 			    System.err.println("[L:" + fd.getLineNumber() + "] " + v + "\n");
 			}
@@ -168,7 +168,7 @@ public class Semantic {
     }
 
     public String checkAssign(Assign as) {
-	Type location = null;
+	Symbol location = null;
 	//Check if location is defined
 	if (as.getLocation().getClass().getName().equals(Var.class.getName())) {
 	    Var v = (Var) as.getLocation();
@@ -248,10 +248,10 @@ public class Semantic {
 	Var location = (Var)forStat.getInit().getLocation();
 	location.setType("int");
 	
-	ForType ft = new ForType((For)forStat);
+	ForSymbol ft = new ForSymbol((For)forStat);
 	this.addSymbol("for " + forStat.getInit() + ", " + forStat.getCondition(), ft);
 	Semantic.currentScope = ft.getScope();
-	this.addSymbol(location.getName(), new VarType(location));	
+	this.addSymbol(location.getName(), new VarSymbol(location));	
 	
 	this.checkStatement(forStat.getInit());
 	String conditionType = this.checkExpr(forStat.getCondition());
@@ -270,7 +270,7 @@ public class Semantic {
     public String checkExpr(Node n) {
 	if (n.getClass().getName().equals(Var.class.getName())) {
 	    Var v = (Var) n;
-	    Type t = this.getSymbolInAll(v.getName());
+	    Symbol t = this.getSymbolInAll(v.getName());
 	    if (t != null)
 		return t.getType();
 	    else {
@@ -279,7 +279,7 @@ public class Semantic {
 	    }
 	} else if (n.getClass().getName().equals(Array.class.getName())) {
 	    Array a = (Array) n;
-	    Type t = this.getSymbolInAll(a.getName());
+	    Symbol t = this.getSymbolInAll(a.getName());
 	    if (t != null)
 		return t.getType();	    
 	} else if (n.getClass().getName().equals(CallMethod.class.getName())) {
@@ -326,7 +326,7 @@ public class Semantic {
 	}
 	methodKey += ")";
 
-	MethodType mt = (MethodType) Semantic.globalScope.getSymbol(methodKey);
+	MethodSymbol mt = (MethodSymbol) Semantic.globalScope.getSymbol(methodKey);
 	if (mt == null) {
 	    ILineNumber ln = (ILineNumber)cm;
 	    System.err.println("Metodo " + methodKey + " no definido");
@@ -403,7 +403,7 @@ public class Semantic {
 	return returnType;
     }    
     
-    private boolean addSymbol(String k, Type v) {
+    private boolean addSymbol(String k, Symbol v) {
 	//Check if already defined
 	if (Semantic.currentScope.getSymbol(k) == null) {
 	    Semantic.currentScope.insertSymbol(k, v);
@@ -413,10 +413,10 @@ public class Semantic {
 	}
     }
         
-    private Type getSymbolInAll(String k) {
+    private Symbol getSymbolInAll(String k) {
 	Scope s = Semantic.currentScope;
 	while(s != null) {
-	    Type r = s.getSymbol(k);
+	    Symbol r = s.getSymbol(k);
 	    if (r != null) {
 		return r;
 	    }

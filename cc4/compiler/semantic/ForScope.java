@@ -4,11 +4,11 @@ import java.util.Hashtable;
 public class ForScope extends Scope {
     private int scopeId;
     private Scope parent;
-    private Hashtable<String, Type> table;
+    private Hashtable<String, Symbol> table;
 
     public ForScope(Scope parent) {
 	this.parent = parent;
-	this.table = new Hashtable<String, Type>();
+	this.table = new Hashtable<String, Symbol>();
 	this.scopeId = ++Scope.scopes;
     }
 
@@ -18,7 +18,7 @@ public class ForScope extends Scope {
     }
 
     @Override
-    public boolean insertSymbol(String n, Type t) {
+    public boolean insertSymbol(String n, Symbol t) {
 	if (this.getSymbol(n) != null) {
 	    return false;
 	} else {
@@ -28,7 +28,7 @@ public class ForScope extends Scope {
     }
     
     @Override
-    public Type getSymbol(String n) {
+    public Symbol getSymbol(String n) {
 	return this.table.get(n);
     }
 
@@ -40,7 +40,7 @@ public class ForScope extends Scope {
     public String toString(String padding) {
 	String result = "\n" + padding + "---Scope #" + this.getId() + "---\n";
 	for (String k: this.table.keySet()) {
-	    Type t = this.table.get(k);
+	    Symbol t = this.table.get(k);
 	    result += padding + k + "\t " + t.getClass().getName() + "\t" + t.getType() + "\n";
 	    if (t.getClass().getName().equals(BlockType.class.getName())) {
 		BlockType b = (BlockType) t;

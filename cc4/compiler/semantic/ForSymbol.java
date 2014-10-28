@@ -3,7 +3,7 @@ import compiler.ast.MethodDecl;
 import compiler.ast.For;
 import compiler.ast.Node;
 
-public class ForSymbol extends Type {
+public class ForSymbol extends Symbol {
     private ForScope scope;
     private For node;
     

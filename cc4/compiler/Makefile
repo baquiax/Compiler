@@ -34,7 +34,7 @@ opt/ConstantFolding.class: opt/ConstantFolding.java
 	javac opt/ConstantFolding.java
 
 codegen/Codegen.class: codegen/Codegen.java
-	javac codegen/Codegen.java
+	javac codegen/*.java
 
 lib/Configuration.class: lib/Configuration.java
 	javac lib/Configuration.java
@@ -80,3 +80,5 @@ clean:
 	rm -rf semantic/*.class
 	rm -rf ast/*~
 	rm -rf irt/*.class
+	rm -rf codegen/*.class
+	

@@ -3,11 +3,11 @@ import compiler.ast.MethodDecl;
 import compiler.ast.For;
 import compiler.ast.Node;
 
-public class ForType extends Type {
+public class ForSymbol extends Type {
     private ForScope scope;
     private For node;
     
-    public ForType(For forStat) {
+    public ForSymbol(For forStat) {
 	this.node = forStat;
 	this.scope = new ForScope(Semantic.currentScope);
     }

@@ -25,6 +25,7 @@ public class Semantic {
     public void check() {
 		if (Configuration.stopStage >= Semantic.level) {
 		    System.out.println("stage: SEMANTIC");
+		    //Check now!
 		    checkProgram(ast.getProgram());
 		    if (Debug.debugEnabled("semantic")) {
 				System.out.println("debugging: SEMANTIC");
@@ -49,18 +50,14 @@ public class Semantic {
 				    Var v = (Var) n;
 				    if (!this.addSymbol(v.getName(), new VarType(v))) {
 						System.err.println(v.getName() + " ya esta definido!");
-						if (f instanceof ILineNumber) {
-						    System.err.println("[L:" + f.getLineNumber() +  "] " + f + "\n");
-						}
-				    }		    
+					    System.err.println("[L:" + f.getLineNumber() +  "] " + f + "\n");	
+				    }
 				} else {
 				    //It's an array.
 				    Array a = (Array) n;
 				    if (!this.addSymbol(a.getName(), new ArrayType(a))) {
-						System.err.println(a.getName() + " ya esta definido!");
-						if (f instanceof ILineNumber) {
-						    System.err.println("[L:" + f.getLineNumber() +  "] " + f + "\n");
-						}
+						System.err.println(a.getName() + " ya esta definido!");	
+						System.err.println("[L:" + f.getLineNumber() +  "] " + f + "\n");
 				    }
 				}
 	    	}			
@@ -77,9 +74,7 @@ public class Semantic {
 				System.err.println(m.getName() + " ya esta definido!");
 				System.err.println("[L:" + m.getLineNumber() +  "] " + m + "\n");	    
 		    }
-		    Semantic.currentScope = mt.getScope();
-		    this.checkMethod(m);
-		    Semantic.currentScope = mt.getScope().getParent();
+		    mt.check();
 		}
 		this.checkMainMethod();
 
@@ -92,27 +87,7 @@ public class Semantic {
     }
 
     public void checkMethod(MethodDecl m) {		
-	for (Node n : m.getParameters()) {
-	    if (n.getClass().getName().equals(Var.class.getName())) {
-		Var v = (Var) n;
-		this.addSymbol(v.getName(), new VarType(v));
-	    } else {
-		//It's an array.
-		Array a = (Array) n;
-		this.addSymbol(a.getName(), new ArrayType(a));
-	    }
-	}
 	
-	//Check block method
-	Block b = (Block)m.getBlock();
-	this.checkBlock(b);
-	
-	//Check 
-	MethodScope ms = (MethodScope) Semantic.currentScope;
-	if (!ms.isReturnFound() && !m.getReturnType().equals("void")) {
-	    System.err.println("No se ha indicado valor de retorno!. " + m.getReturnType() + " es requerido.");
-	    System.err.println("[L:" + m.getLineNumber() + "] " + m + "\n");
-	}
     }
 
     public void checkStatement(Node n) {

@@ -2,22 +2,20 @@ package compiler.semantic;
 import compiler.ast.Array;
 import compiler.ast.Node;
 
-public class ArrayType extends Type {
+public class ArraySymbol extends Symbol {
     private Array array;
     
-    public ArrayType(Array a) {
-	this.array = a;
+    public ArraySymbol(Array a) {
+	   this.array = a;
     }
 
     @Override    
     public Node getNode() {
-	return this.array;
+	   return this.array;
     }
 
     @Override
-    public String getType() {
-	return this.array.getType();
+    public String getSymbol() {
+	   return this.array.getSymbol();
     }
-
-    
 }

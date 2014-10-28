@@ -47,8 +47,8 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     @Override
     public Node visitMethodDecl(ParserDecaf.MethodDeclContext ctx) {
         String type = (ctx.VOID() == null) ? ctx.type().getText() : ctx.VOID().getText();
-    	MethodDecl m = new MethodDecl(ctx.ID().getText(), type, visit(ctx.block()));
-	m.setLineNumber(ctx.start.getLine());
+    	MethodDecl m = new MethodDecl(ctx.ID().getText(), type, (Block)visit(ctx.block()));
+        m.setLineNumber(ctx.start.getLine());
         ParserDecaf.MethodParamContext  mp = (ParserDecaf.MethodParamContext)ctx.method_param();
         if (mp != null) {                        
             List<TerminalNode> ids = mp.ID();

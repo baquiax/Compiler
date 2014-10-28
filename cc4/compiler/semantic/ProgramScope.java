@@ -2,11 +2,11 @@ package compiler.semantic;
 import java.util.Hashtable;
 
 public class ProgramScope extends Scope {
-    private Hashtable<String, Type> table;
+    private Hashtable<String, Symbol> table;
     
     public ProgramScope() {
-	this.table = new Hashtable<String, Type>();
-	Scope.scopes++;
+		this.table = new Hashtable<String, Symbol>();
+		Scope.scopes++;
     }
     
     @Override
@@ -15,39 +15,40 @@ public class ProgramScope extends Scope {
     }
     
     @Override
-    public boolean insertSymbol(String n, Type t) {
-	if (this.getSymbol(n) != null) {
-	    return false;
-	} else {
-	    this.table.put(n, t);
-	    return true;
-	}
+    public boolean insertSymbol(String k, Symbol t) {
+		if (this.getSymbol(k) == null) {
+		    this.table.put(k, t);
+		    return true;
+		} else {
+		    return false;
+		}
     }
     
     @Override
-    public Type getSymbol(String n) {
-	return this.table.get(n);
+    public Symbol getSymbol(String k) {
+		return this.table.get(k);
     }    
 
     @Override
     public Scope getParent() {
-	return null;
+		//It's the first ancestor.
+		return null;
     }
 
     public void print() {
-	System.out.println(this.toString(""));
+		System.out.println(this.toString(""));
     }
 
     public String toString(String padding) {
-	String result = "---Scope #" + this.getId() + "---\n";
-	for (String k: this.table.keySet()) {
-	    Type t = this.table.get(k);
-	    result += k + "\t " + t.getClass().getName() + "\t" + t.getType() + "\n";
-	    if (t.getClass().getName().equals(MethodType.class.getName())) {
-		MethodType m = (MethodType) t;
-		result += m.getScope().toString(padding + "\t");
-	    }
-	}
-	return result;
+		String result = "---Scope #" + this.getId() + "---\n";
+		for (String k: this.table.keySet()) {
+		    Symbol t = this.table.get(k);
+		    result += k + "\t " + t.getClass().getName() + "\t" + t.getSymbol() + "\n";
+		    if (t.getClass().getName().equals(MethodSymbol.class.getName())) {
+				MethodSymbol m = (MethodSymbol) t;
+				result += m.getScope().toString(padding + "\t");
+		    }
+		}
+		return result;
     }
 }

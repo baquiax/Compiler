@@ -2,20 +2,20 @@ package compiler.semantic;
 import compiler.ast.Var;
 import compiler.ast.Node;
 
-public class VarType extends Type {
+public class VarSymbol extends Symbol {
     private Var var;
     
-    public VarType(Var v) {
-	this.var = v;
+    public VarSymbol(Var v) {
+	   this.var = v;
     }
 
     @Override    
     public Node getNode() {
-	return this.var;
+	   return this.var;
     }
 
     @Override
     public String getType() {
-	return this.var.getType();
+	   return this.var.getType();
     }
 }

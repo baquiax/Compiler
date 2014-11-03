@@ -106,7 +106,7 @@ public class Compiler {
 	
         //Flag target default. Si no es indicado.
         if (flags.get("-target") == null) {
-	    flags.put("-target", "semantic");
+	    flags.put("-target", "irt");
         }
 	
         int stopStage = 1;
@@ -127,11 +127,11 @@ public class Compiler {
             } else if (Configuration.stopStage==3) {
                 instanceAst(instanceParser(instanceScanner()));
             } else if (Configuration.stopStage==4) {
-		instanceSemantic(instanceAst(instanceParser(instanceScanner())));
+                instanceSemantic(instanceAst(instanceParser(instanceScanner())));
             } else if (Configuration.stopStage==5) {
-
+                instanceIrt(instanceSemantic(instanceAst(instanceParser(instanceScanner()))));
             } else if (Configuration.stopStage==6) {
-
+                instanceCodegen(instanceIrt(instanceSemantic(instanceAst(instanceParser(instanceScanner())))));
             }
         } catch (Exception e) {
             //Cath someone error.
@@ -205,7 +205,6 @@ public class Compiler {
     private static Irt instanceIrt(Semantic semantic) {
         Irt irt=new Irt(semantic);
         irt.translateAst();
-
         return irt;
     }
 

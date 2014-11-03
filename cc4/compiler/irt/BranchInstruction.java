@@ -12,4 +12,6 @@ public class BranchInstruction extends Instruction {
 		this.alternativeLabel = alt;
 		this.regs = regs;
 	}
+
+	
 }

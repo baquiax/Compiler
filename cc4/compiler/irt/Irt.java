@@ -7,13 +7,13 @@ import compiler.lib.Configuration;
 import java.util.ArrayList;
 
 public class Irt {	
-	
 	public static final int level = 5;
 	private Semantic semantic;
-	private ArrayList<String>  listSintaxis;
+	public static ArrayList<String> listSintaxis;
 	
 	public Irt(Semantic semantic) {
 		this.semantic = semantic;
+		listSintaxis = new ArrayList<String>();
 	}
 	
 	public void translateAst() {
@@ -28,10 +28,7 @@ public class Irt {
 
 		if (Configuration.stopStage >= Irt.level) {
         	System.out.println("stage: IRT");
-        	if (Debug.debugEnabled("irt")) System.out.println("debugging: IRT");		
-        }/* else {
-        	System.out.println("El proceso se ha detenido.");
-        }*/		
-	}	
-	
+        	if (Debug.debugEnabled("irt")) System.out.println("debugging: IRT");
+        }
+	}		
 }

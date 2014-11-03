@@ -1,16 +1,25 @@
 class Program {
-      int a() {
-      	  return -1;
-      }
+   int i,alex[0x3];
+   boolean varname;   
+   int intPlus,a,z;
+   int do;
 
-      int b() {
-      	  int az;
-	  az = !(a());
-	  return !az;
-	  if (true == false) {
-	     return 1;
-	  } else {
-	      return true;
-	  }
-      }
+   int method2(int p, boolean b) {
+       int value;
+       boolean v;
+       return !(1 + 1);
+   }
+
+   int method3(int p) {
+       int value;
+       return 0;
+   }
+
+   boolean method4(int c , int h) {
+      int subB;
+      int subC;
+      return false;
+   }
+
+   void main() {}
 }

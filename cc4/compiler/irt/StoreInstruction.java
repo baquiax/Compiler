@@ -8,5 +8,9 @@ public class StoreInstruction extends Instruction {
 		this.rs = rs;
 		this.dir = dir;
 	}
+
+	public void addInstruction(String element) {
+		
+	}
 	
 }

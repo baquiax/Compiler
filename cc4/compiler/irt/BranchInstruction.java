@@ -13,5 +13,11 @@ public class BranchInstruction extends Instruction {
 		this.regs = regs;
 	}
 
-	
+	public void convertInstruction() {
+
+	}
+
+	public void addInstruction(String element) {
+		
+	}
 }

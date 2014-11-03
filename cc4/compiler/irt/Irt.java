@@ -4,16 +4,18 @@ import compiler.semantic.Semantic;
 import compiler.opt.Algebraic;
 import compiler.opt.ConstantFolding;
 import compiler.lib.Configuration;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Irt {	
 	public static final int level = 5;
 	private Semantic semantic;
-	public static ArrayList<String> listSintaxis;
+	public static LinkedList<String> listSintaxis;
+	public static LinkedList<String> listInstruction;
 	
 	public Irt(Semantic semantic) {
 		this.semantic = semantic;
-		listSintaxis = new ArrayList<String>();
+		listSintaxis = new LinkedList<String>();
+		listInstruction = new LinkedList<String>();
 	}
 	
 	public void translateAst() {

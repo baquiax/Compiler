@@ -6,4 +6,8 @@ public class LabelInstruction extends Instruction {
 	public LabelInstruction() {
 
 	}
+
+	public void addInstruction(String element) {
+		
+	}
 }

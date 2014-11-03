@@ -6,4 +6,8 @@ public class JumpInstruction extends Instruction {
 	public JumpInstruction(String dir) {
 		this.dir = dir;
 	}
+
+	public void addInstruction(String element) {
+		
+	}
 }

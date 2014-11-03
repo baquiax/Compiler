@@ -22,6 +22,10 @@ public class Semantic {
 		Semantic.currentScope = Semantic.globalScope;
     }        
     
+    public Ast getAst() {
+        return this.ast;
+    }
+    
     public void check() {
 		if (Configuration.stopStage >= Semantic.level) {
 		    System.out.println("stage: SEMANTIC");

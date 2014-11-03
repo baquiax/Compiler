@@ -4,6 +4,7 @@ import compiler.semantic.Semantic;
 import compiler.opt.Algebraic;
 import compiler.opt.ConstantFolding;
 import compiler.lib.Configuration;
+import compiler.ast.*;
 import java.util.LinkedList;
 
 public class Irt {	
@@ -32,5 +33,39 @@ public class Irt {
         	System.out.println("stage: IRT");
         	if (Debug.debugEnabled("irt")) System.out.println("debugging: IRT");
         }
-	}		
+        
+        
+	}
+	
+	public void initTranslation() {
+        Program p = this.semantic.getAst().getProgram();
+		List<FieldDecl> fieldDecls = p.getFields();
+		for (FieldDecl f : fieldDecls) {
+		    for (Node n : f.getFields()) {
+				if (n.getClass().getName().equals(Var.class.getName())) {
+				    this.translateVar((Var) n);
+				} else {
+				    this.translateArray((Array) n);
+				}
+            }
+		}
+		
+		List<MethodDecl> methodsDecls =	p.getMethods();
+		for (MethodDecl n : methodsDecls) {
+		    this.translateMethod(n);
+		}
+	}
+	
+	public void translateVar(Var) {
+	    
+	}
+	
+	public void translateArray(Array a) {
+	    
+	}
+	
+	public void translateMethod(MethodDecl m) {
+	    
+	}
+	
 }

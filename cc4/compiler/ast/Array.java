@@ -34,7 +34,7 @@ public class Array extends Node {
     	this.type = t;
     }
     
-    public String getSymbol() {
+    public String getType() {
 	return this.type;
     }
     

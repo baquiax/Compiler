@@ -63,13 +63,13 @@ public class Compiler {
         if (args.length == 0 || (args.length == 1 && args[0].equals("-h"))) 
 	    help();
 	
-	//Informacion necesaria para validar. NOT CASE-SENSITIVE
+	   //Informacion necesaria para validar. NOT CASE-SENSITIVE
         String supportedFlags[] = {"-target","-opt","-debug","-h","-o"};
-	Hashtable<String, String[]> supportedFlagValues = new Hashtable<String, String[]>();
-	supportedFlagValues.put("-target", (new String[] { "scan", "parse", "semantic", "ast", "irt","codegen"}));
-	supportedFlagValues.put("-opt", new String[] {"constant","algebraic"});
-	supportedFlagValues.put("-debug", new String[] {"scan", "parse", "semantic", "ast", "irt", "codegen"});
-	supportedFlagValues.put("-h", new String[] {});
+    	Hashtable<String, String[]> supportedFlagValues = new Hashtable<String, String[]>();
+    	supportedFlagValues.put("-target", (new String[] { "scan", "parse", "semantic", "ast", "irt","codegen"}));
+    	supportedFlagValues.put("-opt", new String[] {"constant","algebraic"});
+    	supportedFlagValues.put("-debug", new String[] {"scan", "parse", "semantic", "ast", "irt", "codegen"});
+    	supportedFlagValues.put("-h", new String[] {});
 	
         Hashtable < String, String > flags = new Hashtable < String, String > ();
         
@@ -97,7 +97,7 @@ public class Compiler {
             fileName = fileNameParted[fileNameParted.length - 1];
         }
 	
-	//Verficar nombre de archivo. No se permite que el archivo empiece con [.|-]
+        //Verficar nombre de archivo. No se permite que el archivo empiece con [.|-]
         if(fileName.matches("[\\.-]+.*")) 
 	    Compiler.printMessageAndExit("El nombre del archivo de entrada no debe empezar con . o -", 1);        
 	
@@ -106,7 +106,7 @@ public class Compiler {
 	
         //Flag target default. Si no es indicado.
         if (flags.get("-target") == null) {
-	    flags.put("-target", "codegen");
+	       flags.put("-target", "codegen");
         }
 	
         int stopStage = 1;

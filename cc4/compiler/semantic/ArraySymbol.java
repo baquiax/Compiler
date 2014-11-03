@@ -6,14 +6,14 @@ public class ArraySymbol extends Symbol {
     private Array array;
     
     public ArraySymbol(Array a) {
-	   this.array = a;
+       this.array = a;
     }
     
     public Node getNode() {
-	   return this.array;
+       return this.array;
     }
     
-    public String getType() {
-	   return this.array.getSymbol();
+    public String getType() {        
+        return  this.array.getType();
     }
 }

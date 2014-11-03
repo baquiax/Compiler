@@ -210,7 +210,7 @@ public class Semantic {
 		    } else if(a.getIndex().getClass().getName().equals(Negation.class.getName())) { 
 				Negation n = (Negation) a.getIndex();
 				if (n.getExpr().getClass().getName().equals(IntLiteral.class.getName())) {
-					this.reportError("Indice fuera de rango. Validos unicamente 0...N", as);				    
+					this.reportError("Indice fuera de rango. Validos unicamente 0...N", as);
 				}
 		    }
 		}
@@ -306,7 +306,7 @@ public class Semantic {
 		    Negation neg = (Negation)n;
 		    String eType = this.checkExpr(neg.getExpr());
 		    if (!eType.equals("int") && !eType.equals("boolean")) {
-		    	this.reportError("Operación invalida. No posible con el tipo dado: " + eType, neg);				
+		    	this.reportError("Operacion invalida. No posible con el tipo dado: " + eType, neg);				
 		    } else {
 				return eType;
 		    }

@@ -35,6 +35,10 @@ public class ProgramScope extends Scope {
 		return null;
     }
 
+    public String getScopeType() {
+        return "program";
+    }
+
     public void print() {
 		System.out.println(this.toString(""));
     }
@@ -42,10 +46,10 @@ public class ProgramScope extends Scope {
     public String toString(String padding) {
 		String result = "---Scope #" + this.getId() + "---\n";
 		for (String k: this.table.keySet()) {
-		    Symbol t = this.table.get(k);
-		    result += k + "\t " + t.getClass().getName() + "\t" + t.getSymbol() + "\n";
-		    if (t.getClass().getName().equals(MethodSymbol.class.getName())) {
-				MethodSymbol m = (MethodSymbol) t;
+		    Symbol s = this.table.get(k);
+		    result += k + "\t " + s.getType() + "\n";
+		    if (s.getClass().getName().equals(MethodSymbol.class.getName())) {
+				MethodSymbol m = (MethodSymbol) s;
 				result += m.getScope().toString(padding + "\t");
 		    }
 		}

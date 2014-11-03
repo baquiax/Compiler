@@ -4,25 +4,24 @@ import compiler.ast.For;
 import compiler.ast.Node;
 
 public class ForSymbol extends Symbol {
-    private ForScope scope;
+    private BlockScope scope;
     private For node;
     
     public ForSymbol(For forStat) {
-	this.node = forStat;
-	this.scope = new ForScope(Semantic.currentScope);
+	   this.node = forStat;
+	   this.scope = new BlockScope(Semantic.currentScope,"for");
     }
      
     @Override
     public Node getNode() {
-	return this.node;
+	   return this.node;
     }
-    
-    @Override
+        
     public String getType() {
-	return "void";
+	   return "void";
     }
 
-    public ForScope getScope() {
-	return this.scope;
+    public BlockScope getScope() {
+	   return this.scope;
     }
 }

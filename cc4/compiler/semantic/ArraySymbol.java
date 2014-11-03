@@ -8,13 +8,11 @@ public class ArraySymbol extends Symbol {
     public ArraySymbol(Array a) {
 	   this.array = a;
     }
-
-    @Override    
+    
     public Node getNode() {
 	   return this.array;
     }
-
-    @Override
+    
     public String getType() {
 	   return this.array.getSymbol();
     }

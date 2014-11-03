@@ -13,8 +13,7 @@ public class VarSymbol extends Symbol {
     public Node getNode() {
 	   return this.var;
     }
-
-    @Override
+    
     public String getType() {
 	   return this.var.getType();
     }

@@ -6,34 +6,34 @@ public class For extends Node {
     private Node block;
     
     public For(Assign i, Node con, Node block) {
-	this.init = i;
-	this.condition = con;
-	this.block = block;
+	   this.init = i;
+	   this.condition = con;
+	   this.block = block;
     }
     
     public Assign getInit() {
-	return this.init;
+	   return this.init;
     }
 
     public Node getCondition() {
-	return this.condition;
+	   return this.condition;
     }    
 
     public Node getBlock() {
-	return this.block;
+	   return this.block;
     }
     
     public void print() {
-	this.print("");
+	   this.print("");
     }
     
     public void print(String padding) {
-	System.out.println(padding + "FOR -> ");
-	System.out.println(padding + "INIT -> ");
-	this.init.print(padding + "\t");
-	System.out.println(padding + "CONDITION -> ");
-	this.condition.print(padding + "\t");
-	System.out.println(padding + "TO DO -> ");
-	this.block.print(padding + "\t");
+    	System.out.println(padding + "FOR -> ");
+    	System.out.println(padding + "INIT -> ");
+    	this.init.print(padding + "\t");
+    	System.out.println(padding + "CONDITION -> ");
+    	this.condition.print(padding + "\t");
+    	System.out.println(padding + "TO DO -> ");
+    	this.block.print(padding + "\t");
     }
 }

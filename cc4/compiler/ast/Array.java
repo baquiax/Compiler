@@ -59,10 +59,10 @@ public class Array extends Node {
     }
     
     public String toString() {
-	if (this.currentIndex == null) {
-	    return this.name;
-	} else {
-	    return this.name + "[" + currentIndex +  "]";
-	}
+    	if (this.currentIndex == null) {
+    	    return this.name;
+    	} else {
+    	    return this.name + "[" + currentIndex +  "]";
+    	}
     }
 }

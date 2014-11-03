@@ -8,38 +8,12 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 
 public class Codegen {
-	public static final int level = 6;
-	File create;
-	Irt irt;
-	DataArea dataArea;
-	
+	public static final int level = 6;		
 	public Codegen(Irt irt) {
-		String output = Configuration.flags.get("-o");
-		if (output == null) {
-			output = Configuration.flags.get("inputFile");			
-			output += ".s";
-		}
-
-		this.irt=irt;
-		dataArea = new DataArea(output);
+		
 	}
 
 	public void generate() {
-		if (Configuration.stopStage == Codegen.level) {
-			System.out.println("stage: CODEGEN");
-        	if (Debug.debugEnabled("codegen")) System.out.println("debugging: CODEGEN");
-		}
-
-		File outputFile = new File(output);
-		try {
-			outputFile.createNewFile();			
-			FileWriter fwriter = new FileWriter(output);
-			PrintWriter pwriter = new PrintWriter(fwriter);
-			pwriter.println("Fin de compilacion.");
-			fwriter.close();
-
-		} catch (Exception e) {
-			System.err.println("No se ha podido guardar el archivo de salida.");
-		}
+		
 	}
 }

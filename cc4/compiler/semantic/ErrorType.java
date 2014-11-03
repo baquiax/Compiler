@@ -5,16 +5,16 @@ public class ErrorType extends Symbol {
     Node node;
     
     public ErrorType(Node n) {
-	this.node = n;
+	   this.node = n;
     }        
         
     @Override
     public Node getNode() {
-	return this.node;
+	   return this.node;
     }    
 
-    @Override
+    
     public String getType() {
-	return "error";
+	   return "error";
     }
 }

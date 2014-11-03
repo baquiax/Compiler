@@ -7,5 +7,6 @@ public abstract class Scope {
     public abstract boolean insertSymbol(String k, Symbol t);
     public abstract Symbol getSymbol(String k);
     public abstract Scope getParent();
+    public abstract String getScopeType();
     public abstract String toString(String padding);
 }

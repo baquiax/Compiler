@@ -7,38 +7,38 @@ public class Block extends Node {
     private List<Node> statements;
     
     public Block() {
-	this.varDecls = new LinkedList<Node>();
-	this.statements = new LinkedList<Node>();
+	   this.varDecls = new LinkedList<Node>();
+	   this.statements = new LinkedList<Node>();
     }
     
     public List<Node> getVarDecl() {
-	return this.varDecls;
+	   return this.varDecls;
     }
 
     public List<Node> getStatements() {
-	return this.statements;
+	   return this.statements;
     }
     
     public void print(String padding) {		
-	System.out.println(padding + "Block[Decls] ->");
-	for(Node n : this.varDecls) {
-	    n.print(padding + "\t");			
-	}
-	System.out.println(padding + "Block[Statements] ->");
-	for(Node n : this.statements) {
-	    n.print(padding + "\t");
-	}
+    	System.out.println(padding + "Block[Decls] ->");
+    	for(Node n : this.varDecls) {
+    	    n.print(padding + "\t");			
+    	}
+    	System.out.println(padding + "Block[Statements] ->");
+    	for(Node n : this.statements) {
+    	    n.print(padding + "\t");
+    	}
     }
     
     public void addVarDecl(Node n) {
-	this.varDecls.add(n);
+	   this.varDecls.add(n);
     }
     
     public void addStatement(Node n) {
-	this.statements.add(n);
+	   this.statements.add(n);
     }
     
     public void print() {
-	this.print("");
+	   this.print("");
     }
 }

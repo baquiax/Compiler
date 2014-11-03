@@ -202,8 +202,8 @@ public class AstVisitor extends ParserDecafBaseVisitor<Node> {
     @Override
     public Node visitFor(ParserDecaf.ForContext ctx) {
         Assign init = new Assign("=", new Var(ctx.ID().getText()), visit(ctx.expr().get(0)));
-	init.setLineNumber(ctx.start.getLine());
-	init.setLineNumber(ctx.start.getLine());
+	   init.setLineNumber(ctx.start.getLine());
+	   init.setLineNumber(ctx.start.getLine());
         Node cond = visit(ctx.expr().get(1));
         return new For(init, cond, visit(ctx.block())); 
     }

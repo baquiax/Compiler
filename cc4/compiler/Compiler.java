@@ -106,7 +106,7 @@ public class Compiler {
 	
         //Flag target default. Si no es indicado.
         if (flags.get("-target") == null) {
-	    flags.put("-target", "irt");
+	    flags.put("-target", "codegen");
         }
 	
         int stopStage = 1;

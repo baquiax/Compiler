@@ -1,8 +1,5 @@
 package compiler.irt;
 
-public class Instruction {
-	
-	public Instruction() {
-		
-	}
+public abstract class Instruction {
+	public abstract void addInstruction(String element);
 }

@@ -9,5 +9,7 @@ public class LoadInstruction extends Instruction {
 		this.dir = dir;
 	}
 
-	
+	public void addInstruction(String element) {
+		
+	}
 }

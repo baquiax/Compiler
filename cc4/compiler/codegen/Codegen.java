@@ -26,7 +26,9 @@ public class Codegen {
 			outputFile.createNewFile();
 			FileWriter fwriter = new FileWriter(outputFile);
 			PrintWriter pwriter = new PrintWriter(fwriter);
-			pwriter.println("Fin de compilacion.");
+			pwriter.println(".data\n\n");
+			pwriter.println(".text\n\n");
+
 			fwriter.close();
 		} catch (Exception e) {
 			System.err.println("No se ha podido guardar el archivo de salida.");

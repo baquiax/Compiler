@@ -6,6 +6,7 @@ import compiler.opt.ConstantFolding;
 import compiler.lib.Configuration;
 import compiler.ast.*;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Irt {	
 	public static final int level = 5;
@@ -56,7 +57,7 @@ public class Irt {
 		}
 	}
 	
-	public void translateVar(Var) {
+	public void translateVar(Var v) {
 	    
 	}
 	
